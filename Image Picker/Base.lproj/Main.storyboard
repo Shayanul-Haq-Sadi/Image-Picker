@@ -1,24 +1,301 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Huc-3Y-LT4">
+    <device id="retina6_5" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Picker-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PickerViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mdl-rJ-gMG">
+                                <rect key="frame" x="147" y="428" width="120.33333333333331" height="40.333333333333314"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Pick a Image">
+                                    <color key="titleColor" systemColor="labelColor"/>
+                                    <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="tinted" title="Pick a Image">
+                                    <color key="baseForegroundColor" systemColor="labelColor"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aZx-It-xdK"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Mdl-rJ-gMG" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="deH-3F-Qtj"/>
+                            <constraint firstItem="Mdl-rJ-gMG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kcg-KG-GB6"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Picker" id="Kf1-z7-ylQ"/>
+                    <connections>
+                        <outlet property="pickerButton" destination="Mdl-rJ-gMG" id="bGu-HY-dbO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="953.43511450381675" y="3.5211267605633805"/>
+        </scene>
+        <!--Ratio-->
+        <scene sceneID="Ck6-z2-kmZ">
+            <objects>
+                <viewController storyboardIdentifier="ImageViewController" id="U0p-dW-52S" customClass="ImageViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="diE-ex-29N">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="200" translatesAutoresizingMaskIntoConstraints="NO" id="Fus-Dh-8M5">
+                                <rect key="frame" x="16" y="88" width="382" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psY-7z-BJQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="91" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="API">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="apiButtonPressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="5V9-8X-GBQ"/>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GSj-NX-edm"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="usD-6p-BnU">
+                                        <rect key="frame" x="291" y="0.0" width="91" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="Save">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5lc-nE-TmK"/>
+                                            <action selector="saveButtonPressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="xNa-Yo-4V8"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="yOo-Bf-GrN"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLF-kb-vlw">
+                                <rect key="frame" x="0.0" y="180" width="414" height="574"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CDv-UC-mqX">
+                                        <rect key="frame" x="0.0" y="80" width="414" height="414"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Nw-lO-XBP">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
+                                                <color key="backgroundColor" systemColor="systemPinkColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="9Nw-lO-XBP" secondAttribute="height" multiplier="1:1" id="NNR-eD-ram"/>
+                                                    <constraint firstAttribute="width" constant="414" placeholder="YES" id="Q2g-mP-hoU"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9Nw-lO-XBP" secondAttribute="trailing" id="9ac-ve-FgD"/>
+                                            <constraint firstItem="9Nw-lO-XBP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CDv-UC-mqX" secondAttribute="top" id="AId-Zc-bPM"/>
+                                            <constraint firstItem="9Nw-lO-XBP" firstAttribute="centerY" secondItem="CDv-UC-mqX" secondAttribute="centerY" id="HJj-6H-5RF"/>
+                                            <constraint firstAttribute="width" secondItem="CDv-UC-mqX" secondAttribute="height" multiplier="1:1" id="Kyk-If-YYg"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="9Nw-lO-XBP" secondAttribute="bottom" id="ZJL-8z-SA2"/>
+                                            <constraint firstAttribute="width" constant="414" placeholder="YES" id="fel-mZ-5UF"/>
+                                            <constraint firstItem="9Nw-lO-XBP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="CDv-UC-mqX" secondAttribute="leading" id="mqL-n7-573"/>
+                                            <constraint firstItem="9Nw-lO-XBP" firstAttribute="centerX" secondItem="CDv-UC-mqX" secondAttribute="centerX" id="nrt-9u-mww"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C6k-LY-Qp4" customClass="APNGImageView" customModule="APNGKit">
+                                        <rect key="frame" x="177" y="257" width="60" height="60"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="Oox-DQ-ED0"/>
+                                            <constraint firstAttribute="width" constant="60" id="Qc4-SF-Uef"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstItem="CDv-UC-mqX" firstAttribute="centerY" secondItem="bLF-kb-vlw" secondAttribute="centerY" id="05e-au-Gdq"/>
+                                    <constraint firstItem="CDv-UC-mqX" firstAttribute="centerX" secondItem="bLF-kb-vlw" secondAttribute="centerX" id="9ho-p6-Nj8"/>
+                                    <constraint firstItem="CDv-UC-mqX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bLF-kb-vlw" secondAttribute="leading" id="BQl-ps-u1o"/>
+                                    <constraint firstItem="C6k-LY-Qp4" firstAttribute="centerX" secondItem="bLF-kb-vlw" secondAttribute="centerX" id="Vii-8k-hjJ"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CDv-UC-mqX" secondAttribute="bottom" id="cJU-Oy-UMM"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CDv-UC-mqX" secondAttribute="trailing" id="fvn-89-aV4"/>
+                                    <constraint firstItem="C6k-LY-Qp4" firstAttribute="centerY" secondItem="bLF-kb-vlw" secondAttribute="centerY" id="wAB-fm-LhS"/>
+                                    <constraint firstItem="CDv-UC-mqX" firstAttribute="top" relation="greaterThanOrEqual" secondItem="bLF-kb-vlw" secondAttribute="top" id="x25-XJ-ZDf"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="azd-Em-gts">
+                                <rect key="frame" x="16" y="786" width="382" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8H-Q0-xpI">
+                                        <rect key="frame" x="0.0" y="0.0" width="83.666666666666671" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="HeY-V8-fGh"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="16:9">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aspectButton1pressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="fnK-qZ-4pw"/>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8oh-9Q-Rzr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Yq-Am-whd">
+                                        <rect key="frame" x="99.666666666666686" y="0.0" width="83.333333333333314" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="9:16">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aspectButton2pressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="1qe-Ju-WLu"/>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3wE-Hh-HyL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAA-l4-Uzy">
+                                        <rect key="frame" x="199" y="0.0" width="83.666666666666686" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="1:1">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aspectButton3pressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="cWW-Ea-pio"/>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="heF-Jj-Eyg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jva-Dn-rZM">
+                                        <rect key="frame" x="298.66666666666669" y="0.0" width="83.333333333333314" height="60"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Pick a Image">
+                                            <color key="titleColor" systemColor="labelColor"/>
+                                            <color key="titleShadowColor" red="0.25882352939999997" green="0.5450980392" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="tinted" title="original">
+                                            <color key="baseForegroundColor" systemColor="labelColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="aspectButton3pressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="eMM-AU-Y0w"/>
+                                            <action selector="aspectButton4Pressed:" destination="U0p-dW-52S" eventType="touchUpInside" id="1Vj-jG-0A2"/>
+                                            <action selector="pickerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UfA-xN-zbA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="UN1-Bm-dE8"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="azd-Em-gts" secondAttribute="trailing" constant="16" id="Bb4-TI-T89"/>
+                            <constraint firstItem="azd-Em-gts" firstAttribute="leading" secondItem="UN1-Bm-dE8" secondAttribute="leading" constant="16" id="Cj8-Wu-xLo"/>
+                            <constraint firstItem="bLF-kb-vlw" firstAttribute="leading" secondItem="UN1-Bm-dE8" secondAttribute="leading" id="Gyv-hP-0Y4"/>
+                            <constraint firstItem="UN1-Bm-dE8" firstAttribute="trailing" secondItem="bLF-kb-vlw" secondAttribute="trailing" id="Huu-xr-1TF"/>
+                            <constraint firstItem="Fus-Dh-8M5" firstAttribute="top" secondItem="UN1-Bm-dE8" secondAttribute="top" id="Lsv-1b-F6U"/>
+                            <constraint firstItem="UN1-Bm-dE8" firstAttribute="bottom" secondItem="azd-Em-gts" secondAttribute="bottom" constant="16" id="XO6-j1-lv8"/>
+                            <constraint firstItem="UN1-Bm-dE8" firstAttribute="trailing" secondItem="Fus-Dh-8M5" secondAttribute="trailing" constant="16" id="YBx-I8-hfy"/>
+                            <constraint firstItem="Fus-Dh-8M5" firstAttribute="leading" secondItem="UN1-Bm-dE8" secondAttribute="leading" constant="16" id="hj8-tg-PkN"/>
+                            <constraint firstItem="bLF-kb-vlw" firstAttribute="top" secondItem="Fus-Dh-8M5" secondAttribute="bottom" constant="32" id="qxz-fg-zns"/>
+                            <constraint firstItem="azd-Em-gts" firstAttribute="top" secondItem="bLF-kb-vlw" secondAttribute="bottom" constant="32" id="zXW-4I-0hZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Ratio" id="Ag4-3J-7G9"/>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="C6k-LY-Qp4" id="wcQ-RF-rna"/>
+                        <outlet property="apiButton" destination="psY-7z-BJQ" id="kKa-0g-eAF"/>
+                        <outlet property="aspectButton1" destination="t8H-Q0-xpI" id="Z99-Vf-pOd"/>
+                        <outlet property="aspectButton2" destination="3Yq-Am-whd" id="ZLZ-bF-bUZ"/>
+                        <outlet property="aspectButton3" destination="gAA-l4-Uzy" id="5Ab-Kr-G9c"/>
+                        <outlet property="aspectButton4" destination="jva-Dn-rZM" id="5DX-do-LQs"/>
+                        <outlet property="availableContainerView" destination="bLF-kb-vlw" id="z0D-KR-mL8"/>
+                        <outlet property="imageContainerView" destination="CDv-UC-mqX" id="nn0-Pj-TdL"/>
+                        <outlet property="imageContainerViewAspectRatioConstraint" destination="Kyk-If-YYg" id="5Lx-Ee-Kcd"/>
+                        <outlet property="imageView" destination="9Nw-lO-XBP" id="LKv-Gn-Bho"/>
+                        <outlet property="imageViewAspectRatioConstraint" destination="NNR-eD-ram" id="84C-RL-JOp"/>
+                        <outlet property="saveButton" destination="usD-6p-BnU" id="WqT-zu-k7p"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ToS-cu-VE6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1719" y="3"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="scu-CG-Qwe">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Huc-3Y-LT4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jmC-CZ-ZlC">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="WDu-9d-Zck"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YSC-9o-XN9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="953" y="-719"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MLx-Wa-jRD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w1v-2t-4xv" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iXE-VK-wuD">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="U0p-dW-52S" kind="relationship" relationship="rootViewController" id="8zy-hr-aLd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qxD-Yz-jUs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1719" y="-719"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

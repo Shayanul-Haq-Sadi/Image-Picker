@@ -9,21 +9,37 @@
 /* Begin PBXBuildFile section */
 		876FE2E92BF9FC5C006AFFC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2E82BF9FC5C006AFFC7 /* AppDelegate.swift */; };
 		876FE2EB2BF9FC5C006AFFC7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2EA2BF9FC5C006AFFC7 /* SceneDelegate.swift */; };
-		876FE2ED2BF9FC5C006AFFC7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2EC2BF9FC5C006AFFC7 /* ViewController.swift */; };
+		876FE2ED2BF9FC5C006AFFC7 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2EC2BF9FC5C006AFFC7 /* PickerViewController.swift */; };
 		876FE2F02BF9FC5C006AFFC7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 876FE2EF2BF9FC5C006AFFC7 /* Base */; };
 		876FE2F22BF9FC5D006AFFC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 876FE2F12BF9FC5D006AFFC7 /* Assets.xcassets */; };
 		876FE2F52BF9FC5D006AFFC7 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 876FE2F42BF9FC5D006AFFC7 /* Base */; };
+		876FE2FD2BFA0019006AFFC7 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2FC2BFA0019006AFFC7 /* ImageViewController.swift */; };
+		876FE2FF2BFA16D3006AFFC7 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE2FE2BFA16D3006AFFC7 /* APIManager.swift */; };
+		876FE3012BFB212F006AFFC7 /* infinteLoader.png in Resources */ = {isa = PBXBuildFile; fileRef = 876FE3002BFB212F006AFFC7 /* infinteLoader.png */; };
+		876FE3072BFB2A83006AFFC7 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE3062BFB2A83006AFFC7 /* UIImage+Extensions.swift */; };
+		876FE3092BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE3082BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift */; };
+		876FE30B2BFB2B42006AFFC7 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE30A2BFB2B42006AFFC7 /* UIViewController+Extensions.swift */; };
+		F32B1DB31CFBBB77F476E034 /* Pods_Image_Picker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 692199D58F1E3EBE79D1EF40 /* Pods_Image_Picker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2836736648C2115CB9952012 /* Pods-Image Picker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Image Picker.release.xcconfig"; path = "Target Support Files/Pods-Image Picker/Pods-Image Picker.release.xcconfig"; sourceTree = "<group>"; };
+		692199D58F1E3EBE79D1EF40 /* Pods_Image_Picker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Image_Picker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		876FE2E52BF9FC5C006AFFC7 /* Image Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Image Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		876FE2E82BF9FC5C006AFFC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		876FE2EA2BF9FC5C006AFFC7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		876FE2EC2BF9FC5C006AFFC7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		876FE2EC2BF9FC5C006AFFC7 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		876FE2EF2BF9FC5C006AFFC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		876FE2F12BF9FC5D006AFFC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		876FE2F42BF9FC5D006AFFC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		876FE2F62BF9FC5D006AFFC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		876FE2FC2BFA0019006AFFC7 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		876FE2FE2BFA16D3006AFFC7 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		876FE3002BFB212F006AFFC7 /* infinteLoader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = infinteLoader.png; sourceTree = "<group>"; };
+		876FE3062BFB2A83006AFFC7 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		876FE3082BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Extensions.swift"; sourceTree = "<group>"; };
+		876FE30A2BFB2B42006AFFC7 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		A98648231F151EB73ACD9ED9 /* Pods-Image Picker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Image Picker.debug.xcconfig"; path = "Target Support Files/Pods-Image Picker/Pods-Image Picker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +47,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F32B1DB31CFBBB77F476E034 /* Pods_Image_Picker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1432BEBB781F08B795AB27C4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A98648231F151EB73ACD9ED9 /* Pods-Image Picker.debug.xcconfig */,
+				2836736648C2115CB9952012 /* Pods-Image Picker.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		876FE2DC2BF9FC5C006AFFC7 = {
 			isa = PBXGroup;
 			children = (
 				876FE2E72BF9FC5C006AFFC7 /* Image Picker */,
 				876FE2E62BF9FC5C006AFFC7 /* Products */,
+				1432BEBB781F08B795AB27C4 /* Pods */,
+				C2437C6FF792729D36E867A9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +86,59 @@
 			children = (
 				876FE2E82BF9FC5C006AFFC7 /* AppDelegate.swift */,
 				876FE2EA2BF9FC5C006AFFC7 /* SceneDelegate.swift */,
-				876FE2EC2BF9FC5C006AFFC7 /* ViewController.swift */,
+				876FE3042BFB2A0B006AFFC7 /* Data */,
+				876FE3022BFB29D1006AFFC7 /* Controllers */,
+				876FE3052BFB2A4B006AFFC7 /* Extensions */,
+				876FE3032BFB29E1006AFFC7 /* Resources */,
 				876FE2EE2BF9FC5C006AFFC7 /* Main.storyboard */,
 				876FE2F12BF9FC5D006AFFC7 /* Assets.xcassets */,
 				876FE2F32BF9FC5D006AFFC7 /* LaunchScreen.storyboard */,
 				876FE2F62BF9FC5D006AFFC7 /* Info.plist */,
 			);
 			path = "Image Picker";
+			sourceTree = "<group>";
+		};
+		876FE3022BFB29D1006AFFC7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				876FE2EC2BF9FC5C006AFFC7 /* PickerViewController.swift */,
+				876FE2FC2BFA0019006AFFC7 /* ImageViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		876FE3032BFB29E1006AFFC7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				876FE3002BFB212F006AFFC7 /* infinteLoader.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		876FE3042BFB2A0B006AFFC7 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				876FE2FE2BFA16D3006AFFC7 /* APIManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		876FE3052BFB2A4B006AFFC7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				876FE3062BFB2A83006AFFC7 /* UIImage+Extensions.swift */,
+				876FE3082BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift */,
+				876FE30A2BFB2B42006AFFC7 /* UIViewController+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C2437C6FF792729D36E867A9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				692199D58F1E3EBE79D1EF40 /* Pods_Image_Picker.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +148,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 876FE2F92BF9FC5D006AFFC7 /* Build configuration list for PBXNativeTarget "Image Picker" */;
 			buildPhases = (
+				75B0CD924A9F8DAC075001C0 /* [CP] Check Pods Manifest.lock */,
 				876FE2E12BF9FC5C006AFFC7 /* Sources */,
 				876FE2E22BF9FC5C006AFFC7 /* Frameworks */,
 				876FE2E32BF9FC5C006AFFC7 /* Resources */,
+				4D6CB340D7171B2B5A6873BF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				876FE3012BFB212F006AFFC7 /* infinteLoader.png in Resources */,
 				876FE2F22BF9FC5D006AFFC7 /* Assets.xcassets in Resources */,
 				876FE2F52BF9FC5D006AFFC7 /* Base in Resources */,
 				876FE2F02BF9FC5C006AFFC7 /* Base in Resources */,
@@ -133,13 +210,60 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4D6CB340D7171B2B5A6873BF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Image Picker/Pods-Image Picker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Image Picker/Pods-Image Picker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Image Picker/Pods-Image Picker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75B0CD924A9F8DAC075001C0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Image Picker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		876FE2E12BF9FC5C006AFFC7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				876FE2ED2BF9FC5C006AFFC7 /* ViewController.swift in Sources */,
+				876FE2ED2BF9FC5C006AFFC7 /* PickerViewController.swift in Sources */,
+				876FE3092BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				876FE2E92BF9FC5C006AFFC7 /* AppDelegate.swift in Sources */,
+				876FE2FF2BFA16D3006AFFC7 /* APIManager.swift in Sources */,
+				876FE30B2BFB2B42006AFFC7 /* UIViewController+Extensions.swift in Sources */,
+				876FE3072BFB2A83006AFFC7 /* UIImage+Extensions.swift in Sources */,
+				876FE2FD2BFA0019006AFFC7 /* ImageViewController.swift in Sources */,
 				876FE2EB2BF9FC5C006AFFC7 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,7 +327,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -266,7 +390,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -287,11 +411,13 @@
 		};
 		876FE2FA2BF9FC5D006AFFC7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A98648231F151EB73ACD9ED9 /* Pods-Image Picker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7BGUM58K2R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Image Picker/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -299,6 +425,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,11 +441,13 @@
 		};
 		876FE2FB2BF9FC5D006AFFC7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2836736648C2115CB9952012 /* Pods-Image Picker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7BGUM58K2R;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Image Picker/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -326,6 +455,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
