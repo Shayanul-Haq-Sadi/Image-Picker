@@ -14,9 +14,7 @@ class APIManager {
     static let shared = APIManager()
     
     var request: Request?
-    
-    private var requestQueue = DispatchQueue(label: "apiQueue")
-    
+        
     private var ongoingRequests = [Request]()
 
     func uploadImage(imageData: Data, leftPercentage: CGFloat, rightPercentage: CGFloat, topPercentage: CGFloat, bottomPercentage: CGFloat, keepOriginalSize: String, completion: @escaping (Result<Data, Error>) -> Void) {

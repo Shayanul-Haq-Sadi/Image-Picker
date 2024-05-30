@@ -84,8 +84,8 @@ class ImageViewController: UIViewController {
     private func calculateRatioParameters() {
         let containerWidth = imageContainerView.bounds.width
         let containerHeight = imageContainerView.bounds.height
-        let imageViewWidth =  imageView.bounds.width
-        let imageViewHeight =  imageView.bounds.height
+        let imageViewWidth = imageView.bounds.width
+        let imageViewHeight = imageView.bounds.height
 
         let topConstraint = (containerHeight - imageViewHeight) / 2
         let bottomConstraint = (containerHeight - imageViewHeight) / 2
@@ -129,6 +129,7 @@ class ImageViewController: UIViewController {
         //calculate
         calculateRatioParameters()
         
+        isImageDownloaded = false
         activityIndicatorView.isHidden = false
         activityIndicatorView.startAnimating()
         
@@ -146,7 +147,15 @@ class ImageViewController: UIViewController {
                     
                     self.isImageDownloaded = true
                     self.downloadedImage = image
-//                    self.imageView.image = image
+
+                    guard let fixedOrientationImage = self.downloadedImage.fixedOrientation(), let imageData = fixedOrientationImage.jpegData(compressionQuality: 1.0) 
+                    else {
+                        print("Failed to convert image to data")
+                        return
+                    }
+                    self.imageData = imageData
+
+
                     UIView.transition(with: self.imageView, duration: 2.0, options: .transitionCrossDissolve, animations: {
                         self.imageView.image = image
                     }) { _ in

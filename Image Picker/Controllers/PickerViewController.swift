@@ -33,6 +33,18 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
+    
+    private func presentExpandViewController(pickedImage: UIImage, imageData: Data) {
+        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ExpandViewController.identifier) as? ExpandViewController else { return }
+
+//        VC.modalPresentationStyle = .fullScreen
+//        VC.modalTransitionStyle = .crossDissolve
+        VC.pickedImage = pickedImage
+        VC.imageData = imageData
+//        present(VC, animated: true)
+        self.navigationController?.pushViewController(VC, animated: true)
+    }
+    
     @IBAction func pickerButtonPressed(_ sender: Any) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -57,7 +69,8 @@ extension PickerViewController: UIImagePickerControllerDelegate {
                 return
             }
 
-            presentImageViewController(pickedImage: pickedImage, imageData: imageData)
+//            presentImageViewController(pickedImage: pickedImage, imageData: imageData)
+            presentExpandViewController(pickedImage: pickedImage, imageData: imageData)
             
         }
         dismiss(animated: true, completion: nil)
