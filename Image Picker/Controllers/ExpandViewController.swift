@@ -37,9 +37,10 @@ class ExpandViewController: UIViewController {
     var rightRatio: CGFloat!
     var keepOriginalSize = "False"
     
+    var selectedAspectRatio: CGFloat!
+
     private var selectedAppIndex: Int = 0
     private var selectedAspectIndex: Int = 0
-    var selectedAspectRatio: CGFloat = 1.0
     
     private var selectedUniqueAspectIdentifier: String = "Standard Original" // used image to identify
     
@@ -62,6 +63,7 @@ class ExpandViewController: UIViewController {
     
     private func bindData() {
         DataManager.shared.prepareDatasource()
+        selectedAspectRatio = (pickedImage.size.width/pickedImage.size.height)
     }
     
     private func loadCollectionViews() {
@@ -98,29 +100,32 @@ class ExpandViewController: UIViewController {
     }
     
     private func presentProgressViewController() {
-        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ProgessViewController.identifier) as? ProgessViewController else { return }
-     
-        VC.pickedImage = pickedImage
-        VC.imageData = imageData
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgessNAVController") as?  UINavigationController else { return }
         
-        VC.topRatio = topRatio
-        VC.bottomRatio = bottomRatio
-        VC.leftRatio = leftRatio
-        VC.rightRatio = rightRatio
+        navVC.modalPresentationStyle = .fullScreen
+        navVC.modalTransitionStyle = .crossDissolve
         
-        VC.selectedAspectRatio = selectedAspectRatio
-        
-        VC.downloadCompletion = { picked, downloaded in
-            self.pushEditViewController(pickedImage: picked, downloadedImage: downloaded)
+        if let VC = navVC.topViewController as? ProgessViewController {
+            VC.navigationController?.navigationBar.isHidden = true
+            VC.pickedImage = pickedImage
+            VC.imageData = imageData
+            
+            VC.topRatio = topRatio
+            VC.bottomRatio = bottomRatio
+            VC.leftRatio = leftRatio
+            VC.rightRatio = rightRatio
+            
+            VC.selectedAspectRatio = selectedAspectRatio
+            
+            VC.downloadCompletion = { picked, downloaded in
+                self.pushDownloadViewController(pickedImage: picked, downloadedImage: downloaded)
+            }
         }
         
-        VC.modalPresentationStyle = .fullScreen
-        VC.modalTransitionStyle = .crossDissolve
-        
-        present(VC, animated: true)
+        present(navVC, animated: false)
     }
     
-    private func pushEditViewController(pickedImage: UIImage, downloadedImage: UIImage) {
+    private func pushDownloadViewController(pickedImage: UIImage, downloadedImage: UIImage) {
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: DownloadViewController.identifier) as? DownloadViewController else { return }
         
         VC.pickedImage = pickedImage
@@ -138,6 +143,19 @@ class ExpandViewController: UIViewController {
         VC.modalTransitionStyle = .crossDissolve
         
         self.navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    private func presentADLimitViewController() {
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ADLimitNAVController") as?  UINavigationController else { return }
+        
+        navVC.modalPresentationStyle = .overCurrentContext
+        navVC.modalTransitionStyle = .crossDissolve
+        
+        if let VC = navVC.topViewController as? ADLimitViewController {
+            VC.navigationController?.navigationBar.isHidden = true
+        }
+        
+        present(navVC, animated: true)
     }
     
     private func calculateRatioParameters() {
@@ -183,8 +201,12 @@ class ExpandViewController: UIViewController {
     }
     
     @IBAction func apiButtonPressed(_ sender: Any) {
-        calculateRatioParameters()
-        presentProgressViewController()
+        if ADManager.shared.isAdLimitReached {
+            presentADLimitViewController()
+        } else {
+            calculateRatioParameters()
+            presentProgressViewController()
+        }
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
@@ -194,6 +216,11 @@ class ExpandViewController: UIViewController {
 }
 
 extension ExpandViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == appCollectionView {
             guard let appItems = DataManager.shared.getSupportedAppsRootDataCount() else { return 0 }
@@ -259,3 +286,38 @@ extension ExpandViewController: UICollectionViewDelegate {
     
 
 }
+
+//extension ExpandViewController:  UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        if collectionView == appCollectionView {
+//            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        } else {
+//            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        }
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        if collectionView == appCollectionView {
+//            return CGSize(width: 100   , height: 20)
+//        } else {
+//            return CGSize(width: 100   , height: 80)
+//            
+//        }
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        if collectionView == appCollectionView {
+//            return 0
+//        } else {
+//            return 0
+//        }
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        if collectionView == appCollectionView {
+//            return 0
+//        } else {
+//            return 30
+//        }
+//    }
+//}

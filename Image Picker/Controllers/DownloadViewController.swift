@@ -46,8 +46,8 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var selectedAspectRatio: CGFloat!
     
-    var isSaveContainerShowing: Bool = false
-    var lastSavedAssetIdentifier = String()
+    private var isSaveContainerShowing: Bool = false
+    private var lastSavedAssetIdentifier = String()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,40 +148,79 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
         
     private func presentProgressViewController() {
-        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ProgessViewController.identifier) as? ProgessViewController else { return }
-     
-        VC.pickedImage = pickedImage
-        VC.imageData = imageData
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgessNAVController") as?  UINavigationController else { return }
         
-        VC.topRatio = topRatio
-        VC.bottomRatio = bottomRatio
-        VC.leftRatio = leftRatio
-        VC.rightRatio = rightRatio
+        navVC.modalPresentationStyle = .fullScreen
+        navVC.modalTransitionStyle = .crossDissolve
         
-        VC.selectedAspectRatio = selectedAspectRatio
-        
-        VC.downloadCompletion = { picked, downloaded in
-            self.downloadedImage = downloaded
-            self.imageView.image = self.downloadedImage
+        if let VC = navVC.topViewController as? ProgessViewController {
+            VC.navigationController?.navigationBar.isHidden = true
+            VC.pickedImage = pickedImage
+            VC.imageData = imageData
+            
+            VC.topRatio = topRatio
+            VC.bottomRatio = bottomRatio
+            VC.leftRatio = leftRatio
+            VC.rightRatio = rightRatio
+            
+            VC.selectedAspectRatio = selectedAspectRatio
+            
+            VC.downloadCompletion = { picked, downloaded in
+                self.downloadedImage = downloaded
+                self.imageView.image = self.downloadedImage
+            }
         }
+    
+        present(navVC, animated: true)
+    }
+    
+    private func pushEditViewController() {
+        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: EditViewController.identifier) as? EditViewController else { return }
+        
+//        VC.pickedImage = pickedImage
+//        VC.downloadedImage = downloadedImage
+//        VC.imageData = imageData
+//
+//        VC.topRatio = topRatio
+//        VC.bottomRatio = bottomRatio
+//        VC.leftRatio = leftRatio
+//        VC.rightRatio = rightRatio
+//
+//        VC.selectedAspectRatio = selectedAspectRatio
         
         VC.modalPresentationStyle = .fullScreen
         VC.modalTransitionStyle = .crossDissolve
         
-        present(VC, animated: true)
+        self.navigationController?.pushViewController(VC, animated: true)
     }
     
+    private func presentADLimitViewController() {
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ADLimitNAVController") as?  UINavigationController else { return }
+        
+        navVC.modalPresentationStyle = .overCurrentContext
+        navVC.modalTransitionStyle = .crossDissolve
+        
+        if let VC = navVC.topViewController as? ADLimitViewController {
+            VC.navigationController?.navigationBar.isHidden = true
+        }
+        
+        present(navVC, animated: true)
+    }
 
     @IBAction func regenerateButtonPressed(_ sender: Any) {
-        lastSavedAssetIdentifier = ""
-        
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = downloadedImage
-        
-        self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-        self.view.layoutIfNeeded()
-        
-        presentProgressViewController()
+        if ADManager.shared.isAdLimitReached {
+            presentADLimitViewController()
+        } else {
+            lastSavedAssetIdentifier = ""
+            
+            imageView.contentMode = .scaleAspectFill
+            imageView.image = downloadedImage
+            
+            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+            self.view.layoutIfNeeded()
+            
+            presentProgressViewController()
+        }
     }
     
     @IBAction func nextButtonPressed(_ sender: Any) {
@@ -200,7 +239,7 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func editorButtonPressed(_ sender: Any) {
-        
+        pushEditViewController()
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {

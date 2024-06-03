@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mdl-rJ-gMG">
-                                <rect key="frame" x="147" y="428" width="120.33333333333331" height="40.333333333333314"/>
+                                <rect key="frame" x="147" y="428" width="120" height="40"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Pick a Image">
                                     <color key="titleColor" systemColor="labelColor"/>
@@ -306,7 +306,7 @@
                                             <size key="itemSize" width="167" height="39"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                                            <inset key="sectionInset" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
@@ -320,7 +320,7 @@
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="22" minY="0.0" maxX="22" maxY="0.0"/>
+                                            <inset key="sectionInset" minX="22" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells/>
                                     </collectionView>
@@ -393,9 +393,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YNy-0Y-3Q7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2492.753623188406" y="2.6785714285714284"/>
+            <point key="canvasLocation" x="2491.304347826087" y="2.0089285714285712"/>
         </scene>
-        <!--Progess View Controller-->
+        <!--Progress-->
         <scene sceneID="crK-i2-jMj">
             <objects>
                 <viewController storyboardIdentifier="ProgessViewController" id="0nm-Xr-twA" customClass="ProgessViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
@@ -590,7 +590,7 @@ Unlock all effects.</string>
                             <constraint firstItem="khd-FG-XlO" firstAttribute="leading" secondItem="Iad-J0-3aK" secondAttribute="leading" id="z7L-E3-vhG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Lbd-DX-Ngf"/>
+                    <navigationItem key="navigationItem" title="Progress" id="Lbd-DX-Ngf"/>
                     <connections>
                         <outlet property="TransparentImageView" destination="8Ur-Le-JXf" id="WYW-Eo-zsf"/>
                         <outlet property="activityIndicatorView" destination="Efi-P5-lyD" id="WRV-Zv-rpz"/>
@@ -609,6 +609,187 @@ Unlock all effects.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LEE-sZ-GCe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3282.608695652174" y="2.6785714285714284"/>
+        </scene>
+        <!--AD LIMIT-->
+        <scene sceneID="1nA-jf-ofe">
+            <objects>
+                <viewController storyboardIdentifier="ADLimitViewController" id="1Yc-SR-ghw" customClass="ADLimitViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kMv-mO-Kgr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y9I-Pb-wMP">
+                                <rect key="frame" x="27" y="184" width="360" height="528"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group 162963" translatesAutoresizingMaskIntoConstraints="NO" id="NhU-Mn-LoS">
+                                        <rect key="frame" x="0.0" y="42" width="360" height="319.66666666666669"/>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="QKQ-Uf-l5O">
+                                        <rect key="frame" x="47.666666666666686" y="321" width="265" height="187"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Efk-IC-56I">
+                                                <rect key="frame" x="0.0" y="0.0" width="265" height="61"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reached Daily Limit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haP-Dr-YcS">
+                                                        <rect key="frame" x="0.0" y="0.0" width="265" height="26.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create only 3 images a day with free plan Remove limit with Pro" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KX-8Q-dZg">
+                                                        <rect key="frame" x="0.0" y="27.333333333333368" width="265" height="33.666666666666657"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="R6o-qw-ZtE">
+                                                <rect key="frame" x="0.0" y="85" width="265" height="102"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0hX-CJ-cQJ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="265" height="58"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" secondItem="0hX-CJ-cQJ" secondAttribute="height" multiplier="265:58" id="Rbo-fK-KKm"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Remove Limits" backgroundImage="Button BG"/>
+                                                        <connections>
+                                                            <action selector="purchaseButtonPressed:" destination="1Yc-SR-ghw" eventType="touchUpInside" id="6QC-fs-A8F"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzn-rh-cLc">
+                                                        <rect key="frame" x="0.0" y="70" width="265" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="No, thanks">
+                                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="closeButtonPressed:" destination="1Yc-SR-ghw" eventType="touchUpInside" id="D7m-Tu-8aR"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="y9I-Pb-wMP" secondAttribute="height" multiplier="15:22" id="11l-Uk-JvS"/>
+                                    <constraint firstAttribute="trailing" secondItem="NhU-Mn-LoS" secondAttribute="trailing" id="AZf-dy-o8s"/>
+                                    <constraint firstAttribute="bottom" secondItem="QKQ-Uf-l5O" secondAttribute="bottom" constant="20" id="JyR-wR-l3Y"/>
+                                    <constraint firstItem="NhU-Mn-LoS" firstAttribute="top" secondItem="y9I-Pb-wMP" secondAttribute="top" constant="42" id="Tih-3q-ijn"/>
+                                    <constraint firstItem="QKQ-Uf-l5O" firstAttribute="centerX" secondItem="y9I-Pb-wMP" secondAttribute="centerX" id="fPV-RI-bU1"/>
+                                    <constraint firstItem="0hX-CJ-cQJ" firstAttribute="width" secondItem="y9I-Pb-wMP" secondAttribute="width" multiplier="265/360" id="ixk-ey-CG1"/>
+                                    <constraint firstItem="NhU-Mn-LoS" firstAttribute="leading" secondItem="y9I-Pb-wMP" secondAttribute="leading" id="s2l-Vf-MRu"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lBn-ha-RnD"/>
+                        <color key="backgroundColor" red="0.070588235294117646" green="0.074509803921568626" blue="0.086274509803921567" alpha="0.92000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="y9I-Pb-wMP" firstAttribute="width" secondItem="kMv-mO-Kgr" secondAttribute="width" multiplier="0.869565" id="IKg-Q7-D8m"/>
+                            <constraint firstItem="y9I-Pb-wMP" firstAttribute="centerX" secondItem="kMv-mO-Kgr" secondAttribute="centerX" id="QDX-Id-UIf"/>
+                            <constraint firstItem="y9I-Pb-wMP" firstAttribute="centerY" secondItem="kMv-mO-Kgr" secondAttribute="centerY" id="SF0-7G-Y5P"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="AD LIMIT" id="abr-x6-EDM"/>
+                    <connections>
+                        <outlet property="closeButton" destination="Zzn-rh-cLc" id="HYa-fy-cvI"/>
+                        <outlet property="limitBGView" destination="y9I-Pb-wMP" id="GkF-PC-4r8"/>
+                        <outlet property="purchaseButton" destination="0hX-CJ-cQJ" id="xw7-wg-ZuT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c2h-K1-rUa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3283" y="854"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cvL-7H-cXN">
+            <objects>
+                <viewController storyboardIdentifier="ADViewController" id="lA6-Wa-0Sl" customClass="ADViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CPx-uF-g5F">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ad" translatesAutoresizingMaskIntoConstraints="NO" id="MXw-4s-bd8">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NX0-FA-b0h">
+                                <rect key="frame" x="16" y="60" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="JA7-ze-T23"/>
+                                    <constraint firstAttribute="height" constant="44" id="ygz-A5-eZZ"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="lA6-Wa-0Sl" eventType="touchUpInside" id="1Nu-aJ-opA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kaV-1I-DrO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="NX0-FA-b0h" firstAttribute="top" secondItem="kaV-1I-DrO" secondAttribute="top" constant="16" id="GsC-AF-Q9n"/>
+                            <constraint firstItem="NX0-FA-b0h" firstAttribute="leading" secondItem="kaV-1I-DrO" secondAttribute="leading" constant="16" id="Tck-Id-dkk"/>
+                            <constraint firstItem="kaV-1I-DrO" firstAttribute="bottom" secondItem="MXw-4s-bd8" secondAttribute="bottom" id="XM1-zN-QxN"/>
+                            <constraint firstItem="MXw-4s-bd8" firstAttribute="leading" secondItem="kaV-1I-DrO" secondAttribute="leading" id="ao0-EU-l6P"/>
+                            <constraint firstItem="MXw-4s-bd8" firstAttribute="top" secondItem="kaV-1I-DrO" secondAttribute="top" id="ljI-V4-phm"/>
+                            <constraint firstItem="kaV-1I-DrO" firstAttribute="trailing" secondItem="MXw-4s-bd8" secondAttribute="trailing" id="yJw-qh-dxT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="NX0-FA-b0h" id="vPZ-U4-lMe"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rq0-X8-fbV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4107" y="854"/>
+        </scene>
+        <!--Purchase View Controller-->
+        <scene sceneID="SlX-jz-k0x">
+            <objects>
+                <viewController storyboardIdentifier="PurchaseViewController" id="fTb-4t-HYz" customClass="PurchaseViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ShQ-ab-Zya">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="No crop onboard 4" translatesAutoresizingMaskIntoConstraints="NO" id="XDt-x1-l9p">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVI-WZ-pqK">
+                                <rect key="frame" x="16" y="104" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="NYE-ph-Eid"/>
+                                    <constraint firstAttribute="height" constant="44" id="d0K-R3-SnA"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="closeButtonPressed:" destination="fTb-4t-HYz" eventType="touchUpInside" id="Sfy-io-Yqd"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="95R-5s-JtN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="95R-5s-JtN" firstAttribute="trailing" secondItem="XDt-x1-l9p" secondAttribute="trailing" id="BML-fk-A0P"/>
+                            <constraint firstItem="XDt-x1-l9p" firstAttribute="top" secondItem="95R-5s-JtN" secondAttribute="top" id="PPH-8N-LFy"/>
+                            <constraint firstItem="95R-5s-JtN" firstAttribute="bottom" secondItem="XDt-x1-l9p" secondAttribute="bottom" id="ZG2-aR-4Mi"/>
+                            <constraint firstItem="SVI-WZ-pqK" firstAttribute="top" secondItem="95R-5s-JtN" secondAttribute="top" constant="16" id="kjb-sP-d4B"/>
+                            <constraint firstItem="XDt-x1-l9p" firstAttribute="leading" secondItem="95R-5s-JtN" secondAttribute="leading" id="mnj-ja-fBJ"/>
+                            <constraint firstItem="SVI-WZ-pqK" firstAttribute="leading" secondItem="95R-5s-JtN" secondAttribute="leading" constant="16" id="nqd-Vc-KAC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5cg-tw-xe2"/>
+                    <connections>
+                        <outlet property="closeButton" destination="SVI-WZ-pqK" id="M4W-no-iYE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WXL-Dz-bRc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5767" y="854"/>
         </scene>
         <!--EXPAND-->
         <scene sceneID="Igk-kQ-iVI">
@@ -809,6 +990,22 @@ Unlock all effects.</string>
             </objects>
             <point key="canvasLocation" x="4107.2463768115949" y="2.6785714285714284"/>
         </scene>
+        <!--Edit View Controller-->
+        <scene sceneID="0LG-mA-6rR">
+            <objects>
+                <viewController storyboardIdentifier="EditViewController" id="5H7-h0-gmF" customClass="EditViewController" customModule="Image_Picker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kq2-Yu-yoU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="EOJ-uE-88r"/>
+                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AE2-Ca-dR4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="82D-Zt-Kaa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4987" y="3"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="scu-CG-Qwe">
             <objects>
@@ -866,7 +1063,7 @@ Unlock all effects.</string>
         <!--Navigation Controller-->
         <scene sceneID="IL9-4t-UIe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Dj6-Wh-veV" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProgessNAVController" automaticallyAdjustsScrollViewInsets="NO" id="Dj6-Wh-veV" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bGh-ix-k00">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -899,13 +1096,71 @@ Unlock all effects.</string>
             </objects>
             <point key="canvasLocation" x="4110" y="-719"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CSP-Ud-C5j">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8j7-97-jo4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MtA-ml-Kil">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5H7-h0-gmF" kind="relationship" relationship="rootViewController" id="wTy-eu-Qwm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xdB-Q9-1Ah" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4987" y="-719"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="x0a-co-6IG">
+            <objects>
+                <navigationController storyboardIdentifier="PurchaseNAVController" automaticallyAdjustsScrollViewInsets="NO" id="qdu-AV-Wf5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rEp-aa-wOM">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fTb-4t-HYz" kind="relationship" relationship="rootViewController" id="pz7-mW-d0S"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="56I-RA-fO6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4987" y="854"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QkV-wM-RFr">
+            <objects>
+                <navigationController storyboardIdentifier="ADLimitNAVController" automaticallyAdjustsScrollViewInsets="NO" id="T73-6I-1tW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4yB-9T-Wxf">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1Yc-SR-ghw" kind="relationship" relationship="rootViewController" id="fkX-cS-rLt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vON-5A-pnw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2493" y="854"/>
+        </scene>
     </scenes>
     <resources>
         <image name="AI Cartoon_Button" width="354" height="60"/>
+        <image name="Ad" width="1329" height="2082"/>
         <image name="BG" width="342" height="178.33332824707031"/>
         <image name="Back" width="9.6666669845581055" height="17.333333969116211"/>
+        <image name="Button BG" width="265.33334350585938" height="58"/>
         <image name="Compare" width="36" height="36"/>
+        <image name="Group 162963" width="351.66665649414062" height="319.66665649414062"/>
         <image name="Next" width="185" height="60"/>
+        <image name="No crop onboard 4" width="1242" height="2688"/>
         <image name="Regenerate" width="185" height="60"/>
         <image name="Transparent" width="414" height="414"/>
         <namedColor name="Primary-Dark">
@@ -922,6 +1177,9 @@ Unlock all effects.</string>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
