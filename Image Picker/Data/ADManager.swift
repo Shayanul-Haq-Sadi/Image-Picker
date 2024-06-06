@@ -18,14 +18,15 @@ class ADManager {
     private var adCount: Int = 0 {
         didSet {
             print("adCount ", adCount)
-            
-            if adCount >= adLimit {
-                isAdLimitReached = true
-            }
+            isAdLimitReached = (adCount >= adLimit) ? true : false
         }
     }
     
     func adLoaded() {
         self.adCount += 1
+    }
+    
+    func resetCounter() {
+        self.adCount = 0
     }
 }

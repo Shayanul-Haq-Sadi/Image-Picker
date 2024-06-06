@@ -10,6 +10,9 @@ import UIKit
 class PickerViewController: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var pickerButton: UIButton!
+    @IBOutlet weak var resetADButton: UIButton!
+    @IBOutlet weak var premiumButton: UIButton!
+    @IBOutlet weak var freeButton: UIButton!
     
     var pickedImage: UIImage!
     
@@ -33,7 +36,6 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
-    
     private func presentExpandViewController(pickedImage: UIImage, imageData: Data) {
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ExpandViewController.identifier) as? ExpandViewController else { return }
 
@@ -54,6 +56,21 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         present(imagePicker, animated: true, completion: nil)
     }
 
+    @IBAction func resetADButtonPressed(_ sender: Any) {
+        ADManager.shared.resetCounter()
+        self.showAlert(title: "Reset!", message: "AD counter is 0")
+    }
+    
+    @IBAction func premiumButtonPressed(_ sender: Any) {
+        PurchaseManager.shared.buy()
+        self.showAlert(title: "Premium User!", message: "Enjoy with no ADs")
+    }
+    
+    @IBAction func freeButtonPressed(_ sender: Any) {
+        PurchaseManager.shared.restore()
+        self.showAlert(title: "Free User!", message: "Buy now to get all features")
+    }
+    
 }
 
 

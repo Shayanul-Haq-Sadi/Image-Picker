@@ -47,7 +47,7 @@ class ImageViewController: UIViewController {
     var bottomRatio: CGFloat!
     var leftRatio: CGFloat!
     var rightRatio: CGFloat!
-    var keepOriginalSize = "False"
+    var keepOriginalSize = "True"
     
     var isImageSaved: Bool = false
     var isImageDownloaded: Bool = false
@@ -98,10 +98,10 @@ class ImageViewController: UIViewController {
         leftRatio = (leftConstraint / imageViewWidth)
         rightRatio = (rightConstraint / imageViewWidth)
         
-        print("Top Percentage: \(topRatio) %")
-        print("Bottom Percentage: \(bottomRatio) %")
-        print("Left Percentage: \(leftRatio) %")
-        print("Right Percentage: \(rightRatio) %")
+        print("Top Percentage: \(String(describing: topRatio)) %")
+        print("Bottom Percentage: \(String(describing: bottomRatio)) %")
+        print("Left Percentage: \(String(describing: leftRatio)) %")
+        print("Right Percentage: \(String(describing: rightRatio)) %")
     }
     
     private func addActivityIndicatorView() {

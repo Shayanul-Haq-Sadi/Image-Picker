@@ -43,11 +43,12 @@ class ProgessViewController: UIViewController {
     var leftRatio: CGFloat!
     var rightRatio: CGFloat!
     var keepOriginalSize = "False"
+//    var keepOriginalSize = "True"
     
     var selectedAspectRatio: CGFloat!
     
-    private var isPremiumUser: Bool = false //
-    private var isAdShown: Bool = false //
+    private var isAdShown: Bool = false
+    private var isAPICalled: Bool = false
     private var isPurchasePressed: Bool = false
     private var isDownloaded: Bool = false
     private var isAdFinished: Bool = false
@@ -61,11 +62,7 @@ class ProgessViewController: UIViewController {
         setupUI()
         addActivityIndicatorView()
         activityIndicatorView.startAnimating()
-                
-        print("timer added")
-        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { timer in
-            self.adLogic()
-        }
+        adNewLogic()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,8 +107,8 @@ class ProgessViewController: UIViewController {
 //        }
     }
     
-    private func adLogic() {
-        if isPremiumUser { // no ad direct flow
+    private func adNewLogic() {
+        if PurchaseManager.shared.isPremiumUser { // no ad direct flow
             //no show off boost
             purchaseContainerView.isHidden = true
             
@@ -126,29 +123,56 @@ class ProgessViewController: UIViewController {
                 }
             }
         }
-        else if !isPremiumUser { //ad flow
+        else if !PurchaseManager.shared.isPremiumUser { //ad flow        
             if !self.isAdShown { //ad not shown so show add
-                self.presentAdViewController { done in
-                    if !done {
-                        // api call
-                        self.uploadImage { picked, downloaded in
+                
+                if !isAPICalled {
+                    self.uploadImage { picked, downloaded in
+                        
+                        if self.isAdFinished && self.isDownloaded {
                             // send to previous nav stack
                             self.downloadCompletion?(picked, downloaded)
                             
-                            if self.isAdFinished && self.isDownloaded {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    self.dismiss(animated: true)
-                                }
-                            }
-                        }
-                    } else {
-                        if self.isAdFinished && self.isDownloaded {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 self.dismiss(animated: true)
                             }
                         }
                     }
                 }
+                
+                
+                if !self.isPurchasePressed {
+                    print("timer added")
+                    timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { timer in
+                        
+                        self.presentAdViewController { done in
+                            if done {
+                                if self.isAdFinished && self.isDownloaded {
+                                    // send to previous nav stack
+                                    self.downloadCompletion?(self.pickedImage, self.downloadedImage)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.dismiss(animated: true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    self.presentAdViewController { done in
+                        if done {
+                            if self.isAdFinished && self.isDownloaded {
+                                // send to previous nav stack
+                                self.downloadCompletion?(self.pickedImage, self.downloadedImage)
+
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.dismiss(animated: true)
+                                }
+                            }
+                        }
+                    }
+                }
+                
             }
             else if self.isAdShown { // add shown alraedy so normal flow
                 
@@ -158,6 +182,7 @@ class ProgessViewController: UIViewController {
     
     private func uploadImage(completion: @escaping ( _ pickedImage: UIImage, _ downloadedImage: UIImage) -> Void) {
         print("uploadImage API CALLED")
+        isAPICalled = true
         APIManager.shared.uploadImage(imageData: imageData, leftPercentage: leftRatio, rightPercentage: rightRatio, topPercentage: topRatio, bottomPercentage: bottomRatio, keepOriginalSize: keepOriginalSize){ response in
             switch response {
             case .success(let data):
@@ -213,9 +238,11 @@ class ProgessViewController: UIViewController {
         
         
         VC.closeCompletion = {
-            if self.isPurchasePressed {
-                self.adLogic()
+            if PurchaseManager.shared.isPremiumUser {
+                APIManager.shared.cancelOngoingRequests()
             }
+            
+            self.adNewLogic()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 let transition = CATransition()

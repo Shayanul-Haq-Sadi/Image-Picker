@@ -142,7 +142,7 @@ class ExpandViewController: UIViewController {
         VC.modalPresentationStyle = .fullScreen
         VC.modalTransitionStyle = .crossDissolve
         
-        self.navigationController?.pushViewController(VC, animated: true)
+        self.navigationController?.pushViewController(VC, animated: false)
     }
     
     private func presentADLimitViewController() {
@@ -175,10 +175,10 @@ class ExpandViewController: UIViewController {
         leftRatio = (leftConstraint / imageViewWidth)
         rightRatio = (rightConstraint / imageViewWidth)
         
-        print("Top Percentage: \(topRatio) %")
-        print("Bottom Percentage: \(bottomRatio) %")
-        print("Left Percentage: \(leftRatio) %")
-        print("Right Percentage: \(rightRatio) %")
+        print("Top Percentage: \(String(describing: topRatio)) %")
+        print("Bottom Percentage: \(String(describing: bottomRatio)) %")
+        print("Left Percentage: \(String(describing: leftRatio)) %")
+        print("Right Percentage: \(String(describing: rightRatio)) %")
     }
     
     private func convertRatio(ratio: String) -> CGFloat {
@@ -201,11 +201,16 @@ class ExpandViewController: UIViewController {
     }
     
     @IBAction func apiButtonPressed(_ sender: Any) {
-        if ADManager.shared.isAdLimitReached {
-            presentADLimitViewController()
-        } else {
+        if PurchaseManager.shared.isPremiumUser { // premium
             calculateRatioParameters()
             presentProgressViewController()
+        } else { // free
+            if ADManager.shared.isAdLimitReached {
+                presentADLimitViewController()
+            } else {
+                calculateRatioParameters()
+                presentProgressViewController()
+            }
         }
     }
     
@@ -264,7 +269,7 @@ extension ExpandViewController: UICollectionViewDelegate {
         else if collectionView == aspectCollectionView {
             if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
                 selectedAspectRatio = convertRatio(ratio: aspectData[indexPath.item].ratio)
-                print("selectedAspectRatio ", selectedAspectRatio)
+                print("selectedAspectRatio ", selectedAspectRatio ?? -1.0)
                 
                 selectedUniqueAspectIdentifier = aspectData[indexPath.item].image
             }

@@ -69,4 +69,26 @@ extension UIImage {
         guard let newCGImage = ctx.makeImage() else { return nil }
         return UIImage.init(cgImage: newCGImage, scale: 1, orientation: .up)
     }
+    
+    func upscaleImage(width: CGFloat, height: CGFloat) -> UIImage? {
+        let newSize = CGSize(width: width, height: height)
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1.0
+        let renderer = UIGraphicsImageRenderer(size: newSize, format: format)
+        let upscaledImage = renderer.image { (context) in
+            self.draw(in: CGRect(origin: .zero, size: newSize))
+        }
+        return upscaledImage
+    }
+    
+    func renderImageFromLayer(_ layerToRender: CALayer) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1.0
+        let renderer = UIGraphicsImageRenderer(size: layerToRender.frame.size, format: format)
+        let img = renderer.image { context in
+            layerToRender.render(in: context.cgContext)
+        }
+        return img
+    }
+    
 }

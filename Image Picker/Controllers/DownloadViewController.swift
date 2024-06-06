@@ -35,6 +35,7 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var pickedImage: UIImage! //= UIImage(named: "Golden Statue_cartoon")
     var downloadedImage: UIImage! //= UIImage(named: "GTA_cartoon")
+    var renderedImage: UIImage! //= UIImage(named: "GTA_cartoon")
     
     var imageData: Data!
     
@@ -53,6 +54,9 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         setupUI()
         addGesture()
+        renderImage()
+        
+        saveImageToPhotoLibrary(downloadedImage)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,16 +98,65 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc private func longPressImage(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
             case .began:
-            UIView.transition(with: self.imageView, duration: 0.5, options: [.curveEaseInOut, .transitionCrossDissolve],  animations: {
+            UIView.transition(with: self.imageView, duration: 0.8, options: [.transitionCrossDissolve],  animations: {
                     self.imageView.image = self.pickedImage
                 })
             
             case .ended:
-            UIView.transition(with: self.imageView, duration: 0.5, options: [.curveEaseInOut, .transitionCrossDissolve],  animations: {
+            UIView.transition(with: self.imageView, duration: 0.8, options: [.transitionCrossDissolve],  animations: {
                     self.imageView.image = self.downloadedImage
                 })
             
             default: break
+        }
+    }
+    
+    private func checkSizes() {
+        print("Top Percentage: \(String(describing: topRatio)) %")
+        print("Bottom Percentage: \(String(describing: bottomRatio)) %")
+        print("Left Percentage: \(String(describing: leftRatio)) %")
+        print("Right Percentage: \(String(describing: rightRatio)) %")
+        
+        print("++pickedImage.size.width ", pickedImage.size.width)
+        print("++pickedImage.size.height ", pickedImage.size.height)
+        
+        print("++pickedImage scale .width ", (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio))) )
+        print("++pickedImage scale .height ", (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio))) )
+        
+        print("++downloadedImage.size.width ", downloadedImage.size.width)
+        print("++downloadedImage.size.height ", downloadedImage.size.height)
+        
+        let widthScale = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))/downloadedImage.size.width
+        let heightScale = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))/downloadedImage.size.height
+        
+        print("widthScale ", widthScale, " heightScale ", heightScale)
+        
+        let expectedWidth = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))
+        let expectedHeight = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))
+        
+        if let renderedImage = downloadedImage.upscaleImage(width: expectedWidth, height: expectedHeight) {
+            
+            print("++renderedImage.size.width ", renderedImage.size.width)
+            print("++renderedImage.size.height ", renderedImage.size.height)
+            
+            saveImageToPhotoLibrary(renderedImage)
+        }
+    }
+    
+    private func renderImage() {
+        let expectedWidth = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))
+        let expectedHeight = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))
+        
+        if let renderedImage = downloadedImage.upscaleImage(width: expectedWidth, height: expectedHeight) {
+            
+            print("++pickedImage.size.width ", pickedImage.size.width)
+            print("++pickedImage.size.height ", pickedImage.size.height)
+            print("++renderedImage.size.width ", renderedImage.size.width)
+            print("++renderedImage.size.height ", renderedImage.size.height)
+            print("++downloadedImage.size.width ", downloadedImage.size.width)
+            print("++downloadedImage.size.height ", downloadedImage.size.height)
+            
+            self.renderedImage = renderedImage
         }
     }
     
@@ -208,9 +261,7 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @IBAction func regenerateButtonPressed(_ sender: Any) {
-        if ADManager.shared.isAdLimitReached {
-            presentADLimitViewController()
-        } else {
+        if PurchaseManager.shared.isPremiumUser {
             lastSavedAssetIdentifier = ""
             
             imageView.contentMode = .scaleAspectFill
@@ -220,6 +271,21 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
             self.view.layoutIfNeeded()
             
             presentProgressViewController()
+            
+        } else {
+            if ADManager.shared.isAdLimitReached {
+                presentADLimitViewController()
+            } else {
+                lastSavedAssetIdentifier = ""
+                
+                imageView.contentMode = .scaleAspectFill
+                imageView.image = downloadedImage
+                
+                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+                self.view.layoutIfNeeded()
+                
+                presentProgressViewController()
+            }
         }
     }
     
@@ -235,7 +301,8 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        saveUniqueImageToPhotos(image: downloadedImage)
+//        saveUniqueImageToPhotos(image: downloadedImage)
+        saveUniqueImageToPhotos(image: renderedImage)
     }
     
     @IBAction func editorButtonPressed(_ sender: Any) {
