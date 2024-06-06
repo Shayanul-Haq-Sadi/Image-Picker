@@ -56,7 +56,7 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
         addGesture()
         renderImage()
         
-        saveImageToPhotoLibrary(downloadedImage)
+//        saveImageToPhotoLibrary(downloadedImage)
     }
     
     override func viewDidAppear(_ animated: Bool) {
