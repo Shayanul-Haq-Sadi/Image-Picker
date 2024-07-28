@@ -96,11 +96,6 @@ class ExpandViewControllerV2: UIViewController {
         print("self.imageContainerView.frame.size.width ", self.imageContainerView.frame.size.width)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }

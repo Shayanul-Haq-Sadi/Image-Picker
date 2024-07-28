@@ -12,27 +12,27 @@ class ProgessViewController: UIViewController {
     
     static let identifier = "ProgessViewController"
     
-    @IBOutlet weak var canvasView: UIView!
+    @IBOutlet private weak var canvasView: UIView!
     
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var TransparentImageView: UIImageView!
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
-    @IBOutlet weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var TransparentImageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     
     
-    @IBOutlet weak var progressConainerView: UIView!
+    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var activityIndicatorView: APNGImageView!
+    
+    @IBOutlet private weak var progressConainerView: UIView!
+    
+    @IBOutlet private weak var activityIndicatorView: APNGImageView!
     private var activityIndicatorImage: APNGImage!
     
-    @IBOutlet weak var purchaseContainerView: UIView!
-    @IBOutlet weak var purchaseBGView: UIImageView!
-    @IBOutlet weak var purchaseButton: UIButton!
+    @IBOutlet private weak var purchaseContainerView: UIView!
+    @IBOutlet private weak var purchaseBGView: UIImageView!
+    @IBOutlet private weak var purchaseButton: UIButton!
     
-    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet private weak var cancelButton: UIButton!
     
     var pickedImage: UIImage!
     var downloadedImage: UIImage!

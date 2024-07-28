@@ -11,9 +11,9 @@ class ADLimitViewController: UIViewController {
     
     static let identifier = "ADLimitViewController"
     
-    @IBOutlet weak var limitBGView: UIView!
-    @IBOutlet weak var purchaseButton: UIButton!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet private weak var limitBGView: UIView!
+    @IBOutlet private weak var purchaseButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,6 @@ class ADLimitViewController: UIViewController {
     private func setupUI() {
         limitBGView.layer.cornerRadius = 16
     }
-    
     
     private func pushPurchaseViewController() { // with present animation
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: PurchaseViewController.identifier) as? PurchaseViewController else { return }

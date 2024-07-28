@@ -11,22 +11,22 @@ class ExpandViewController: UIViewController {
     
     static let identifier = "ExpandViewController"
     
-    @IBOutlet weak var canvasView: UIView!
+    @IBOutlet private weak var canvasView: UIView!
     
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var TransparentImageView: UIImageView!
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
-    @IBOutlet weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var TransparentImageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     
     
-    @IBOutlet weak var editorView: UIView!
+    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var appCollectionView: UICollectionView!
-    @IBOutlet weak var aspectCollectionView: UICollectionView!
-    @IBOutlet weak var apiButton: UIButton!
+    
+    @IBOutlet private weak var editorView: UIView!
+    
+    @IBOutlet private weak var appCollectionView: UICollectionView!
+    @IBOutlet private weak var aspectCollectionView: UICollectionView!
+    @IBOutlet private weak var apiButton: UIButton!
     
     var pickedImage: UIImage!
     var imageData: Data!

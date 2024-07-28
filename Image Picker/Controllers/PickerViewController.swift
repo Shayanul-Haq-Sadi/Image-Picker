@@ -9,10 +9,10 @@ import UIKit
 
 class PickerViewController: UIViewController, UINavigationControllerDelegate {
 
-    @IBOutlet weak var pickerButton: UIButton!
-    @IBOutlet weak var resetADButton: UIButton!
-    @IBOutlet weak var premiumButton: UIButton!
-    @IBOutlet weak var freeButton: UIButton!
+    @IBOutlet private weak var pickerButton: UIButton!
+    @IBOutlet private weak var resetADButton: UIButton!
+    @IBOutlet private weak var premiumButton: UIButton!
+    @IBOutlet private weak var freeButton: UIButton!
     
     var pickedImage: UIImage!
     

@@ -181,16 +181,6 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
 
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        imageView.contentMode = .scaleAspectFill
-        
-        self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-        self.view.layoutIfNeeded()
-        
-    }
-    
     private func setupUI() {
         imageView.contentMode = .scaleAspectFill
         imageView.image = downloadedImage
@@ -576,6 +566,11 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     
     private func regenerateImageV3() {
         if PurchaseManager.shared.isPremiumUser {
+            
+            imageView.contentMode = .scaleAspectFill
+            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+            self.view.layoutIfNeeded()
+            
             presentProgressViewController()
         } else {
             adPopupView.show() {}

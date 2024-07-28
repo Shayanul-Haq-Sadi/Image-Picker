@@ -12,26 +12,26 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     
     static let identifier = "DownloadViewController"
     
-    @IBOutlet weak var canvasView: UIView!
+    @IBOutlet private weak var canvasView: UIView!
     
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var TransparentImageView: UIImageView!
-    @IBOutlet weak var imageView: UIImageView!
-        
-    @IBOutlet weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var TransparentImageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
     
-    @IBOutlet weak var compareView: UIView!
-    @IBOutlet weak var compareImage: UIImageView!
+    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var editorContainerView: UIView!
-    @IBOutlet weak var regenerateButton: UIButton!
-    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet private weak var compareView: UIView!
+    @IBOutlet private weak var compareImage: UIImageView!
     
-    @IBOutlet weak var saveContainerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var saveContainerView: UIView!
-    @IBOutlet weak var saveButton: UIButton!
-    @IBOutlet weak var editorButton: UIButton!
+    @IBOutlet private weak var editorContainerView: UIView!
+    @IBOutlet private weak var regenerateButton: UIButton!
+    @IBOutlet private weak var nextButton: UIButton!
+    
+    @IBOutlet private weak var saveContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var saveContainerView: UIView!
+    @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var editorButton: UIButton!
     
     var pickedImage: UIImage! //= UIImage(named: "Golden Statue_cartoon")
     var downloadedImage: UIImage! //= UIImage(named: "GTA_cartoon")

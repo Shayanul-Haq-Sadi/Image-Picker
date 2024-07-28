@@ -11,7 +11,7 @@ class ADViewController: UIViewController {
     
     static let identifier = "ADViewController"
 
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
     
     var closeCompletion: (() -> Void)? = nil
     

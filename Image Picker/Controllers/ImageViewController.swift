@@ -12,23 +12,23 @@ class ImageViewController: UIViewController {
     
     static let identifier = "ImageViewController"
     
-    @IBOutlet weak var apiButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet private weak var apiButton: UIButton!
+    @IBOutlet private weak var saveButton: UIButton!
     
-    @IBOutlet weak var availableContainerView: UIView!
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet private weak var availableContainerView: UIView!
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var imageView: UIImageView!
     
-    @IBOutlet weak var activityIndicatorView: APNGImageView!
+    @IBOutlet private weak var activityIndicatorView: APNGImageView!
     private var activityIndicatorImage: APNGImage!
     
-    @IBOutlet weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
-    @IBOutlet weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var aspectButton1: UIButton!
-    @IBOutlet weak var aspectButton2: UIButton!
-    @IBOutlet weak var aspectButton3: UIButton!
-    @IBOutlet weak var aspectButton4: UIButton!
+    @IBOutlet private weak var aspectButton1: UIButton!
+    @IBOutlet private weak var aspectButton2: UIButton!
+    @IBOutlet private weak var aspectButton3: UIButton!
+    @IBOutlet private weak var aspectButton4: UIButton!
     
     var pickedImage: UIImage!
     
@@ -58,7 +58,6 @@ class ImageViewController: UIViewController {
             }
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,7 +11,7 @@ class AspectCell: UICollectionViewCell {
 
     static let identifier = "AspectCell"
 
-    @IBOutlet weak var cellImageView: UIImageView!
+    @IBOutlet private weak var cellImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

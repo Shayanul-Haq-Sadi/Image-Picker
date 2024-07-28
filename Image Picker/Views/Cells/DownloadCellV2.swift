@@ -12,19 +12,19 @@ class DownloadCellV2: UICollectionViewCell {
     
     static let identifier = "DownloadCellV2"
     
-    @IBOutlet weak var backgroundImage: UIImageView!
+    @IBOutlet private weak var backgroundImage: UIImageView!
     
-    @IBOutlet weak var imageContainerView: UIView!
-    @IBOutlet weak var downloadedImage: UIImageView!
-    @IBOutlet weak var selectorImage: UIImageView!
+    @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var downloadedImage: UIImageView!
+    @IBOutlet private weak var selectorImage: UIImageView!
     
     
-    @IBOutlet weak var indicatorContainerView: UIView!
-    @IBOutlet weak var activityIndicatorView: APNGImageView!
+    @IBOutlet private weak var indicatorContainerView: UIView!
+    @IBOutlet private weak var activityIndicatorView: APNGImageView!
     private var activityIndicatorImage: APNGImage!
     
-    @IBOutlet weak var regenerateContainerView: UIView!
-    @IBOutlet weak var regenerateImage: UIImageView!
+    @IBOutlet private weak var regenerateContainerView: UIView!
+    @IBOutlet private weak var regenerateImage: UIImageView!
     
     private var state: DynamicCellState = .image
     

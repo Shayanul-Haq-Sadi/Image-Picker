@@ -12,11 +12,11 @@ class PurchaseViewController: UIViewController {
     
     static let identifier = "PurchaseViewController"
 
-    @IBOutlet weak var playerView: UIView!
+    @IBOutlet private weak var playerView: UIView!
     
-    @IBOutlet weak var purchaseButton: UIButton!
+    @IBOutlet private weak var purchaseButton: UIButton!
     
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
     
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
@@ -30,8 +30,12 @@ class PurchaseViewController: UIViewController {
         watchNotifications()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     private func setupUI() {
-        self.navigationController?.navigationBar.isHidden = true
         
         if PurchaseManager.shared.isPremiumUser {
             purchaseButton.setTitle("PURCHASED", for: .normal)
