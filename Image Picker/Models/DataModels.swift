@@ -15,6 +15,8 @@ struct SectionData {
 
 struct Item {
     let text: String
-    let image: String
+    let selectedImage: String
+    let nonSelectedImage: String
     let ratio: String
+    let resolution: String
 }

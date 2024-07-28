@@ -18,8 +18,6 @@ class APIManager {
     private var ongoingRequests = [Request]()
 
     func uploadImage(imageData: Data, leftPercentage: CGFloat, rightPercentage: CGFloat, topPercentage: CGFloat, bottomPercentage: CGFloat, keepOriginalSize: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        let url = "http://103.95.97.11:8080/outpaint"
-        let bearerToken = "c8aca83933b1773122ba65ed6429f6f13c61yu8aacecdfff0bfa9bb714f01de6"
         
 //        let leftPercentage = "0.2"
 //        let rightPercentage = "0.2"
@@ -28,7 +26,7 @@ class APIManager {
 //        let keepOriginalSize = "False"
         
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(bearerToken)",
+            "Authorization": "Bearer \(BEARER_TOKEN)",
             "Content-Type": "multipart/form-data"
         ]
         
@@ -47,7 +45,7 @@ class APIManager {
                 multipartFormData.append(Data(value.utf8), withName: key)
             }
             
-        }, to: url, method: .post, headers: headers)
+        }, to: API_URL, method: .post, headers: headers)
         .validate()
         .responseData { response in
             switch response.result {

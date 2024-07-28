@@ -36,12 +36,14 @@ class DataManager {
     }
     
     func getSupportedAppsRootDataCount() -> Int? {
-        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]] else { return nil }
+//        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]] else { return nil }
+        guard let rootValue = self.datasource["Supported Apps V2"] as? [[String: Any]] else { return nil }
         return rootValue.count
     }
 
     func getSupportedAppsData(of section: Int) -> SectionData? {
-        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
+//        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
+        guard let rootValue = self.datasource["Supported Apps V2"] as? [[String: Any]],
               let sectionData = self.parseDictionary(dictionary: rootValue[section])
         else { return nil }
         return sectionData
@@ -77,7 +79,8 @@ class DataManager {
 //    }
     
     func getSupportedAspectData(of section: Int) -> [Item]? {
-        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
+//        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
+        guard let rootValue = self.datasource["Supported Apps V2"] as? [[String: Any]],
               let sectionData = self.parseDictionary(dictionary: rootValue[section])
         else { return nil }
         return sectionData.items
@@ -128,9 +131,11 @@ class DataManager {
         var items: [Item] = []
         for itemDict in itemsArray {
             if let text = itemDict["text"] as? String,
-               let image = itemDict["image"] as? String,
-               let ratio = itemDict["ratio"] as? String {
-                let item = Item(text: text, image: image, ratio: ratio)
+               let selectedImage = itemDict["selectedImage"] as? String,
+               let nonSelectedImage = itemDict["nonSelectedImage"] as? String,
+               let ratio = itemDict["ratio"] as? String,
+               let resolution = itemDict["resolution"] as? String {
+                let item = Item(text: text, selectedImage: selectedImage, nonSelectedImage: nonSelectedImage, ratio: ratio, resolution: resolution)
                 items.append(item)
             }
         }

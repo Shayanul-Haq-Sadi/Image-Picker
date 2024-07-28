@@ -201,7 +201,7 @@ class DownloadViewController: UIViewController, UIGestureRecognizerDelegate {
     }
         
     private func presentProgressViewController() {
-        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgessNAVController") as?  UINavigationController else { return }
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgressNAVController") as?  UINavigationController else { return }
         
         navVC.modalPresentationStyle = .fullScreen
         navVC.modalTransitionStyle = .crossDissolve

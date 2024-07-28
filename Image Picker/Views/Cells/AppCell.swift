@@ -11,8 +11,15 @@ class AppCell: UICollectionViewCell {
     
     static let identifier = "AppCell"
 
-    @IBOutlet weak var cellTitleLbl: UILabel!
-    @IBOutlet weak var selectView: UIView!
+    @IBOutlet private weak var cellTitleLbl: UILabel!
+    @IBOutlet private weak var selectView: UIView!
+    
+    override var isSelected: Bool {
+        didSet {
+            cellTitleLbl.textColor = self.isSelected ? .selected : .nonSelected
+            selectView.isHidden = self.isSelected ? false : true
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,10 +31,11 @@ class AppCell: UICollectionViewCell {
         selectView.backgroundColor = .selected
     }
     
-    func setup(title: String, isSelected: Bool = false) {
+    func setup(title: String) {
         cellTitleLbl.text = title
-        cellTitleLbl.textColor = isSelected ? .selected : .nonSelected
-        selectView.isHidden = isSelected ? false : true
+        
+        cellTitleLbl.textColor = self.isSelected ? .selected : .nonSelected
+        selectView.isHidden = self.isSelected ? false : true
     }
     
 }

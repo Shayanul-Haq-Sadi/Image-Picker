@@ -100,7 +100,7 @@ class ExpandViewController: UIViewController {
     }
     
     private func presentProgressViewController() {
-        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgessNAVController") as?  UINavigationController else { return }
+        guard let navVC = storyboard?.instantiateViewController(identifier: "ProgressNAVController") as?  UINavigationController else { return }
         
         navVC.modalPresentationStyle = .fullScreen
         navVC.modalTransitionStyle = .crossDissolve
@@ -118,7 +118,8 @@ class ExpandViewController: UIViewController {
             VC.selectedAspectRatio = selectedAspectRatio
             
             VC.downloadCompletion = { picked, downloaded in
-                self.pushDownloadViewController(pickedImage: picked, downloadedImage: downloaded)
+//                self.pushDownloadViewController(pickedImage: picked, downloadedImage: downloaded)
+                self.pushDownloadViewControllerV2(pickedImage: picked, downloadedImage: downloaded)
             }
         }
         
@@ -127,6 +128,26 @@ class ExpandViewController: UIViewController {
     
     private func pushDownloadViewController(pickedImage: UIImage, downloadedImage: UIImage) {
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: DownloadViewController.identifier) as? DownloadViewController else { return }
+        
+        VC.pickedImage = pickedImage
+        VC.downloadedImage = downloadedImage
+        VC.imageData = imageData
+
+        VC.topRatio = topRatio
+        VC.bottomRatio = bottomRatio
+        VC.leftRatio = leftRatio
+        VC.rightRatio = rightRatio
+
+        VC.selectedAspectRatio = selectedAspectRatio
+        
+        VC.modalPresentationStyle = .fullScreen
+        VC.modalTransitionStyle = .crossDissolve
+        
+        self.navigationController?.pushViewController(VC, animated: false)
+    }
+    
+    private func pushDownloadViewControllerV2(pickedImage: UIImage, downloadedImage: UIImage) {
+        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: DownloadViewControllerV2.identifier) as? DownloadViewControllerV2 else { return }
         
         VC.pickedImage = pickedImage
         VC.downloadedImage = downloadedImage
@@ -156,6 +177,23 @@ class ExpandViewController: UIViewController {
         }
         
         present(navVC, animated: true)
+    }
+    
+    private func addMaskToCanvas() {
+        let maskPath = UIBezierPath(ovalIn: CGRect(x: 0, y: (canvasView.bounds.height - canvasView.bounds.width)/2 , width: canvasView.bounds.width, height: canvasView.bounds.width))
+        let maskLayer = CAShapeLayer()
+        maskLayer.fillRule = .evenOdd
+        maskLayer.path = maskPath.cgPath
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+            self.canvasView.layer.mask = maskLayer
+        }
+    }
+    
+    private func removeMaskFromCanvas() {
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+            self.canvasView.layer.mask = nil
+        }
     }
     
     private func calculateRatioParameters() {
@@ -242,7 +280,7 @@ extension ExpandViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppCell.identifier, for: indexPath) as? AppCell else { return UICollectionViewCell() }
             
             if let appData = DataManager.shared.getSupportedAppsData(of: indexPath.item) {
-                cell.setup(title: appData.title, isSelected: indexPath.item == selectedAppIndex)
+//                cell.setup(title: appData.title, isSelected: indexPath.item == selectedAppIndex)
             }
             return cell
         }
@@ -250,7 +288,7 @@ extension ExpandViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AspectCell.identifier, for: indexPath) as? AspectCell else { return UICollectionViewCell() }
                         
             if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
-                cell.setup(image: aspectData[indexPath.item].image, isSelected: indexPath.item == selectedAspectIndex && selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].image.lowercased())
+                cell.setup(image: aspectData[indexPath.item].selectedImage, isSelected: indexPath.item == selectedAspectIndex && selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased())
             }
             return cell
         }
@@ -271,7 +309,9 @@ extension ExpandViewController: UICollectionViewDelegate {
                 selectedAspectRatio = convertRatio(ratio: aspectData[indexPath.item].ratio)
                 print("selectedAspectRatio ", selectedAspectRatio ?? -1.0)
                 
-                selectedUniqueAspectIdentifier = aspectData[indexPath.item].image
+                selectedUniqueAspectIdentifier = aspectData[indexPath.item].selectedImage
+                
+                aspectData[indexPath.item].text.lowercased() == "profile" ? addMaskToCanvas() : removeMaskFromCanvas()
             }
             
             selectedAspectIndex = indexPath.item

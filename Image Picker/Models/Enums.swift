@@ -12,3 +12,9 @@ enum AppType: String {
     case facebook = "Facebook"
     case instagram = "Instagram"
 }
+
+enum DynamicCellState: Int {
+    case image = 0
+//    case indicator = 1
+    case regen = 2
+}

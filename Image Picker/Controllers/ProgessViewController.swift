@@ -89,7 +89,7 @@ class ProgessViewController: UIViewController {
     
     private func addActivityIndicatorView() {
         do {
-            if let url = Bundle.main.url(forResource: "infinteLoader", withExtension: "png") {
+            if let url = Bundle.main.url(forResource: "Loading 1", withExtension: "png") {
                 activityIndicatorImage = try APNGImage(fileURL: url, decodingOptions: .fullFirstPass)
                 activityIndicatorView.autoStartAnimationWhenSetImage = false
                 activityIndicatorView.image = activityIndicatorImage
