@@ -569,15 +569,14 @@ Unlock all effects.</string>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GcC-8L-Cc7">
                                                 <rect key="frame" x="95" y="110.33333333333326" width="153" height="44"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="GcC-8L-Cc7" secondAttribute="height" multiplier="153:44" id="3Xa-iJ-EHE"/>
                                                     <constraint firstAttribute="height" constant="44" id="5jX-CL-Pl4"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Boost Now!">
+                                                <state key="normal" image="boost">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -599,17 +598,14 @@ Unlock all effects.</string>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UiP-CT-nkE">
-                                        <rect key="frame" x="156.66666666666666" y="670.66666666666663" width="100.66666666666666" height="40"/>
-                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <rect key="frame" x="162.33333333333334" y="670.66666666666663" width="89.333333333333343" height="40"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="89.329999999999998" id="FLP-ne-eQR"/>
                                             <constraint firstAttribute="height" constant="40" id="eCs-Ml-Da2"/>
                                         </constraints>
                                         <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Cancel"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Cancel">
-                                            <directionalEdgeInsets key="contentInsets" top="0.0" leading="24" bottom="0.0" trailing="24"/>
-                                        </buttonConfiguration>
+                                        <state key="normal" image="cancel"/>
                                         <connections>
                                             <action selector="cancelButtonPressed:" destination="0nm-Xr-twA" eventType="touchUpInside" id="pHa-VJ-oJM"/>
                                         </connections>
@@ -1531,21 +1527,21 @@ Unlock all effects.</string>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="xIp-4F-q32" firstAttribute="centerX" secondItem="gl7-db-Mn4" secondAttribute="centerX" id="0Kr-0a-cEN"/>
-                                            <constraint firstItem="xIp-4F-q32" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gl7-db-Mn4" secondAttribute="top" id="2Ye-ri-V0X"/>
+                                            <constraint firstItem="xIp-4F-q32" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gl7-db-Mn4" secondAttribute="top" placeholder="YES" id="2Ye-ri-V0X"/>
                                             <constraint firstItem="xIp-4F-q32" firstAttribute="centerY" secondItem="gl7-db-Mn4" secondAttribute="centerY" id="7AS-8L-CZd"/>
                                             <constraint firstItem="Y66-nm-BpS" firstAttribute="top" secondItem="xIp-4F-q32" secondAttribute="top" constant="-4.5" id="8Gs-4E-2iL"/>
                                             <constraint firstAttribute="bottom" secondItem="SJI-Dy-iBI" secondAttribute="bottom" id="9L3-sZ-5xD"/>
-                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xIp-4F-q32" secondAttribute="trailing" id="Gu2-cX-SBh"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xIp-4F-q32" secondAttribute="trailing" placeholder="YES" id="Gu2-cX-SBh"/>
                                             <constraint firstItem="xIp-4F-q32" firstAttribute="trailing" secondItem="Y66-nm-BpS" secondAttribute="trailing" constant="-4.5" id="IHc-f3-fDC"/>
                                             <constraint firstItem="Y66-nm-BpS" firstAttribute="leading" secondItem="xIp-4F-q32" secondAttribute="leading" constant="-4.5" id="JiL-Hj-WgZ"/>
                                             <constraint firstItem="wdS-Ll-gyj" firstAttribute="top" secondItem="gl7-db-Mn4" secondAttribute="top" id="JlP-Hf-qWV"/>
                                             <constraint firstAttribute="width" secondItem="gl7-db-Mn4" secondAttribute="height" multiplier="1:1" id="LKQ-hY-VQu"/>
                                             <constraint firstItem="NYk-Oi-tfC" firstAttribute="centerY" secondItem="gl7-db-Mn4" secondAttribute="centerY" id="MZk-MG-ROB"/>
-                                            <constraint firstItem="xIp-4F-q32" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gl7-db-Mn4" secondAttribute="leading" id="NJI-y3-2XB"/>
+                                            <constraint firstItem="xIp-4F-q32" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gl7-db-Mn4" secondAttribute="leading" placeholder="YES" id="NJI-y3-2XB"/>
                                             <constraint firstAttribute="trailing" secondItem="NYk-Oi-tfC" secondAttribute="trailing" id="Tce-cG-1BL"/>
                                             <constraint firstItem="xIp-4F-q32" firstAttribute="bottom" secondItem="Y66-nm-BpS" secondAttribute="bottom" constant="-4.5" id="WJ0-ZB-wmS"/>
                                             <constraint firstAttribute="trailing" secondItem="wdS-Ll-gyj" secondAttribute="trailing" id="Zoi-Kx-DIA"/>
-                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xIp-4F-q32" secondAttribute="bottom" id="alN-pc-usj"/>
+                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xIp-4F-q32" secondAttribute="bottom" placeholder="YES" id="alN-pc-usj"/>
                                             <constraint firstItem="NYk-Oi-tfC" firstAttribute="leading" secondItem="gl7-db-Mn4" secondAttribute="leading" id="boT-QT-UZZ"/>
                                             <constraint firstItem="SJI-Dy-iBI" firstAttribute="centerY" secondItem="gl7-db-Mn4" secondAttribute="centerY" id="e4t-66-rkQ"/>
                                             <constraint firstItem="wdS-Ll-gyj" firstAttribute="leading" secondItem="gl7-db-Mn4" secondAttribute="leading" id="iOS-QO-49k"/>
@@ -1779,14 +1775,13 @@ Unlock all effects.</string>
         <image name="Regenerate" width="185" height="60"/>
         <image name="Save" width="77" height="32"/>
         <image name="Transparent" width="414" height="414"/>
+        <image name="boost" width="153.33332824707031" height="44"/>
+        <image name="cancel" width="89.333335876464844" height="40"/>
         <namedColor name="Primary-Dark">
             <color red="0.094117647058823528" green="0.098039215686274508" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

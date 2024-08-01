@@ -81,7 +81,6 @@ class ProgessViewController: UIViewController {
         purchaseContainerView.clipsToBounds = true
         purchaseContainerView.layer.cornerRadius = 16
         purchaseBGView.layer.cornerRadius = 16
-        purchaseButton.layer.cornerRadius = 12
         
         cancelButton.layer.cornerRadius = 20
         

@@ -13,7 +13,7 @@ class ADManager {
     
     var isAdLimitReached: Bool = false
     
-    private let adLimit = 3
+    private let adLimit = 2
     
     private var adCount: Int = 0 {
         didSet {

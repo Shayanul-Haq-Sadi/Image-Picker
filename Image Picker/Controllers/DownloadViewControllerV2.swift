@@ -38,6 +38,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     @IBOutlet private weak var compareImage: UIImageView!
     
     private var adPopupView: AdPopupView = UIView.fromNib()
+    private var adLimitView: AdLimitView = UIView.fromNib()
     
     @IBOutlet private weak var bgView: UIView!
     
@@ -94,7 +95,8 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         setupUI()
 //        addGesture()
         loadCollectionView()
-        configPopup()
+        configAdPopup()
+        configAdLimitPopup()
         
         
         
@@ -238,9 +240,15 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         collectionView.selectItem(at: IndexPath(item: selectedIndex, section: 0), animated: true, scrollPosition: .left)
     }
     
-    private func configPopup() {
-        adPopupView.frame = view.bounds
-        view.addSubview(adPopupView)
+    private func configAdPopup() {
+//        adPopupView.frame = view.bounds
+        
+//        adPopupView.frame = UIScreen.main.bounds
+//        view.addSubview(adPopupView)
+        
+//        adPopupView.addToWindow()
+        
+        adPopupView.addToKeyWindow()
         
         adPopupView.closePressed = {
             print("closeButtonPressed")
@@ -249,13 +257,15 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         
         adPopupView.purchasePressed = {
             print("purchaseButtonPressed")
-            self.pushPurchaseViewController()
+            self.adPopupView.hide() {
+                self.pushPurchaseViewController()
+            }
         }
         
         adPopupView.adPressed = {
             print("adButtonPressed")
             if ADManager.shared.isAdLimitReached {
-                self.presentADLimitViewController()
+                self.adLimitView.show() {}
             } else {
                 self.adPopupView.hide {
                                         
@@ -272,11 +282,42 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
+    private func configAdLimitPopup() {
+//        adLimitView.frame = view.bounds
+//        adLimitView.frame = UIScreen.main.bounds
+        
+//        if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
+////        if let window = UIApplication.shared.windows.first {
+//            adLimitView.frame = window.bounds
+//        }
+//        
+//        view.addSubview(adLimitView)
+//        self.navigationController?.view.addSubview(adLimitView)
+        
+//        adLimitView.addToWindow()
+        
+        
+        adLimitView.addToKeyWindow()
+        
+        adLimitView.closePressed = {
+            print("closeButtonPressed")
+            self.adLimitView.hide() {}
+        }
+        
+        adLimitView.purchasePressed = {
+            print("purchaseButtonPressed")
+            self.adLimitView.hide() {
+                self.pushPurchaseViewController()
+            }
+        }
+    }
+    
     private func calculateInset(cellCount: Int) -> UIEdgeInsets {
         let cellWidth = 76 * cellCount
         let itemInterSpacing = 12 * (cellCount - 1)
-        let allCellWidth = cellWidth + itemInterSpacing + 44 // section inset 40
+        let allCellWidth = cellWidth + itemInterSpacing + 44 // section inset 44
         let emptySpace = SCREEN_WIDTH - CGFloat(allCellWidth)
+//        let emptySpace = self.downloadContainerView.frame.width - CGFloat(allCellWidth)
         let sideInset: CGFloat = emptySpace / 2
         
         return UIEdgeInsets(top: 20, left: max(sideInset, 0), bottom: 20, right: max(sideInset, 0))
@@ -473,21 +514,10 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             
             if PurchaseManager.shared.isPremiumUser {
                 self.adPopupView.hide(delay: 0.4) {}
+            } else {
+                self.adLimitView.show(delay: 0.4) {}
             }
         }
-    }
-    
-    private func presentADLimitViewController() {
-        guard let navVC = storyboard?.instantiateViewController(identifier: "ADLimitNAVController") as?  UINavigationController else { return }
-        
-        navVC.modalPresentationStyle = .overCurrentContext
-        navVC.modalTransitionStyle = .crossDissolve
-        
-        if let VC = navVC.topViewController as? ADLimitViewController {
-            VC.navigationController?.navigationBar.isHidden = true
-        }
-        
-        present(navVC, animated: true)
     }
     
     private func presentExpandViewControllerV2(pickedImage: UIImage, imageData: Data) {
@@ -577,32 +607,32 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
-    private func regenerateImage() {
-        if PurchaseManager.shared.isPremiumUser {
-            
-            imageView.contentMode = .scaleAspectFill
-            imageView.image = downloadedImage
-            
-            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-            self.view.layoutIfNeeded()
-            
-            presentProgressViewController()
-            
-        } else {
-            if ADManager.shared.isAdLimitReached {
-                presentADLimitViewController()
-            } else {
-                
-                imageView.contentMode = .scaleAspectFill
-                imageView.image = downloadedImage
-                
-                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-                self.view.layoutIfNeeded()
-                
-                presentProgressViewController()
-            }
-        }
-    }
+//    private func regenerateImage() {
+//        if PurchaseManager.shared.isPremiumUser {
+//            
+//            imageView.contentMode = .scaleAspectFill
+//            imageView.image = downloadedImage
+//            
+//            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+//            self.view.layoutIfNeeded()
+//            
+//            presentProgressViewController()
+//            
+//        } else {
+//            if ADManager.shared.isAdLimitReached {
+//                presentADLimitViewController()
+//            } else {
+//                
+//                imageView.contentMode = .scaleAspectFill
+//                imageView.image = downloadedImage
+//                
+//                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+//                self.view.layoutIfNeeded()
+//                
+//                presentProgressViewController()
+//            }
+//        }
+//    }
     
     @objc private func longPressImage(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {

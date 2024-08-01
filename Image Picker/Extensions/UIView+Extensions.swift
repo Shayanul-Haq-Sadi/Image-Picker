@@ -26,4 +26,49 @@ extension UIView {
         return (top: topDistance, bottom: bottomDistance, leading: leadingDistance, trailing: trailingDistance)
     }
     
+    func addToWindow() {
+        if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
+            self.frame = window.bounds
+            window.addSubview(self)
+        }
+    }
+    
+    func addToKeyWindow() {
+        if let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .compactMap({$0 as? UIWindowScene})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first {
+            
+            self.frame = keyWindow.bounds
+            keyWindow.addSubview(self)
+        }
+    }
+    
+    func getWindowBounds() -> CGRect {
+        guard let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first else { return .zero }
+        return window.bounds
+    }
+    
+    
+    
+    func distance(from point: CGPoint/*, to view: UIView*/) -> CGFloat {
+        // Get the center of the UIView
+        let viewCenter = self.center
+        
+        // Calculate the differences in x and y
+        let deltaX = viewCenter.x - point.x
+        let deltaY = viewCenter.y - point.y
+        
+        // Use hypot to calculate the distance
+        return hypot(deltaX, deltaY)
+    }
+    
+}
+
+
+extension CGPoint {
+    func distance(from point: CGPoint) -> CGFloat {
+        return hypot(point.x - self.x, point.y - self.y)
+    }
 }

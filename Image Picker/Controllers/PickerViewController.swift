@@ -14,7 +14,8 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet private weak var premiumButton: UIButton!
     @IBOutlet private weak var freeButton: UIButton!
     
-    var pickedImage: UIImage!
+    var pickedImage: UIImage? = nil
+    var imageData: Data!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
-    private func presentExpandViewControllerV2(pickedImage: UIImage, imageData: Data) {
+    private func presentExpandViewControllerV2(pickedImage: UIImage, imageData: Data/*, completion: @escaping () -> Void*/) {
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ExpandViewControllerV2.identifier) as? ExpandViewControllerV2 else { return }
 
         VC.pickedImage = pickedImage
@@ -85,9 +86,9 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
 extension PickerViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if self.pickedImage == nil, let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.pickedImage = pickedImage
-            print("pickedImage Width: \(self.pickedImage.size.width), pickedImage Height: \(self.pickedImage.size.height)")
+            print("pickedImage Width: \(pickedImage.size.width), pickedImage Height: \(pickedImage.size.height)")
             
             guard let fixedOrientationImage = pickedImage.fixedOrientation(), let imageData = fixedOrientationImage.jpegData(compressionQuality: 1.0) else {
                 print("Failed to convert image to data")
@@ -99,10 +100,15 @@ extension PickerViewController: UIImagePickerControllerDelegate {
             presentExpandViewControllerV2(pickedImage: pickedImage, imageData: imageData)
             
         }
-        dismiss(animated: true, completion: nil)
+        
+        picker.dismiss(animated: true) {
+            self.pickedImage = nil
+        }
     }
         
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true) {
+            self.pickedImage = nil
+        }
     }
 }
