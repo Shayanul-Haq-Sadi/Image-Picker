@@ -1,0 +1,5 @@
+*.xcworkspace
+
+Builds/
+Pods/
+Xcshareddata/
