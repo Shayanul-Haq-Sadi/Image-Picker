@@ -226,13 +226,15 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func loadCollectionView() {
-        collectionView = UICollectionView(frame: downloadContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.downloadLayout)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        collectionView = UICollectionView(frame: downloadContainerView.bounds, collectionViewLayout: layout)
         collectionView.register(UINib(nibName: "DownloadCellV2", bundle: nil), forCellWithReuseIdentifier: DownloadCellV2.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.isScrollEnabled = false
+        collectionView.isScrollEnabled = true
         collectionView.allowsMultipleSelection = false
-        collectionView.contentInset = calculateInset(cellCount: cellCount)
+//        collectionView.contentInset = calculateInset(cellCount: cellCount)
         collectionView.backgroundColor = UIColor(red: 0.09, green: 0.1, blue: 0.11, alpha: 1)
         
         downloadContainerView.addSubview(collectionView)
@@ -315,12 +317,12 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func calculateInset(cellCount: Int) -> UIEdgeInsets {
         let cellWidth = 76 * cellCount
         let itemInterSpacing = 12 * (cellCount - 1)
-        let allCellWidth = cellWidth + itemInterSpacing + 44 // section inset 44
+        let allCellWidth = cellWidth + itemInterSpacing  // section inset 44
         let emptySpace = SCREEN_WIDTH - CGFloat(allCellWidth)
 //        let emptySpace = self.downloadContainerView.frame.width - CGFloat(allCellWidth)
         let sideInset: CGFloat = emptySpace / 2
         
-        return UIEdgeInsets(top: 20, left: max(sideInset, 0), bottom: 20, right: max(sideInset, 0))
+        return UIEdgeInsets(top: 20, left: max(sideInset, 8), bottom: 20, right: max(sideInset, 8))
     }
     
     private func checkSizes() {
@@ -456,7 +458,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
                 self.imageView.image = self.downloadedImage
                 self.cellCount += 1
                 self.selectedIndex = self.downloadedImageArray.count - 1
-                self.collectionView.contentInset = self.calculateInset(cellCount: self.cellCount)
+//                self.collectionView.contentInset = self.calculateInset(cellCount: self.cellCount)
                 self.collectionView.insertItems(at: [IndexPath(item: self.selectedIndex, section: 0)])
                 self.collectionView.reloadSections([0])
                 self.collectionView.selectItem(at: IndexPath(item: self.selectedIndex, section: 0), animated: true, scrollPosition: .left)
@@ -803,6 +805,8 @@ extension DownloadViewControllerV2: UICollectionViewDataSource {
         
         return cell
     }
+    
+    
 }
 
 
@@ -863,3 +867,21 @@ extension DownloadViewControllerV2: UIImagePickerControllerDelegate {
     }
 }
 
+extension DownloadViewControllerV2: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return self.calculateInset(cellCount: cellCount)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 76, height: 76)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 12.0
+    }
+    
+}
