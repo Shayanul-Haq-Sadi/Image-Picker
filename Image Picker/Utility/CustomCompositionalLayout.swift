@@ -65,8 +65,8 @@ class CustomCompositionalLayout: UICollectionViewLayout {
     private func createAspectSection() -> NSCollectionLayoutSection {
         print("Aspect Section")
 
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(1), heightDimension: .fractionalHeight(1)))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(10), heightDimension: .absolute(120)), subitems: [item])
+        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(150), heightDimension: .fractionalHeight(1)))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .estimated(150), heightDimension: .absolute(120)), subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
