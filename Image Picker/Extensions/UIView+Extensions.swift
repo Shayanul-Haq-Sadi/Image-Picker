@@ -52,7 +52,7 @@ extension UIView {
     
     
     
-    func distance(from point: CGPoint/*, to view: UIView*/) -> CGFloat {
+    func distanceFromCenter(to point: CGPoint) -> CGFloat {
         // Get the center of the UIView
         let viewCenter = self.center
         
@@ -64,11 +64,42 @@ extension UIView {
         return hypot(deltaX, deltaY)
     }
     
-}
-
-
-extension CGPoint {
-    func distance(from point: CGPoint) -> CGFloat {
-        return hypot(point.x - self.x, point.y - self.y)
+    enum Edge {
+        case top
+        case bottom
+        case left
+        case right
     }
+    
+    func closestDistance(to point: CGPoint) -> (distance: CGFloat, edge: Edge) {
+        // Get the frame of the view in its superview's coordinate space
+        let viewFrame = self.frame
+        
+        // Calculate distances to each edge
+        let distanceToLeft = abs(point.x - viewFrame.minX)
+        let distanceToRight = abs(point.x - viewFrame.maxX)
+        let distanceToTop = abs(point.y - viewFrame.minY)
+        let distanceToBottom = abs(point.y - viewFrame.maxY)
+        
+        // Determine the minimum distance and corresponding edge
+        let minDistance = min(distanceToLeft, distanceToRight, distanceToTop, distanceToBottom)
+        let closestEdge: Edge
+        
+        switch minDistance {
+            case distanceToLeft:
+                closestEdge = .left
+            case distanceToRight:
+                closestEdge = .right
+            case distanceToTop:
+                closestEdge = .top
+            case distanceToBottom:
+                closestEdge = .bottom
+            default:
+                closestEdge = .top // Default case to avoid uninitialized variable error
+        }
+        
+        return (minDistance, closestEdge)
+    }
+    
+    
 }

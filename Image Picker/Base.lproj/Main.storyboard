@@ -1515,8 +1515,9 @@ Unlock all effects.</string>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xIp-4F-q32">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="xIp-4F-q32" secondAttribute="height" multiplier="1:1" id="EKk-A1-2YO"/>
+                                                    <constraint firstAttribute="width" secondItem="xIp-4F-q32" secondAttribute="height" multiplier="1:1" placeholder="YES" id="EKk-A1-2YO"/>
                                                     <constraint firstAttribute="width" constant="414" id="jw0-E9-otw"/>
+                                                    <constraint firstAttribute="height" constant="414" id="sbi-3E-8vF"/>
                                                 </constraints>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y66-nm-BpS" customClass="CropOverlayView" customModule="Image_Picker" customModuleProvider="target">
@@ -1689,7 +1690,7 @@ Unlock all effects.</string>
                         <outlet property="imageContainerViewAspectRatioConstraint" destination="LKQ-hY-VQu" id="aOc-Qa-iA0"/>
                         <outlet property="imageCropOverlayView" destination="Y66-nm-BpS" id="Vxt-s4-nFz"/>
                         <outlet property="imageView" destination="xIp-4F-q32" id="Wx4-Ar-woZ"/>
-                        <outlet property="imageViewAspectRatioConstraint" destination="EKk-A1-2YO" id="eoV-Sf-Yfi"/>
+                        <outlet property="imageViewHeightConstraint" destination="sbi-3E-8vF" id="lIu-Pv-FUx"/>
                         <outlet property="imageViewHorizontalConstraint" destination="0Kr-0a-cEN" id="H5j-dX-tvm"/>
                         <outlet property="imageViewVerticalConstraint" destination="7AS-8L-CZd" id="Hxg-r5-YFl"/>
                         <outlet property="imageViewWidthConstraint" destination="jw0-E9-otw" id="ZbD-jn-2Oz"/>

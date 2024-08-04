@@ -32,6 +32,7 @@
 		874BC57C2C3A632F00AC8192 /* AspectCellV2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 874BC57A2C3A632F00AC8192 /* AspectCellV2.xib */; };
 		875349672C561B91009E6E65 /* AdLimitView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 875349662C561B91009E6E65 /* AdLimitView.xib */; };
 		875349692C561BA1009E6E65 /* AdLimitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875349682C561BA1009E6E65 /* AdLimitView.swift */; };
+		8753D89B2C5F6DD9002F557A /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D89A2C5F6DD9002F557A /* CGPoint+Extensions.swift */; };
 		87550CB12C464C0D002C2F74 /* Loading 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 87550CB02C464C0D002C2F74 /* Loading 2.png */; };
 		87597C582C3D0F1400ADB059 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87597C572C3D0F1400ADB059 /* UIView+Extensions.swift */; };
 		876548052C0DA047007676BB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876548042C0DA047007676BB /* Constants.swift */; };
@@ -104,6 +105,7 @@
 		874BC57A2C3A632F00AC8192 /* AspectCellV2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AspectCellV2.xib; sourceTree = "<group>"; };
 		875349662C561B91009E6E65 /* AdLimitView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdLimitView.xib; sourceTree = "<group>"; };
 		875349682C561BA1009E6E65 /* AdLimitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdLimitView.swift; sourceTree = "<group>"; };
+		8753D89A2C5F6DD9002F557A /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		87550CB02C464C0D002C2F74 /* Loading 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Loading 2.png"; sourceTree = "<group>"; };
 		87597C572C3D0F1400ADB059 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		876548042C0DA047007676BB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				876FE3082BFB2B19006AFFC7 /* NSLayoutConstraint+Extensions.swift */,
 				876FE30A2BFB2B42006AFFC7 /* UIViewController+Extensions.swift */,
 				87597C572C3D0F1400ADB059 /* UIView+Extensions.swift */,
+				8753D89A2C5F6DD9002F557A /* CGPoint+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				876548052C0DA047007676BB /* Constants.swift in Sources */,
 				8744EE6E2C3E507B00D5B1C7 /* CropOverlayView.swift in Sources */,
 				877934592C08885100FE0073 /* ADViewController.swift in Sources */,
+				8753D89B2C5F6DD9002F557A /* CGPoint+Extensions.swift in Sources */,
 				877934552C084EB800FE0073 /* Enums.swift in Sources */,
 				8733AD5C2C11D32C00635F2F /* DownloadViewControllerV2.swift in Sources */,
 				874BC57B2C3A632F00AC8192 /* AspectCellV2.swift in Sources */,
