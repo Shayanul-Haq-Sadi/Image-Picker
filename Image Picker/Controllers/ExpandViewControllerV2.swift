@@ -539,7 +539,7 @@ class ExpandViewControllerV2: UIViewController {
 
     var viewSize: CGSize!
     var OriginalSize : CGSize!
-    var minScale: CGFloat = 0.5
+    var minScale: CGFloat = 0.25
     var maxScale: CGFloat = 1.0
 
     @objc func pinch(gest:UIPinchGestureRecognizer) {
@@ -989,7 +989,7 @@ class ExpandViewControllerV2: UIViewController {
 
                     // MARK: Height Width Constraints
                     
-                    if imageContainerView.frame.width <= imageContainerView.frame.height {
+                    if imageView.frame.width >= imageView.frame.height {
                         // width small //equal
                         if newWidth <= imageContainerView.frame.width * maxScale {
                             imageViewWidthConstraint.constant = newWidth
@@ -1000,7 +1000,7 @@ class ExpandViewControllerV2: UIViewController {
                             imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
                         }
                     }
-                    else if imageContainerView.frame.height < imageContainerView.frame.width {
+                    else if imageView.frame.height > imageView.frame.width {
                         // height small
                         if newHeight <= imageContainerView.frame.height * maxScale {
                             imageViewWidthConstraint.constant = newWidth
