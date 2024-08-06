@@ -991,24 +991,48 @@ class ExpandViewControllerV2: UIViewController {
                     
                     if imageView.frame.width >= imageView.frame.height {
                         // width small //equal
-                        if newWidth <= imageContainerView.frame.width * maxScale {
-                            imageViewWidthConstraint.constant = newWidth
-                            imageViewHeightConstraint.constant = newHeight
+                        
+                        if imageContainerView.frame.size.width>imageContainerView.frame.size.height {
+                            if newHeight <= imageContainerView.frame.height * maxScale {
+                                imageViewWidthConstraint.constant = newWidth
+                                imageViewHeightConstraint.constant = newHeight
+                            } else {
+                                // max height manual
+                                imageViewHeightConstraint.constant = imageContainerView.frame.height
+                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
+                            }
                         } else {
-                            // max width manual
-                            imageViewWidthConstraint.constant = imageContainerView.frame.width
-                            imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
+                            if newWidth <= imageContainerView.frame.width * maxScale {
+                                imageViewWidthConstraint.constant = newWidth
+                                imageViewHeightConstraint.constant = newHeight
+                            } else {
+                                // max width manual
+                                imageViewWidthConstraint.constant = imageContainerView.frame.width
+                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
+                            }
                         }
+                        
                     }
                     else if imageView.frame.height > imageView.frame.width {
                         // height small
-                        if newHeight <= imageContainerView.frame.height * maxScale {
-                            imageViewWidthConstraint.constant = newWidth
-                            imageViewHeightConstraint.constant = newHeight
-                        } else {
-                            // max height manual
-                            imageViewHeightConstraint.constant = imageContainerView.frame.height
-                            imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
+                        if imageContainerView.frame.size.width<imageContainerView.frame.size.height {
+                            if newWidth <= imageContainerView.frame.width * maxScale {
+                                imageViewWidthConstraint.constant = newWidth
+                                imageViewHeightConstraint.constant = newHeight
+                            } else {
+                                // max height manual
+                                imageViewWidthConstraint.constant = imageContainerView.frame.width
+                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
+                            }
+                        }else{
+                            if newHeight <= imageContainerView.frame.height * maxScale {
+                                imageViewWidthConstraint.constant = newWidth
+                                imageViewHeightConstraint.constant = newHeight
+                            } else {
+                                // max height manual
+                                imageViewHeightConstraint.constant = imageContainerView.frame.height
+                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
+                            }
                         }
                     }
                     
