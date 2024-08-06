@@ -989,52 +989,62 @@ class ExpandViewControllerV2: UIViewController {
 
                     // MARK: Height Width Constraints
                     
-                    if imageView.frame.width >= imageView.frame.height {
-                        // width small //equal
-                        
-                        if imageContainerView.frame.size.width>imageContainerView.frame.size.height {
-                            if newHeight <= imageContainerView.frame.height * maxScale {
-                                imageViewWidthConstraint.constant = newWidth
-                                imageViewHeightConstraint.constant = newHeight
-                            } else {
-                                // max height manual
-                                imageViewHeightConstraint.constant = imageContainerView.frame.height
-                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
-                            }
-                        } else {
-                            if newWidth <= imageContainerView.frame.width * maxScale {
-                                imageViewWidthConstraint.constant = newWidth
-                                imageViewHeightConstraint.constant = newHeight
-                            } else {
-                                // max width manual
-                                imageViewWidthConstraint.constant = imageContainerView.frame.width
-                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
-                            }
-                        }
-                        
+                    if (newHeight <= imageContainerView.frame.height * maxScale && newWidth <= imageContainerView.frame.width * maxScale) {
+                        imageViewHeightConstraint.constant = newHeight
+                        imageViewWidthConstraint.constant = newWidth
+                    }else{
+                        let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: self.imageContainerView.bounds)
+                        imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
+                        imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
+
                     }
-                    else if imageView.frame.height > imageView.frame.width {
-                        // height small
-                        if imageContainerView.frame.size.width<imageContainerView.frame.size.height {
-                            if newWidth <= imageContainerView.frame.width * maxScale {
-                                imageViewWidthConstraint.constant = newWidth
-                                imageViewHeightConstraint.constant = newHeight
-                            } else {
-                                // max height manual
-                                imageViewWidthConstraint.constant = imageContainerView.frame.width
-                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
-                            }
-                        }else{
-                            if newHeight <= imageContainerView.frame.height * maxScale {
-                                imageViewWidthConstraint.constant = newWidth
-                                imageViewHeightConstraint.constant = newHeight
-                            } else {
-                                // max height manual
-                                imageViewHeightConstraint.constant = imageContainerView.frame.height
-                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
-                            }
-                        }
-                    }
+                                        
+//                    if imageView.frame.width >= imageView.frame.height {
+//                        // width small //equal
+//                        
+//                        if imageContainerView.frame.size.width>imageContainerView.frame.size.height {
+//                            if newHeight <= imageContainerView.frame.height * maxScale {
+//                                imageViewWidthConstraint.constant = newWidth
+//                                imageViewHeightConstraint.constant = newHeight
+//                            } else {
+//                                // max height manual
+//                                imageViewHeightConstraint.constant = imageContainerView.frame.height
+//                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
+//                            }
+//                        } else {
+//                            if newWidth <= imageContainerView.frame.width * maxScale {
+//                                imageViewWidthConstraint.constant = newWidth
+//                                imageViewHeightConstraint.constant = newHeight
+//                            } else {
+//                                // max width manual
+//                                imageViewWidthConstraint.constant = imageContainerView.frame.width
+//                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
+//                            }
+//                        }
+//                        
+//                    }
+//                    else if imageView.frame.height > imageView.frame.width {
+//                        // height small
+//                        if imageContainerView.frame.size.width<imageContainerView.frame.size.height {
+//                            if newWidth <= imageContainerView.frame.width * maxScale {
+//                                imageViewWidthConstraint.constant = newWidth
+//                                imageViewHeightConstraint.constant = newHeight
+//                            } else {
+//                                // max height manual
+//                                imageViewWidthConstraint.constant = imageContainerView.frame.width
+//                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
+//                            }
+//                        }else{
+//                            if newHeight <= imageContainerView.frame.height * maxScale {
+//                                imageViewWidthConstraint.constant = newWidth
+//                                imageViewHeightConstraint.constant = newHeight
+//                            } else {
+//                                // max height manual
+//                                imageViewHeightConstraint.constant = imageContainerView.frame.height
+//                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
+//                            }
+//                        }
+//                    }
                     
                     
                     // MARK: Center Constaints
@@ -1234,8 +1244,12 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
             if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex), indexPath.item == selectedAppIndex, aspectData.count > selectedAspectIndex, selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased() {
                 
                 print("aspectData ", aspectData.count, " selectedAspectIndex ", selectedAspectIndex)
-                
-                aspectCollectionView.selectItem(at: IndexPath(item: selectedAspectIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+                self.aspectCollectionView.performBatchUpdates {
+                    self.aspectCollectionView.selectItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+                } completion: { _ in
+                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: false)
+
+                }
             }
         }
         
