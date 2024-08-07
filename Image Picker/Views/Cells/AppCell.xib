@@ -11,23 +11,23 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AppCell" id="gTV-IL-0wX" customClass="AppCell" customModule="Image_Picker" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="141" height="40"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <rect key="frame" x="0.0" y="0.0" width="141" height="30"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="141" height="40"/>
+                <rect key="frame" x="0.0" y="0.0" width="141" height="30"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s5Y-0L-Zc9">
-                        <rect key="frame" x="0.0" y="0.0" width="141" height="40"/>
+                        <rect key="frame" x="0.0" y="0.0" width="141" height="30"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uq1-kL-3qw">
-                                <rect key="frame" x="16" y="4" width="109" height="32"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uq1-kL-3qw">
+                                <rect key="frame" x="0.0" y="4" width="141" height="22"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihj-sb-Yyr">
-                                <rect key="frame" x="60.666666666666657" y="38" width="20" height="2"/>
+                                <rect key="frame" x="60.666666666666657" y="28" width="20" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="AMh-3M-aRy"/>
@@ -36,12 +36,12 @@
                             </view>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="ihj-sb-Yyr" firstAttribute="top" secondItem="Uq1-kL-3qw" secondAttribute="bottom" constant="2" id="2xZ-6K-XSv"/>
                             <constraint firstItem="ihj-sb-Yyr" firstAttribute="centerX" secondItem="s5Y-0L-Zc9" secondAttribute="centerX" id="MOQ-sf-bx2"/>
                             <constraint firstItem="Uq1-kL-3qw" firstAttribute="top" secondItem="s5Y-0L-Zc9" secondAttribute="top" constant="4" id="Mt2-uC-crK"/>
-                            <constraint firstItem="Uq1-kL-3qw" firstAttribute="leading" secondItem="s5Y-0L-Zc9" secondAttribute="leading" constant="16" id="dGY-3U-vS8"/>
+                            <constraint firstItem="Uq1-kL-3qw" firstAttribute="leading" secondItem="s5Y-0L-Zc9" secondAttribute="leading" id="dGY-3U-vS8"/>
                             <constraint firstAttribute="bottom" secondItem="ihj-sb-Yyr" secondAttribute="bottom" id="kAr-MU-NXn"/>
-                            <constraint firstAttribute="bottom" secondItem="Uq1-kL-3qw" secondAttribute="bottom" constant="4" id="t6j-4X-g4E"/>
-                            <constraint firstAttribute="trailing" secondItem="Uq1-kL-3qw" secondAttribute="trailing" constant="16" id="xww-UH-IlA"/>
+                            <constraint firstAttribute="trailing" secondItem="Uq1-kL-3qw" secondAttribute="trailing" id="xww-UH-IlA"/>
                         </constraints>
                     </view>
                 </subviews>

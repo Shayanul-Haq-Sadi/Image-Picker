@@ -233,6 +233,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isScrollEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
 //        collectionView.contentInset = calculateInset(cellCount: cellCount)
         collectionView.backgroundColor = UIColor(red: 0.09, green: 0.1, blue: 0.11, alpha: 1)
@@ -322,7 +323,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
 //        let emptySpace = self.downloadContainerView.frame.width - CGFloat(allCellWidth)
         let sideInset: CGFloat = emptySpace / 2
         
-        return UIEdgeInsets(top: 20, left: max(sideInset, 8), bottom: 20, right: max(sideInset, 8))
+        return UIEdgeInsets(top: 20, left: max(sideInset, 22), bottom: 20, right: max(sideInset, 22))
     }
     
     private func checkSizes() {

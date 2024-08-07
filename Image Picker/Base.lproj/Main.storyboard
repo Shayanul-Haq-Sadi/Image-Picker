@@ -1286,7 +1286,7 @@ Unlock all effects.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDITOR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dTt-gM-rev">
-                                <rect key="frame" x="119.66666666666669" y="419.66666666666669" width="175" height="57"/>
+                                <rect key="frame" x="119.66666666666667" y="419.33333333333331" width="174.66666666666663" height="57.333333333333314"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-HeavyItalic" family="SF Pro Display" pointSize="48"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1575,7 +1575,7 @@ Unlock all effects.</string>
                                 <rect key="frame" x="0.0" y="613.33333333333337" width="414" height="198"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QM7-oa-7CI">
-                                        <rect key="frame" x="0.0" y="4" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="11" width="414" height="30"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RWr-yP-gS0">
@@ -1589,9 +1589,9 @@ Unlock all effects.</string>
                                 <color key="backgroundColor" red="0.094117648900000003" green="0.098039209840000002" blue="0.109803915" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="RWr-yP-gS0" secondAttribute="trailing" id="FDy-lI-WI0"/>
-                                    <constraint firstItem="QM7-oa-7CI" firstAttribute="top" secondItem="bif-U4-14B" secondAttribute="top" constant="4" id="Io2-vp-IpX"/>
+                                    <constraint firstItem="QM7-oa-7CI" firstAttribute="top" secondItem="bif-U4-14B" secondAttribute="top" constant="11" id="Io2-vp-IpX"/>
                                     <constraint firstAttribute="height" constant="198" id="JaX-5h-1yO"/>
-                                    <constraint firstItem="RWr-yP-gS0" firstAttribute="top" secondItem="QM7-oa-7CI" secondAttribute="bottom" constant="10" id="QCV-zc-emW"/>
+                                    <constraint firstItem="RWr-yP-gS0" firstAttribute="top" secondItem="QM7-oa-7CI" secondAttribute="bottom" constant="17" id="QCV-zc-emW"/>
                                     <constraint firstItem="QM7-oa-7CI" firstAttribute="leading" secondItem="bif-U4-14B" secondAttribute="leading" id="nSi-YY-cgm"/>
                                     <constraint firstAttribute="trailing" secondItem="QM7-oa-7CI" secondAttribute="trailing" id="p21-9Y-6h0"/>
                                     <constraint firstItem="RWr-yP-gS0" firstAttribute="leading" secondItem="bif-U4-14B" secondAttribute="leading" id="qak-KG-mqE"/>
@@ -1788,13 +1788,13 @@ Unlock all effects.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

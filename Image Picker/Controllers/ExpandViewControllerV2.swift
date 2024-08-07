@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+
 class ExpandViewControllerV2: UIViewController {
     
     static let identifier = "ExpandViewControllerV2"
@@ -73,14 +74,15 @@ class ExpandViewControllerV2: UIViewController {
 
     private var selectedAppIndex: Int = 0
     private var selectedAspectIndex: Int = 0
-    
     private var selectedUniqueAspectIdentifier: String!
     
     private var generator : UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
     
+    private var isSetupDone: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+//        setupUI()
         bindData()
         addGestures()
         loadCollectionViews()
@@ -101,6 +103,14 @@ class ExpandViewControllerV2: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        if !isSetupDone {
+            setupUI() // bool check for the first timer
+            isSetupDone = true
+        }
     }
     
     private func setupUI() {
@@ -137,31 +147,47 @@ class ExpandViewControllerV2: UIViewController {
     
     private func addGestures() {
         let pinches = UIPinchGestureRecognizer(target: self, action: #selector(pinchV4))
+        pinches.delegate = self
         imageContainerView.addGestureRecognizer(pinches)
         
         let drags = UIPanGestureRecognizer(target: self, action: #selector(drag))
+        drags.delegate = self
         imageContainerView.addGestureRecognizer(drags)
     }
     
     private func loadCollectionViews() {
-        appCollectionView = UICollectionView(frame: appContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.appLayout)
+        let appLayout = UICollectionViewFlowLayout()
+        appLayout.scrollDirection = .horizontal
+        appLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
+        
+        appCollectionView = UICollectionView(frame: appContainerView.bounds, collectionViewLayout: appLayout)
+        
+//        appCollectionView = UICollectionView(frame: appContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.appLayout)
         appCollectionView.register(UINib(nibName: "AppCell", bundle: nil), forCellWithReuseIdentifier: AppCell.identifier)
         appCollectionView.delegate = self
         appCollectionView.dataSource = self
-        appCollectionView.isScrollEnabled = false
+        appCollectionView.isScrollEnabled = true
+        appCollectionView.showsHorizontalScrollIndicator = false
         appCollectionView.allowsMultipleSelection = false
-        appCollectionView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 0)
+//        appCollectionView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 0)
         appCollectionView.backgroundColor = UIColor(red: 0.094, green: 0.098, blue: 0.110, alpha: 1)
 
         appContainerView.addSubview(appCollectionView)
         appCollectionView.selectItem(at: IndexPath(item: selectedAppIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
         
-                
-        aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.aspectLayout)
+        
+        let aspectLayout = UICollectionViewFlowLayout()
+        aspectLayout.scrollDirection = .horizontal
+        aspectLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
+        
+        aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: aspectLayout)
+        
+//        aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.aspectLayout)
         aspectCollectionView.register(UINib(nibName: "AspectCellV2", bundle: nil), forCellWithReuseIdentifier: AspectCellV2.identifier)
         aspectCollectionView.delegate = self
         aspectCollectionView.dataSource = self
-        aspectCollectionView.isScrollEnabled = false
+        aspectCollectionView.isScrollEnabled = true
+        aspectCollectionView.showsHorizontalScrollIndicator = false
         aspectCollectionView.allowsMultipleSelection = false
         aspectCollectionView.backgroundColor = UIColor(red: 0.094, green: 0.098, blue: 0.110, alpha: 1)
         
@@ -492,8 +518,8 @@ class ExpandViewControllerV2: UIViewController {
 
     }
     
-    var initalOffSet: CGPoint! = CGPoint(x: 0, y: 0)
-    var lastOffSet: CGPoint! = CGPoint(x: 0, y: 0)
+    private var initalOffSet: CGPoint! = CGPoint(x: 0, y: 0)
+    private var lastOffSet: CGPoint! = CGPoint(x: 0, y: 0)
     
     @objc func drag(gest:UIPanGestureRecognizer) {
         self.view.layoutIfNeeded()
@@ -508,8 +534,8 @@ class ExpandViewControllerV2: UIViewController {
             let newX = initalOffSet.x + translation.x
             let newY = initalOffSet.y + translation.y
             
-            print("initalOffSet.x ", initalOffSet.x, " initalOffSet.y ", initalOffSet.y)
-            print("newX ", newX, " newY ", newY)
+//            print("initalOffSet.x ", initalOffSet.x, " initalOffSet.y ", initalOffSet.y)
+//            print("newX ", newX, " newY ", newY)
             
             let boundX = (imageContainerView.frame.width - imageView.frame.width)/2
             let boundY = (imageContainerView.frame.height - imageView.frame.height)/2
@@ -519,7 +545,6 @@ class ExpandViewControllerV2: UIViewController {
             imageViewVerticalConstraint.constant = min(max(newY, -boundY), boundY)
             
             print("Horizontal ", imageViewHorizontalConstraint.constant, " Vertical ", imageViewVerticalConstraint.constant)
-            
             
             alignmentVisibility()
             self.view.layoutIfNeeded()
@@ -537,129 +562,10 @@ class ExpandViewControllerV2: UIViewController {
         
     }
 
-    var viewSize: CGSize!
-    var OriginalSize : CGSize!
-    var minScale: CGFloat = 0.25
-    var maxScale: CGFloat = 1.0
-
-    @objc func pinch(gest:UIPinchGestureRecognizer) {
-        self.view.layoutIfNeeded()
-        let scale = gest.scale
-        switch (gest.state) {
-        case .began:
-//            viewSize = CGSize(width: imageViewWidthConstraint.constant, height: imageView.frame.size.height)
-            viewSize = CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height)
-            break
-            
-        case .changed:
-            let boundX = (imageContainerView.frame.width - imageView.frame.width)/2
-            let boundY = (imageContainerView.frame.height - imageView.frame.height)/2
-            
-            
-            let newX = imageViewHorizontalConstraint.constant * scale
-            let newY = imageViewVerticalConstraint.constant * scale
-//            
-            
-            if let edgeDistances = imageView.edgeDistancesToSuperview() {
-                print("top ", edgeDistances.top, " bottom ", edgeDistances.bottom, " leading ", edgeDistances.leading, " trailing ", edgeDistances.trailing)
-
-                if abs(imageViewHorizontalConstraint.constant) <= abs(boundX) || abs(imageViewVerticalConstraint.constant) <= abs(boundY) {
-                    
-                    if scale > 1.0 {
-                        
-                        if (edgeDistances.top <= 0 && edgeDistances.leading <= 0) || (edgeDistances.top <= 0 && edgeDistances.trailing <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.leading <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.trailing <= 0) {
-                            // any two sides // corners touching
-                            imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                            imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                            
-                        }
-                        
-                        else if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 || edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                            // any side touching
-                            if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 {
-                                // vartical
-                                if edgeDistances.top <= 0 {
-                                    imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                }
-                                else if edgeDistances.bottom <= 0 {
-                                    imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                }
-                            }
-                            else if edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                                // horizontal
-                                if edgeDistances.leading <= 0 {
-                                    imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                                }
-                                else if edgeDistances.trailing <= 0 {
-                                    imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                                }
-                            }
-                        }
-                        else if edgeDistances.top <= 0 && edgeDistances.bottom <= 0 && edgeDistances.leading <= 0 && edgeDistances.trailing <= 0 {
-                            // all side touching //center
-                            imageViewHorizontalConstraint.constant = 0
-                            imageViewVerticalConstraint.constant = 0
-                        }
-                        else if edgeDistances.top > 0 && edgeDistances.bottom > 0 && edgeDistances.leading > 0 && edgeDistances.trailing > 0 {
-                            imageViewHorizontalConstraint.constant = imageViewHorizontalConstraint.constant
-                            imageViewVerticalConstraint.constant = imageViewVerticalConstraint.constant
-                        }
-                    }
-                }
-                else {
-                    // out of boundary
-                }
-                
-                
-                
-                
-                
-////                if edgeDistances.top != 0 && edgeDistances.bottom != 0 && edgeDistances.leading != 0 && edgeDistances.trailing != 0 {
-//                    // not all edge touvhing container . for initial fit config
-//                    
-//                    if edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-//                        imageViewHorizontalConstraint.constant = (temp.x + newX)
-////                        imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-////                        imageViewHorizontalConstraint.constant = max((imageViewHorizontalConstraint.constant + newX), temp.x)
-//                    } else {
-//                        imageViewHorizontalConstraint.constant = temp.x
-//                    }
-//                
-//                    if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 {
-//                        imageViewVerticalConstraint.constant = (temp.y + newY)
-////                        imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-////                        imageViewVerticalConstraint.constant = max((imageViewVerticalConstraint.constant + newY), temp.y)
-//                    } else {
-//                        imageViewVerticalConstraint.constant = temp.y
-//                    }
-//                
-////                }
-                
-            }
-            
-            
-            print (" ++ imageViewHorizontalConstraint.constant ", imageViewHorizontalConstraint.constant)
-
-            let newWidth = viewSize.width * scale
-            print("               newWidth", newWidth)
-            if newWidth >= OriginalSize.width * minScale {
-                imageViewWidthConstraint.constant = newWidth
-            }
-            
-            alignmentVisibility()
-            
-            self.view.layoutIfNeeded()
-            break
-            
-        case .ended:
-            updateAlignment()
-            break
-            
-        default:
-            break
-        }
-    }
-    
+    private var viewSize: CGSize!
+    private var OriginalSize : CGSize!
+    private var minScale: CGFloat = 0.5
+    private var maxScale: CGFloat = 1.0
     
     func pointDistance(from point1: CGPoint, to point2: CGPoint) -> CGFloat {        
         // Calculate the differences in x and y
@@ -670,305 +576,12 @@ class ExpandViewControllerV2: UIViewController {
         return hypot(deltaX, deltaY)
     }
     
-    
-    @objc func pinchV2(gest:UIPinchGestureRecognizer) {
-        self.view.layoutIfNeeded()
-        let scale = gest.scale
-        switch (gest.state) {
-        case .began:
-            viewSize = CGSize(width: imageViewWidthConstraint.constant, height: imageView.frame.size.height)
-            initialCenter = CGPoint(x: imageViewHorizontalConstraint.constant, y: imageViewVerticalConstraint.constant)
-            print(" ++++    initialCenter X", initialCenter.x, " initialCenter y ", initialCenter.y)
-
-            break
-            
-        case .changed:
-            let boundX = (imageContainerView.frame.width - imageView.frame.width)/2
-            let boundY = (imageContainerView.frame.height - imageView.frame.height)/2
-            
-            let newX = initialCenter.x * scale
-            let newY = initialCenter.y * scale
-            let newWidth = viewSize.width * scale
-            
-            let finalX = abs(newX - initialCenter.x)
-            let finalY = abs(newY - initialCenter.y)
-            
-            
-
-//            print(" ####    boundX ", boundX, " boundY ", boundY)
-//            print(" ++++    imageViewHorizontalConstraint.constant ", imageViewHorizontalConstraint.constant + newX)
-//            print(" ++++    imageViewVerticalConstraint.constant ", imageViewVerticalConstraint.constant + newY)
-//            print(" ++++    newWidth ", newWidth, " newX ", newX, " newY ", newY)
-            print(" ++++    finalX ", finalX, " finalY ", finalY)
-
-            if newWidth >= OriginalSize.width * minScale && newWidth < OriginalSize.width * 1.0 {
-
-                imageViewWidthConstraint.constant = newWidth
-                
-                if let edgeDistances = imageView.edgeDistancesToSuperview() {
-
-//                    if abs(imageViewHorizontalConstraint.constant) < abs(boundX) || abs(imageViewVerticalConstraint.constant) < abs(boundY) {
-                    if imageContainerView.frame.size.height >= imageView.frame.size.height && imageContainerView.frame.size.width >= imageView.frame.size.width {
-                        
-                        
-                        if scale > 1.0 { // zoom in
-                            
-                            if (edgeDistances.top <= 0 && edgeDistances.leading <= 0) || (edgeDistances.top <= 0 && edgeDistances.trailing <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.leading <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.trailing <= 0) {
-                                // any two sides // corners touching
-                                
-                                if (edgeDistances.top <= 0 && edgeDistances.leading <= 0) {
-                                    if imageViewHorizontalConstraint.constant != 0 {
-                                        imageViewHorizontalConstraint.constant = initialCenter.x + finalX
-                                    }
-                                    if imageViewVerticalConstraint.constant != 0 {
-                                        imageViewVerticalConstraint.constant = initialCenter.y + finalY
-                                    }
-                                }
-                                else if (edgeDistances.top <= 0 && edgeDistances.trailing <= 0) {
-                                    if imageViewHorizontalConstraint.constant != 0 {
-                                        imageViewHorizontalConstraint.constant = initialCenter.x - finalX
-                                    }
-                                    
-                                    if imageViewVerticalConstraint.constant != 0 {
-                                        imageViewVerticalConstraint.constant = initialCenter.y + finalY
-                                    }
-                                }
-                                else if (edgeDistances.bottom <= 0 && edgeDistances.leading <= 0) {
-                                    
-                                    if imageViewHorizontalConstraint.constant != 0 {
-                                        imageViewHorizontalConstraint.constant = initialCenter.x + finalX
-                                    }
-                                    if imageViewVerticalConstraint.constant != 0 {
-                                        imageViewVerticalConstraint.constant = initialCenter.y - finalY
-                                    }
-                                }
-                                else if (edgeDistances.bottom <= 0 && edgeDistances.trailing <= 0) {
-                                    if imageViewHorizontalConstraint.constant != 0 {
-                                        imageViewHorizontalConstraint.constant = initialCenter.x - finalX
-                                    }
-                                    if imageViewVerticalConstraint.constant != 0 {
-                                        imageViewVerticalConstraint.constant = initialCenter.y - finalY
-                                    }
-                                }
-                            }
-                            
-                            else if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 || edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                                // any side touching
-                                if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 {
-                                    // vartical
-                                    if imageViewVerticalConstraint.constant != 0 {
-                                        if edgeDistances.top <= 0 {
-                                            imageViewVerticalConstraint.constant = initialCenter.y + finalY
-                                        }
-                                        else if edgeDistances.bottom <= 0 {
-                                            imageViewVerticalConstraint.constant = initialCenter.y - finalY
-                                        }
-                                    }
-                                }
-                                else if edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                                    // horizontal
-                                    if imageViewHorizontalConstraint.constant != 0 {
-                                        if edgeDistances.leading <= 0 {
-                                            imageViewHorizontalConstraint.constant = initialCenter.x + finalX
-                                        }
-                                        else if edgeDistances.trailing <= 0 {
-                                            imageViewHorizontalConstraint.constant = initialCenter.x - finalX
-                                        }
-                                    }
-                                }
-                            }
-                            else if edgeDistances.top <= 0 && edgeDistances.bottom <= 0 && edgeDistances.leading <= 0 && edgeDistances.trailing <= 0 {
-                                // all side touching //center
-                                imageViewHorizontalConstraint.constant = 0
-                                imageViewVerticalConstraint.constant = 0
-                            }
-                            
-                        }
-                        else {
-                            // zoom out
-    //                            imageViewWidthConstraint.constant = newWidth
-                        }
-                    }
-//                    }
-//                    else {
-//                        // out of boundary
-//    
-//                    }
-//                    
-                    
-                    
-                }
-            }
-            
-            
-            
-            print(" ----    imageViewHorizontalConstraint.constant ", imageViewHorizontalConstraint.constant)
-            print(" ----    imageViewVerticalConstraint.constant ", imageViewVerticalConstraint.constant)
-            print(" ----    imageViewWidthConstraint.constant ",  imageViewWidthConstraint.constant)
-            
-            alignmentVisibility()
-            
-            self.view.layoutIfNeeded()
-            break
-            
-        case .ended:
-            updateAlignment()
-            break
-            
-        default:
-            break
-        }
-    }
-    
-    
-    
-    
-    @objc func pinchV3(gest:UIPinchGestureRecognizer) {
-        self.view.layoutIfNeeded()
-        let scale = gest.scale
-        switch (gest.state) {
-        case .began:
-            viewSize = CGSize(width: imageViewWidthConstraint.constant, height: imageView.frame.size.height)
-            break
-            
-        case .changed:
-            let boundX = (imageContainerView.frame.width - imageView.frame.width)/2
-            let boundY = (imageContainerView.frame.height - imageView.frame.height)/2
-            
-            let newX = imageViewHorizontalConstraint.constant * scale
-            let newY = imageViewVerticalConstraint.constant * scale
-            let newWidth = viewSize.width * scale
-                        
-            
-            print(" ####    boundX ", boundX, " boundY ", boundY)
-            print(" ++++    imageViewHorizontalConstraint.constant ", imageViewHorizontalConstraint.constant + newX)
-            print(" ++++    imageViewVerticalConstraint.constant ", imageViewVerticalConstraint.constant + newY)
-            print(" ++++    newWidth ", newWidth, " newX ", newX, " newY ", newY)
-
-            if newWidth >= OriginalSize.width * minScale {
-                
-                
-                if let edgeDistances = imageView.edgeDistancesToSuperview() {
-                    print("top ", edgeDistances.top, " bottom ", edgeDistances.bottom, " leading ", edgeDistances.leading, " trailing ", edgeDistances.trailing)
-
-
-                        if scale > 1.0 { // zoom in
-                            
-                            if (edgeDistances.top <= 0 && edgeDistances.leading <= 0) || (edgeDistances.top <= 0 && edgeDistances.trailing <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.leading <= 0) || (edgeDistances.bottom <= 0 && edgeDistances.trailing <= 0) {
-                                // any two sides // corners touching
-//                                imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-//                                imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                if abs(imageViewHorizontalConstraint.constant) <= abs(boundX) {
-//                                    imageViewHorizontalConstraint.constant = (newX)
-                                    imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                                }
-                                
-                                if abs(imageViewVerticalConstraint.constant) <= abs(boundY) {
-//                                    imageViewVerticalConstraint.constant = (newY)
-                                    imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                }
-                                
-                                imageViewWidthConstraint.constant = newWidth
-                            }
-                            
-                            else if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 || edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                                // any side touching
-                                if edgeDistances.top <= 0 || edgeDistances.bottom <= 0 {
-                                    // vartical
-                                    if edgeDistances.top <= 0 {
-                                        if abs(imageViewVerticalConstraint.constant) <= abs(boundY) {
-                                            imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                        }
-                                    }
-                                    else if edgeDistances.bottom <= 0 {
-                                        if abs(imageViewVerticalConstraint.constant) <= abs(boundY) {
-                                            imageViewVerticalConstraint.constant = (imageViewVerticalConstraint.constant + newY)
-                                        }
-                                    }
-                                    
-                                    imageViewWidthConstraint.constant = newWidth
-                                }
-                                else if edgeDistances.leading <= 0 || edgeDistances.trailing <= 0 {
-                                    // horizontal
-                                    if edgeDistances.leading <= 0 {
-                                        if abs(imageViewHorizontalConstraint.constant) <= abs(boundX) {
-                                            imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                                        }
-                                    }
-                                    else if edgeDistances.trailing <= 0 {
-                                        if abs(imageViewHorizontalConstraint.constant) <= abs(boundX) {
-                                            imageViewHorizontalConstraint.constant = (imageViewHorizontalConstraint.constant + newX)
-                                        }
-                                    }
-                                    
-                                    imageViewWidthConstraint.constant = newWidth
-                                }
-                            }
-                            else if edgeDistances.top <= 0 && edgeDistances.bottom <= 0 && edgeDistances.leading <= 0 && edgeDistances.trailing <= 0 {
-                                // all side touching //center
-                                imageViewHorizontalConstraint.constant = 0
-                                imageViewVerticalConstraint.constant = 0
-                            }
-                            else if edgeDistances.top > 0 && edgeDistances.bottom > 0 && edgeDistances.leading > 0 && edgeDistances.trailing > 0 {
-                                // all side inside bounds
-                                imageViewHorizontalConstraint.constant = imageViewHorizontalConstraint.constant
-                                imageViewVerticalConstraint.constant = imageViewVerticalConstraint.constant
-                                imageViewWidthConstraint.constant = newWidth
-                            }
-                            else {
-                                imageViewHorizontalConstraint.constant = imageViewHorizontalConstraint.constant
-                                imageViewVerticalConstraint.constant = imageViewVerticalConstraint.constant
-                            }
-                        }
-                        else {
-                            // zoom out
-                            imageViewWidthConstraint.constant = newWidth
-                        }
-                    
-//                    }
-//                    else {
-//                        // out of boundary
-//
-//                    }
-                    
-                    
-                    
-                }
-            }
-            
-            
-            
-            print(" ----    imageViewHorizontalConstraint.constant ", imageViewHorizontalConstraint.constant)
-            print(" ----    imageViewVerticalConstraint.constant ", imageViewVerticalConstraint.constant)
-            print(" ----    imageViewWidthConstraint.constant ",  imageViewWidthConstraint.constant)
-            
-            alignmentVisibility()
-            
-            self.view.layoutIfNeeded()
-            break
-            
-        case .ended:
-            updateAlignment()
-            break
-            
-        default:
-            break
-        }
-    }
-    
-    
-    
-    
-    
-    var initialCenter: CGPoint = CGPoint(x: 0, y: 0)
-    
     @objc func pinchV4(gest:UIPinchGestureRecognizer) {
         self.view.layoutIfNeeded()
         let scale = gest.scale
         switch (gest.state) {
         case .began:
             viewSize = CGSize(width: imageViewWidthConstraint.constant, height: imageViewHeightConstraint.constant)
-
             break
             
         case .changed:
@@ -989,62 +602,14 @@ class ExpandViewControllerV2: UIViewController {
 
                     // MARK: Height Width Constraints
                     
-                    if (newHeight <= imageContainerView.frame.height * maxScale && newWidth <= imageContainerView.frame.width * maxScale) {
+                    if (newHeight < imageContainerView.frame.height * maxScale && newWidth < imageContainerView.frame.width * maxScale) {
                         imageViewHeightConstraint.constant = newHeight
                         imageViewWidthConstraint.constant = newWidth
-                    }else{
+                    } else {
                         let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: self.imageContainerView.bounds)
                         imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
                         imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
-
                     }
-                                        
-//                    if imageView.frame.width >= imageView.frame.height {
-//                        // width small //equal
-//                        
-//                        if imageContainerView.frame.size.width>imageContainerView.frame.size.height {
-//                            if newHeight <= imageContainerView.frame.height * maxScale {
-//                                imageViewWidthConstraint.constant = newWidth
-//                                imageViewHeightConstraint.constant = newHeight
-//                            } else {
-//                                // max height manual
-//                                imageViewHeightConstraint.constant = imageContainerView.frame.height
-//                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
-//                            }
-//                        } else {
-//                            if newWidth <= imageContainerView.frame.width * maxScale {
-//                                imageViewWidthConstraint.constant = newWidth
-//                                imageViewHeightConstraint.constant = newHeight
-//                            } else {
-//                                // max width manual
-//                                imageViewWidthConstraint.constant = imageContainerView.frame.width
-//                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
-//                            }
-//                        }
-//                        
-//                    }
-//                    else if imageView.frame.height > imageView.frame.width {
-//                        // height small
-//                        if imageContainerView.frame.size.width<imageContainerView.frame.size.height {
-//                            if newWidth <= imageContainerView.frame.width * maxScale {
-//                                imageViewWidthConstraint.constant = newWidth
-//                                imageViewHeightConstraint.constant = newHeight
-//                            } else {
-//                                // max height manual
-//                                imageViewWidthConstraint.constant = imageContainerView.frame.width
-//                                imageViewHeightConstraint.constant = imageViewWidthConstraint.constant * (1/(pickedImage.size.width/pickedImage.size.height))
-//                            }
-//                        }else{
-//                            if newHeight <= imageContainerView.frame.height * maxScale {
-//                                imageViewWidthConstraint.constant = newWidth
-//                                imageViewHeightConstraint.constant = newHeight
-//                            } else {
-//                                // max height manual
-//                                imageViewHeightConstraint.constant = imageContainerView.frame.height
-//                                imageViewWidthConstraint.constant = imageViewHeightConstraint.constant * (pickedImage.size.width/pickedImage.size.height)
-//                            }
-//                        }
-//                    }
                     
                     
                     // MARK: Center Constaints
@@ -1136,14 +701,14 @@ class ExpandViewControllerV2: UIViewController {
                     
                     if imageContainerView.frame.width >= imageContainerView.frame.height {
                         // width big //equal
-                        if newWidth >= OriginalSize.width * minScale {
+                        if newWidth > OriginalSize.width * minScale {
                             imageViewWidthConstraint.constant = newWidth
                             imageViewHeightConstraint.constant = newHeight
                         }
                     }
                     else if imageContainerView.frame.height > imageContainerView.frame.width {
                         // height big
-                        if newHeight >= OriginalSize.height * minScale {
+                        if newHeight > OriginalSize.height * minScale {
                             imageViewWidthConstraint.constant = newWidth
                             imageViewHeightConstraint.constant = newHeight
                         }
@@ -1173,9 +738,6 @@ class ExpandViewControllerV2: UIViewController {
             break
         }
     }
-    
-    
-    
     
     @IBAction func apiButtonPressed(_ sender: Any) {
         if PurchaseManager.shared.isPremiumUser { // premium
@@ -1224,7 +786,6 @@ extension ExpandViewControllerV2: UICollectionViewDataSource {
                         
             if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
                 cell.setup(selectedImage: aspectData[indexPath.item].selectedImage, nonSelectedImage: aspectData[indexPath.item].nonSelectedImage)
-                
             }
             return cell
         }
@@ -1237,20 +798,45 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
         print("didSelectItemAt", indexPath)
         
         if collectionView == appCollectionView {
-            selectedAppIndex = indexPath.item
-            
-            aspectCollectionView.reloadData()
-        
-            if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex), indexPath.item == selectedAppIndex, aspectData.count > selectedAspectIndex, selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased() {
+            //not same as previous
+            if selectedAppIndex != indexPath.item {
+                selectedAppIndex = indexPath.item
+                appCollectionView.scrollToItem(at: IndexPath(item: selectedAppIndex, section: 0), at: .centeredHorizontally, animated: true)
+//                aspectCollectionView.reloadSections([0])
                 
-                print("aspectData ", aspectData.count, " selectedAspectIndex ", selectedAspectIndex)
-                self.aspectCollectionView.performBatchUpdates {
-                    self.aspectCollectionView.selectItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), animated: false, scrollPosition: .centeredHorizontally)
-                } completion: { _ in
-                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: false)
-
+                //selected
+                if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex), indexPath.item == selectedAppIndex, aspectData.count > selectedAspectIndex, selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased() {
+                    
+                    print("aspectData ", aspectData.count, " selectedAspectIndex ", selectedAspectIndex)
+//                    self.aspectCollectionView.performBatchUpdates {
+                        aspectCollectionView.reloadSections([0])
+//                    } completion: { _ in
+                        self.aspectCollectionView.selectItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+//                        self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: false)
+//                    }
+                }
+                //non selected
+                else {
+//                    self.aspectCollectionView.performBatchUpdates {
+                        self.aspectCollectionView.reloadSections([0])
+//                    } completion: { _ in
+                        self.aspectCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+//                    }
                 }
             }
+            //same as previous
+            else {
+                //selected
+                if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex), indexPath.item == selectedAppIndex, aspectData.count > selectedAspectIndex, selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased() {
+                    
+                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: true)
+                }
+                //non selected
+                else {
+                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+                }
+            }
+            
         }
         
         else if collectionView == aspectCollectionView {
@@ -1268,7 +854,7 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
             
             
             UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
-                self.imageViewHorizontalConstraint.constant =  0
+                self.imageViewHorizontalConstraint.constant = 0
                 self.imageViewVerticalConstraint.constant = 0
                 
                 self.view.layoutIfNeeded()
@@ -1289,10 +875,37 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
     }
 }
 
+extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == appCollectionView {
+            return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+        } else {
+            return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == appCollectionView {
+            return 32.0
+        } else {
+            return 12.0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == appCollectionView {
+            return 32.0
+        } else {
+            return 12.0
+        }
+    }
+    
+}
 
 extension ExpandViewControllerV2: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        return false
     }
-    
 }
