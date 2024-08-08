@@ -123,7 +123,7 @@ class DataManager {
     func parseDictionary(dictionary: [String: Any]) -> SectionData? {
         guard
               let title = dictionary["title"] as? String,
-              let appType = AppType(rawValue: title),
+              let appType = AppType(rawValue: title.lowercased()),
               let itemsArray = dictionary["items"] as? [[String: Any]]
         else { return nil }
 

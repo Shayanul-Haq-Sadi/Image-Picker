@@ -244,13 +244,6 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func configAdPopup() {
-//        adPopupView.frame = view.bounds
-        
-//        adPopupView.frame = UIScreen.main.bounds
-//        view.addSubview(adPopupView)
-        
-//        adPopupView.addToWindow()
-        
         adPopupView.addToKeyWindow()
         
         adPopupView.closePressed = {
@@ -261,7 +254,11 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         adPopupView.purchasePressed = {
             print("purchaseButtonPressed")
             self.adPopupView.hide() {
-                self.pushPurchaseViewController()
+                self.pushPurchaseViewController { delay in
+                    if !PurchaseManager.shared.isPremiumUser {
+                        self.adPopupView.show(delay: delay) {}
+                    }
+                }
             }
         }
         
@@ -286,20 +283,6 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func configAdLimitPopup() {
-//        adLimitView.frame = view.bounds
-//        adLimitView.frame = UIScreen.main.bounds
-        
-//        if let window = UIApplication.shared.windows.filter({$0.isKeyWindow}).first {
-////        if let window = UIApplication.shared.windows.first {
-//            adLimitView.frame = window.bounds
-//        }
-//        
-//        view.addSubview(adLimitView)
-//        self.navigationController?.view.addSubview(adLimitView)
-        
-//        adLimitView.addToWindow()
-        
-        
         adLimitView.addToKeyWindow()
         
         adLimitView.closePressed = {
@@ -310,7 +293,15 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         adLimitView.purchasePressed = {
             print("purchaseButtonPressed")
             self.adLimitView.hide() {
-                self.pushPurchaseViewController()
+                self.adPopupView.hide() {
+                    self.pushPurchaseViewController() { delay in
+                        if !PurchaseManager.shared.isPremiumUser {
+                            self.adPopupView.show(delay: delay) {
+                                self.adLimitView.show() {}
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -489,7 +480,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
-    private func pushPurchaseViewController() { // with present animation
+    private func pushPurchaseViewController(completion: @escaping (_ delay: Double) -> Void?) { // with present animation
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: PurchaseViewController.identifier) as? PurchaseViewController else { return }
         
         VC.modalPresentationStyle = .fullScreen
@@ -515,11 +506,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             self.navigationController?.view.layer.add(transition, forKey: nil)
             self.navigationController?.popViewController(animated: false)
             
-            if PurchaseManager.shared.isPremiumUser {
-                self.adPopupView.hide(delay: 0.4) {}
-            } else {
-                self.adLimitView.show(delay: 0.4) {}
-            }
+            completion(0.4)
         }
     }
     

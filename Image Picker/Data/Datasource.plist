@@ -400,9 +400,9 @@
 					<key>nonSelectedImage</key>
 					<string>Facebook Post N</string>
 					<key>ratio</key>
-					<string>940:788</string>
+					<string>1:1</string>
 					<key>resolution</key>
-					<string>940:788</string>
+					<string>1:1</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -436,9 +436,9 @@
 					<key>nonSelectedImage</key>
 					<string>Facebook Cover N</string>
 					<key>ratio</key>
-					<string>1640:924</string>
+					<string>820:360</string>
 					<key>resolution</key>
-					<string>1640:924</string>
+					<string>820:360</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -448,9 +448,9 @@
 					<key>nonSelectedImage</key>
 					<string>Facebook Event Cover N</string>
 					<key>ratio</key>
-					<string>16:10</string>
+					<string>1920:1005</string>
 					<key>resolution</key>
-					<string>16:10</string>
+					<string>1920:1005</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -472,9 +472,9 @@
 					<key>nonSelectedImage</key>
 					<string>Facebook Ad Carousel N</string>
 					<key>ratio</key>
-					<string>1200:628</string>
+					<string>1:1</string>
 					<key>resolution</key>
-					<string>1200:628</string>
+					<string>1:1</string>
 				</dict>
 			</array>
 		</dict>
@@ -521,30 +521,6 @@
 				</dict>
 				<dict>
 					<key>text</key>
-					<string>Full</string>
-					<key>selectedImage</key>
-					<string>Instagram Full S</string>
-					<key>nonSelectedImage</key>
-					<string>Instagram Full N</string>
-					<key>ratio</key>
-					<string>1080:1350</string>
-					<key>resolution</key>
-					<string>1080:1350</string>
-				</dict>
-				<dict>
-					<key>text</key>
-					<string>Reels</string>
-					<key>selectedImage</key>
-					<string>Instagram Reels S</string>
-					<key>nonSelectedImage</key>
-					<string>Instagram Reels N</string>
-					<key>ratio</key>
-					<string>1080:1920</string>
-					<key>resolution</key>
-					<string>1080:1920</string>
-				</dict>
-				<dict>
-					<key>text</key>
 					<string>Profile</string>
 					<key>selectedImage</key>
 					<string>Instagram Profile S</string>
@@ -557,15 +533,381 @@
 				</dict>
 				<dict>
 					<key>text</key>
+					<string>Full</string>
+					<key>selectedImage</key>
+					<string>Instagram Full S</string>
+					<key>nonSelectedImage</key>
+					<string>Instagram Full N</string>
+					<key>ratio</key>
+					<string>4:5</string>
+					<key>resolution</key>
+					<string>1080:1350</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Reels</string>
+					<key>selectedImage</key>
+					<string>Instagram Reels S</string>
+					<key>nonSelectedImage</key>
+					<string>Instagram Reels N</string>
+					<key>ratio</key>
+					<string>9:16</string>
+					<key>resolution</key>
+					<string>1080:1920</string>
+				</dict>
+				<dict>
+					<key>text</key>
 					<string>Landscape</string>
 					<key>selectedImage</key>
 					<string>Instagram Landscape S</string>
 					<key>nonSelectedImage</key>
 					<string>Instagram Landscape N</string>
 					<key>ratio</key>
-					<string>1080:566</string>
+					<string>16:9</string>
 					<key>resolution</key>
 					<string>1080:566</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Tiktok</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>Tiktok Original S</string>
+					<key>nonSelectedImage</key>
+					<string>Tiktok Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Story</string>
+					<key>selectedImage</key>
+					<string>Tiktok Story S</string>
+					<key>nonSelectedImage</key>
+					<string>Tiktok Story N</string>
+					<key>ratio</key>
+					<string>9:16</string>
+					<key>resolution</key>
+					<string>9:16</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Profile</string>
+					<key>selectedImage</key>
+					<string>Tiktok Profile S</string>
+					<key>nonSelectedImage</key>
+					<string>Tiktok Profile N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Snapchat</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>Snapchat Original S</string>
+					<key>nonSelectedImage</key>
+					<string>Snapchat Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Story</string>
+					<key>selectedImage</key>
+					<string>Snapchat Story S</string>
+					<key>nonSelectedImage</key>
+					<string>Snapchat Story N</string>
+					<key>ratio</key>
+					<string>9:16</string>
+					<key>resolution</key>
+					<string>9:16</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Pinterest</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>Pinterest Original S</string>
+					<key>nonSelectedImage</key>
+					<string>Pinterest Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Pin</string>
+					<key>selectedImage</key>
+					<string>Pinterest Pin S</string>
+					<key>nonSelectedImage</key>
+					<string>Pinterest Pin N</string>
+					<key>ratio</key>
+					<string>2:3</string>
+					<key>resolution</key>
+					<string>2:3</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Profile</string>
+					<key>selectedImage</key>
+					<string>Pinterest Profile S</string>
+					<key>nonSelectedImage</key>
+					<string>Pinterest Profile N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Board</string>
+					<key>selectedImage</key>
+					<string>Pinterest Board S</string>
+					<key>nonSelectedImage</key>
+					<string>Pinterest Board N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>X</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>X Original S</string>
+					<key>nonSelectedImage</key>
+					<string>X Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Card</string>
+					<key>selectedImage</key>
+					<string>X Card S</string>
+					<key>nonSelectedImage</key>
+					<string>X Card N</string>
+					<key>ratio</key>
+					<string>1200:628</string>
+					<key>resolution</key>
+					<string>1200:628</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Summary</string>
+					<key>selectedImage</key>
+					<string>X Summary S</string>
+					<key>nonSelectedImage</key>
+					<string>X Summary N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Profile</string>
+					<key>selectedImage</key>
+					<string>X Profile S</string>
+					<key>nonSelectedImage</key>
+					<string>X Profile N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Post</string>
+					<key>selectedImage</key>
+					<string>X Post S</string>
+					<key>nonSelectedImage</key>
+					<string>X Post N</string>
+					<key>ratio</key>
+					<string>16:9</string>
+					<key>resolution</key>
+					<string>16:9</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Header</string>
+					<key>selectedImage</key>
+					<string>X Header S</string>
+					<key>nonSelectedImage</key>
+					<string>X Header N</string>
+					<key>ratio</key>
+					<string>3:1</string>
+					<key>resolution</key>
+					<string>3:1</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Linkedin</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>Linkedin Original S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Profile</string>
+					<key>selectedImage</key>
+					<string>Linkedin Profile S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Profile N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Banner</string>
+					<key>selectedImage</key>
+					<string>Linkedin Banner S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Banner N</string>
+					<key>ratio</key>
+					<string>1200:644</string>
+					<key>resolution</key>
+					<string>1200:644</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Post</string>
+					<key>selectedImage</key>
+					<string>Linkedin Post S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Post N</string>
+					<key>ratio</key>
+					<string>1200:627</string>
+					<key>resolution</key>
+					<string>1200:627</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Cover</string>
+					<key>selectedImage</key>
+					<string>Linkedin Cover S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Cover N</string>
+					<key>ratio</key>
+					<string>4:1</string>
+					<key>resolution</key>
+					<string>4:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Header</string>
+					<key>selectedImage</key>
+					<string>Linkedin Header S</string>
+					<key>nonSelectedImage</key>
+					<string>Linkedin Header N</string>
+					<key>ratio</key>
+					<string>1128:191</string>
+					<key>resolution</key>
+					<string>1128:191</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>Youtube</string>
+			<key>items</key>
+			<array>
+				<dict>
+					<key>text</key>
+					<string>Original</string>
+					<key>selectedImage</key>
+					<string>Youtube Original S</string>
+					<key>nonSelectedImage</key>
+					<string>Youtube Original N</string>
+					<key>ratio</key>
+					<string>Original</string>
+					<key>resolution</key>
+					<string>Original</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Profile</string>
+					<key>selectedImage</key>
+					<string>Youtube Profile S</string>
+					<key>nonSelectedImage</key>
+					<string>Youtube Profile N</string>
+					<key>ratio</key>
+					<string>1:1</string>
+					<key>resolution</key>
+					<string>1:1</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Thumb</string>
+					<key>selectedImage</key>
+					<string>Youtube Thumb S</string>
+					<key>nonSelectedImage</key>
+					<string>Youtube Thumb N</string>
+					<key>ratio</key>
+					<string>16:9</string>
+					<key>resolution</key>
+					<string>16:9</string>
+				</dict>
+				<dict>
+					<key>text</key>
+					<string>Banner</string>
+					<key>selectedImage</key>
+					<string>Youtube Banner S</string>
+					<key>nonSelectedImage</key>
+					<string>Youtube Banner N</string>
+					<key>ratio</key>
+					<string>16:9</string>
+					<key>resolution</key>
+					<string>16:9</string>
 				</dict>
 			</array>
 		</dict>

@@ -158,18 +158,14 @@ class ExpandViewControllerV2: UIViewController {
     private func loadCollectionViews() {
         let appLayout = UICollectionViewFlowLayout()
         appLayout.scrollDirection = .horizontal
-        appLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
         
         appCollectionView = UICollectionView(frame: appContainerView.bounds, collectionViewLayout: appLayout)
-        
-//        appCollectionView = UICollectionView(frame: appContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.appLayout)
         appCollectionView.register(UINib(nibName: "AppCell", bundle: nil), forCellWithReuseIdentifier: AppCell.identifier)
         appCollectionView.delegate = self
         appCollectionView.dataSource = self
         appCollectionView.isScrollEnabled = true
         appCollectionView.showsHorizontalScrollIndicator = false
         appCollectionView.allowsMultipleSelection = false
-//        appCollectionView.contentInset = UIEdgeInsets(top: 7, left: 0, bottom: 7, right: 0)
         appCollectionView.backgroundColor = UIColor(red: 0.094, green: 0.098, blue: 0.110, alpha: 1)
 
         appContainerView.addSubview(appCollectionView)
@@ -181,8 +177,6 @@ class ExpandViewControllerV2: UIViewController {
         aspectLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
         
         aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: aspectLayout)
-        
-//        aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: CustomCompositionalLayout.aspectLayout)
         aspectCollectionView.register(UINib(nibName: "AspectCellV2", bundle: nil), forCellWithReuseIdentifier: AspectCellV2.identifier)
         aspectCollectionView.delegate = self
         aspectCollectionView.dataSource = self
@@ -196,10 +190,7 @@ class ExpandViewControllerV2: UIViewController {
     }
     
     private func configAdPopup() {
-//        adPopupView.frame = view.bounds
-//        view.addSubview(adPopupView)
-        
-        adPopupView.addToWindow()
+        adPopupView.addToKeyWindow()
         
         adPopupView.closePressed = {
             print("closeButtonPressed")
@@ -208,7 +199,13 @@ class ExpandViewControllerV2: UIViewController {
         
         adPopupView.purchasePressed = {
             print("purchaseButtonPressed")
-            self.pushPurchaseViewController()
+            self.adPopupView.hide() {
+                self.pushPurchaseViewController { delay in
+                    if !PurchaseManager.shared.isPremiumUser {
+                        self.adPopupView.show(delay: delay) {}
+                    }
+                }
+            }
         }
         
         adPopupView.adPressed = {
@@ -226,10 +223,7 @@ class ExpandViewControllerV2: UIViewController {
     }
     
     private func configAdLimitPopup() {
-//        adLimitView.frame = view.bounds
-//        view.addSubview(adLimitView)
-        
-        adLimitView.addToWindow()
+        adLimitView.addToKeyWindow()
         
         adLimitView.closePressed = {
             print("closeButtonPressed")
@@ -238,7 +232,17 @@ class ExpandViewControllerV2: UIViewController {
         
         adLimitView.purchasePressed = {
             print("purchaseButtonPressed")
-            self.pushPurchaseViewController()
+            self.adLimitView.hide() {
+                self.adPopupView.hide() {
+                    self.pushPurchaseViewController() { delay in
+                        if !PurchaseManager.shared.isPremiumUser {
+                            self.adPopupView.show(delay: delay) {
+                                self.adLimitView.show() {}
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -316,7 +320,7 @@ class ExpandViewControllerV2: UIViewController {
         self.navigationController?.pushViewController(VC, animated: false)
     }
     
-    private func pushPurchaseViewController() { // with present animation
+    private func pushPurchaseViewController(completion: @escaping (_ delay: Double) -> Void?) { // with present animation
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: PurchaseViewController.identifier) as? PurchaseViewController else { return }
         
         VC.modalPresentationStyle = .fullScreen
@@ -342,11 +346,7 @@ class ExpandViewControllerV2: UIViewController {
             self.navigationController?.view.layer.add(transition, forKey: nil)
             self.navigationController?.popViewController(animated: false)
             
-            if PurchaseManager.shared.isPremiumUser {
-                self.adLimitView.hide(delay: 0.4) {
-                    self.adPopupView.hide(delay: 0.4) {}                    
-                }
-            }
+            completion(0.4)
         }
     }
     
@@ -731,7 +731,7 @@ class ExpandViewControllerV2: UIViewController {
             break
             
         case .ended:
-//            updateAlignment()
+            updateAlignment()
             break
             
         default:
@@ -812,7 +812,6 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
                         aspectCollectionView.reloadSections([0])
 //                    } completion: { _ in
                         self.aspectCollectionView.selectItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-//                        self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: false)
 //                    }
                 }
                 //non selected
@@ -832,9 +831,9 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
                     self.aspectCollectionView.scrollToItem(at: IndexPath(item: self.selectedAspectIndex, section: 0), at: .centeredHorizontally, animated: true)
                 }
                 //non selected
-                else {
-                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
-                }
+//                else {
+//                    self.aspectCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+//                }
             }
             
         }
@@ -866,10 +865,12 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
                 let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
 
                 self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
+                self.view.layoutIfNeeded()
+                
                 self.imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
                 self.imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
                 
-                self.canvasView.layoutIfNeeded()
+                self.view.layoutIfNeeded()
             }
         }
     }
@@ -879,16 +880,31 @@ extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView == appCollectionView {
-            return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+            return UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
         } else {
             return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
         }
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == appCollectionView /*,let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppCell.identifier, for: indexPath) as? AppCell*/ {
+            if let appData = DataManager.shared.getSupportedAppsData(of: indexPath.item) {
+//                let attributes: [NSAttributedString.Key: Any] = [.font: cell.getLabelFont()]
+                let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .medium)] // get cell label exact font
+                let cellSize = (appData.title as NSString).size(withAttributes: attributes)
+                return CGSize(width: cellSize.width + 32, height: collectionView.bounds.size.height)
+            } else {
+                return CGSize(width: 30, height: 30)
+            }
+        } else {
+            return CGSize(width: 30, height: 30)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == appCollectionView {
-            return 32.0
+            return 0.0
         } else {
             return 12.0
         }
@@ -896,7 +912,7 @@ extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == appCollectionView {
-            return 32.0
+            return 0.0
         } else {
             return 12.0
         }

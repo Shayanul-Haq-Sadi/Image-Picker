@@ -38,4 +38,7 @@ class AppCell: UICollectionViewCell {
         selectView.isHidden = self.isSelected ? false : true
     }
     
+    func getLabelFont() -> UIFont {
+        return cellTitleLbl.font
+    }
 }

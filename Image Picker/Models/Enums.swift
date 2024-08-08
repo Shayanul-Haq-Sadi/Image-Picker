@@ -8,9 +8,15 @@
 import Foundation
 
 enum AppType: String {
-    case standard = "Standard"
-    case facebook = "Facebook"
-    case instagram = "Instagram"
+    case standard = "standard"
+    case facebook = "facebook"
+    case instagram = "instagram"
+    case tiktok = "tiktok"
+    case snapchat = "snapchat"
+    case pinterest = "pinterest"
+    case linkedin = "linkedin"
+    case youtube = "youtube"
+    case twitter = "x"
 }
 
 enum DynamicCellState: Int {
