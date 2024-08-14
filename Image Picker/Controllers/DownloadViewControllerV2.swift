@@ -20,20 +20,18 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
 
     @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var imageViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var imageViewHorizontalConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var imageViewVerticalConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
+    
     
     @IBOutlet weak var previousImageView: UIImageView!
     
-//    @IBOutlet weak var previousImageViewLeadingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var previousImageViewTrailingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var previousImageViewTopConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var previousImageViewBottomConstraint: NSLayoutConstraint!
-
-    //    @IBOutlet weak var previousImageViewAspectRatioConstraint: NSLayoutConstraint!
-    //    @IBOutlet weak var previousImageViewWidthConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var previousImageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var previousImageViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var previousImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var previousImageViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var compareImage: UIImageView!
     
@@ -77,72 +75,22 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     var rightRatio: CGFloat!
     var keepOriginalSize = "False"
     
-    var relativeHeightFactor: CGFloat!
-    var relativeWidthFactor: CGFloat!
-    var relativeCenterXFactor: CGFloat!
-    var relativeCenterYFactor: CGFloat!
-    
-//    var centerOffset: CGPoint!
-    
     var selectedAspectRatio: CGFloat! = 1.0
+    var relativeScaleFactor: CGFloat!
     
     private var selectedIndex: Int = 0
     
     private var lastSavedAssetIdentifiers: [String] = []
+    
+    private var isSetupDone: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-//        addGesture()
+//        setupUI()
+        addGesture()
         loadCollectionView()
         configAdPopup()
         configAdLimitPopup()
-        
-        
-        
-//        previousImageView.image = pickedImage
-//        previousImageView.isHidden = true
-//        
-//        let x = imageView.frame.origin.x + (imageView.frame.origin.x * leftRatio)
-//        let y = imageView.frame.origin.y + (imageView.frame.origin.y * topRatio)
-//        
-//        let w = imageView.frame.width * (1.0 - (leftRatio + rightRatio))
-//        let h = imageView.frame.height * (1.0 - (topRatio + bottomRatio))
-//        previousImageView.frame = CGRect(origin: CGPoint(x: x, y: y), size: CGSize(width: w, height: h))
-        
-        
-        
-        
-//        previousImageViewLeadingConstraint.constant = /*imageContainerView.bounds.minX +*/ (imageContainerView.frame.minX * leftRatio)
-//        previousImageViewTrailingConstraint.constant = /*imageContainerView.bounds.maxX -*/ (imageContainerView.frame.maxX * rightRatio)
-//        previousImageViewTopConstraint.constant = /*imageContainerView.bounds.minY +*/ (imageContainerView.frame.minY * topRatio)
-//        previousImageViewBottomConstraint.constant = /*imageContainerView.bounds.maxY -*/ (imageContainerView.frame.maxY * bottomRatio)
-//        
-        
-        
-        
-        
-//        previousImageViewLeadingConstraint.constant = /*imageContainerView.bounds.minX +*/ (imageView.frame.minX * leftRatio)
-//        previousImageViewTrailingConstraint.constant = /*imageContainerView.bounds.maxX -*/ (imageView.frame.maxX * rightRatio)
-//        previousImageViewTopConstraint.constant = /*imageContainerView.bounds.minY +*/ (imageView.frame.minY * topRatio)
-//        previousImageViewBottomConstraint.constant = /*imageContainerView.bounds.maxY -*/ (imageView.frame.maxY * bottomRatio)
-        
-        
-        
-//        previousImageViewLeadingConstraint = previousImageViewLeadingConstraint.changeMultiplier(multiplier: leftRatio <= 0.0 ? leftRatio : 1.0)
-//        previousImageViewTrailingConstraint = previousImageViewTrailingConstraint.changeMultiplier(multiplier: rightRatio <= 0.0 ? rightRatio : 1.0)
-//        previousImageViewTopConstraint = previousImageViewTopConstraint.changeMultiplier(multiplier: topRatio <= 0.0 ? topRatio : 1.0)
-//        previousImageViewBottomConstraint = previousImageViewBottomConstraint.changeMultiplier(multiplier: bottomRatio <= 0.0 ? bottomRatio : 1.0)
-        
-        
-        
-//        previousImageViewWidthConstraint.constant = imageView.frame.size.width * relativeWidthFactor
-        
-//        previousImageViewAspectRatioConstraint = self.previousImageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-        self.view.layoutIfNeeded()
-        
-        
-
     }
     
     func initialData() {
@@ -165,25 +113,49 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = downloadContainerView.bounds
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        if !isSetupDone {
+            setupUI() // bool check for the first timer
+            isSetupDone = true
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
+        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut, .transitionCrossDissolve]) {
             self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
             self.view.layoutIfNeeded()
             
-            self.imageViewHorizontalConstraint.constant = 0
-            self.imageViewVerticalConstraint.constant = 0
-            
+            self.testimageView.frame = self.imageView.bounds
             self.view.layoutIfNeeded()
             
         } completion: { _ in
             self.imageView.contentMode = .scaleAspectFit
+            self.previousImageView.alpha = 1
+            
+            self.testimageView.isHidden = true
+            self.imageView.isHidden = false
         }
 
     }
     
+    private var testimageView: UIImageView! = UIImageView()
+    
     private func setupUI() {
+        testimageView.isHidden = false
+        testimageView.image = downloadedImage
+        testimageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.addSubview(testimageView)
+        testimageView.center = imageView.center
+        
+        imageView.isHidden = true
         imageView.contentMode = .scaleAspectFill
         imageView.image = downloadedImage
         imageView.isUserInteractionEnabled = true
@@ -194,27 +166,24 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         bgView.layer.borderColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 0.06).cgColor
         bgView.layer.borderWidth = 1
         
-        self.view.layoutIfNeeded()
-        
         self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (selectedAspectRatio) )
+        self.view.layoutIfNeeded()
         self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
         self.view.layoutIfNeeded()
         
+        previousImageView.image = pickedImage
         
-//        imageViewHorizontalConstraint.constant = centerOffset.x
-//        imageViewVerticalConstraint.constant = centerOffset.y
-        
-        tempWidth = self.imageView.frame.width
-        tempCenterX = self.imageViewHorizontalConstraint.constant
-        tempCenterY = self.imageViewVerticalConstraint.constant
-        
-        self.imageViewWidthConstraint.constant = self.imageContainerView.frame.size.width
-        
+        previousImageViewLeadingConstraint.constant = leftRatio * imageView.frame.width * relativeScaleFactor
+        previousImageViewTrailingConstraint.constant = rightRatio * imageView.frame.width * relativeScaleFactor
+        previousImageViewTopConstraint.constant = topRatio * imageView.frame.height * relativeScaleFactor
+        previousImageViewBottomConstraint.constant = bottomRatio * imageView.frame.height * relativeScaleFactor
         self.view.layoutIfNeeded()
+        
+        testimageView.frame = previousImageView.bounds
     }
     
     private func addGesture() {
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressImage(_:)))
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageV3(_:)))
         longPressGesture.delegate = self
         longPressGesture.minimumPressDuration = 0
         imageView.addGestureRecognizer(longPressGesture)
@@ -228,6 +197,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func loadCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        
         collectionView = UICollectionView(frame: downloadContainerView.bounds, collectionViewLayout: layout)
         collectionView.register(UINib(nibName: "DownloadCellV2", bundle: nil), forCellWithReuseIdentifier: DownloadCellV2.identifier)
         collectionView.delegate = self
@@ -235,11 +205,9 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsMultipleSelection = false
-//        collectionView.contentInset = calculateInset(cellCount: cellCount)
         collectionView.backgroundColor = UIColor(red: 0.09, green: 0.1, blue: 0.11, alpha: 1)
         
         downloadContainerView.addSubview(collectionView)
-        
         collectionView.selectItem(at: IndexPath(item: selectedIndex, section: 0), animated: true, scrollPosition: .left)
     }
     
@@ -269,12 +237,10 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             } else {
                 self.adPopupView.hide {
                                         
+                    self.previousImageView.alpha = 0
                     self.imageView.contentMode = .scaleAspectFill
-                    self.imageView.image = self.downloadedImage
-                    
                     self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.pickedImage.size.width/self.pickedImage.size.height) )
                     self.view.layoutIfNeeded()
-                    
                     
                     self.presentProgressViewController()
                 }
@@ -309,9 +275,8 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func calculateInset(cellCount: Int) -> UIEdgeInsets {
         let cellWidth = 76 * cellCount
         let itemInterSpacing = 12 * (cellCount - 1)
-        let allCellWidth = cellWidth + itemInterSpacing  // section inset 44
+        let allCellWidth = cellWidth + itemInterSpacing
         let emptySpace = SCREEN_WIDTH - CGFloat(allCellWidth)
-//        let emptySpace = self.downloadContainerView.frame.width - CGFloat(allCellWidth)
         let sideInset: CGFloat = emptySpace / 2
         
         return UIEdgeInsets(top: 20, left: max(sideInset, 22), bottom: 20, right: max(sideInset, 22))
@@ -444,13 +409,14 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             VC.rightRatio = rightRatio
             
             VC.selectedAspectRatio = selectedAspectRatio
+            VC.relativeScaleFactor = relativeScaleFactor
+            VC.isFromDownload = true
             
             VC.downloadCompletion = { picked, downloaded in
                 self.downloadedImage = downloaded
                 self.imageView.image = self.downloadedImage
                 self.cellCount += 1
                 self.selectedIndex = self.downloadedImageArray.count - 1
-//                self.collectionView.contentInset = self.calculateInset(cellCount: self.cellCount)
                 self.collectionView.insertItems(at: [IndexPath(item: self.selectedIndex, section: 0)])
                 self.collectionView.reloadSections([0])
                 self.collectionView.selectItem(at: IndexPath(item: self.selectedIndex, section: 0), animated: true, scrollPosition: .left)
@@ -513,80 +479,16 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func presentExpandViewControllerV2(pickedImage: UIImage, imageData: Data) {
         guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: ExpandViewControllerV2.identifier) as? ExpandViewControllerV2 else { return }
 
-//        VC.modalPresentationStyle = .fullScreen
-//        VC.modalTransitionStyle = .crossDissolve
         VC.pickedImage = pickedImage
         VC.imageData = imageData
         
         self.navigationController?.pushViewController(VC, animated: true)
     }
     
-    private func uploadImage(completion: @escaping ( _ downloadedImage: UIImage? ) -> Void) {
-        print("uploadImage API CALLED")
-//        isAPICalled = true
-        completion(nil)
-        APIManager.shared.uploadImage(imageData: imageData, leftPercentage: leftRatio, rightPercentage: rightRatio, topPercentage: topRatio, bottomPercentage: bottomRatio, keepOriginalSize: keepOriginalSize){ response in
-            switch response {
-            case .success(let data):
-                print("download successful.")
-                if let image = UIImage(data: data) {
-                    
-                    self.downloadedImage = image
-//                    self.isDownloaded = true
-                    completion(self.downloadedImage)
-                    
-                } else {
-                    print("Failed to convert data to image")
-                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later")
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
-    }
-    
-    
-//    private func regenerateImageV2() {
-//        if PurchaseManager.shared.isPremiumUser {
-//            lastSavedAssetIdentifier = ""
-//            
-//            uploadImage { image in
-//                
-//                if let image {
-//                    // download finished
-//                    self.downloadedImage = image
-//                    self.imageView.image = image
-//                    self.cellState?(.image)
-//                }
-//                else {
-//                    // download strted
-////                    another completion for cell change
-//                    self.cellState?(.indicator)
-//                    
-//                }
-//            }
-//             
-//        } else {
-//            if ADManager.shared.isAdLimitReached {
-//                presentADLimitViewController()
-//            } else {
-//                lastSavedAssetIdentifier = ""
-//                
-//                imageView.contentMode = .scaleAspectFill
-//                imageView.image = downloadedImage
-//                
-//                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-//                self.view.layoutIfNeeded()
-//                
-////                presentProgressViewController()
-//            }
-//        }
-//    }
-    
-    
     private func regenerateImageV3() {
         if PurchaseManager.shared.isPremiumUser {
             
+            previousImageView.alpha = 0
             imageView.contentMode = .scaleAspectFill
             self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
             self.view.layoutIfNeeded()
@@ -597,144 +499,20 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         }
     }
     
-//    private func regenerateImage() {
-//        if PurchaseManager.shared.isPremiumUser {
-//            
-//            imageView.contentMode = .scaleAspectFill
-//            imageView.image = downloadedImage
-//            
-//            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-//            self.view.layoutIfNeeded()
-//            
-//            presentProgressViewController()
-//            
-//        } else {
-//            if ADManager.shared.isAdLimitReached {
-//                presentADLimitViewController()
-//            } else {
-//                
-//                imageView.contentMode = .scaleAspectFill
-//                imageView.image = downloadedImage
-//                
-//                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-//                self.view.layoutIfNeeded()
-//                
-//                presentProgressViewController()
-//            }
-//        }
-//    }
-    
-    @objc private func longPressImage(_ sender: UILongPressGestureRecognizer) {
-        switch sender.state {
-            case .began:
-            
-            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-            
-            
-//            self.imageViewHorizontalConstraint.constant = self.centerOffset.x
-//            self.imageViewVerticalConstraint.constant = self.centerOffset.y
-//            print("centerOffset x", self.centerOffset.x, " self.centerOffset y ", self.centerOffset.y)
-            print("selectedAspectRatio ", self.selectedAspectRatio)
-            self.view.layoutIfNeeded()
-
-            UIView.transition(with: self.imageView, duration: 2.6, options: [.transitionCrossDissolve, .curveEaseInOut],  animations: {
-                self.imageView.image = self.pickedImage
-                
-            })
-            
-            case .ended:
-            
-            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
-            
-            self.imageViewHorizontalConstraint.constant = 0
-            self.imageViewVerticalConstraint.constant = 0
-            self.view.layoutIfNeeded()
-
-            UIView.transition(with: self.imageView, duration: 0.6, options: [.transitionCrossDissolve, .curveEaseInOut],  animations: {
-                self.imageView.image = self.downloadedImage
-                
-            })
-            
-            default: break
-        }
-    }
-    
-    var tempWidth: CGFloat!
-    var tempCenterX: CGFloat!
-    var tempCenterY: CGFloat!
-    
-    
-    
-    @objc private func longPressImageV2(_ sender: UILongPressGestureRecognizer) {
-        
-        switch sender.state {
-            case .began:
-                        
-//            self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.pickedImage.size.width/self.pickedImage.size.height) )
-//            self.view.layoutIfNeeded()
-            
-//            self.imageViewHorizontalConstraint.constant = self.centerOffset.x
-//            self.imageViewVerticalConstraint.constant = self.centerOffset.y
-
-            UIView.transition(with: self.imageView, duration: 2.6, options: [.transitionCrossDissolve, .curveEaseInOut],  animations: {
-                
-                self.imageViewWidthConstraint.constant = self.tempWidth * self.relativeWidthFactor
-                self.view.layoutIfNeeded()
-                
-//                self.imageViewHorizontalConstraint.constant = self.centerOffset.x * self.relativeCenterXFactor
-//                self.imageViewVerticalConstraint.constant = self.centerOffset.y * self.relativeCenterYFactor
-                
-//                self.imageViewHorizontalConstraint.constant =
-//                self.imageViewVerticalConstraint.constant =
-                
-                self.view.layoutIfNeeded()
-    
-                self.imageView.image = self.pickedImage
-            })
-            
-            case .ended:
-            
-            UIView.transition(with: self.imageView, duration: 2.6, options: [.transitionCrossDissolve, .curveEaseInOut],  animations: {
-                
-                self.imageViewWidthConstraint.constant = self.tempWidth
-                self.view.layoutIfNeeded()
-                
-                self.imageViewHorizontalConstraint.constant = 0 // self.tempCenterX
-                self.imageViewVerticalConstraint.constant = 0 // self.tempCenterY
-                
-//                self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio) )
-                
-                self.view.layoutIfNeeded()
-                
-                guard let url = self.downloadedImageArray[self.selectedIndex], let img = readTempData(fileURL: url) else { return }
-                self.imageView.image = img
-            })
-            
-            default: break
-        }
-    }
-    
     @objc private func longPressImageV3(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
             case .began:
-                
-                UIView.animate(withDuration: 0.5, delay: 0, options: .transitionCrossDissolve) {
-                    self.imageView.isHidden = true
-                } completion: { _ in
-                    self.previousImageView.isHidden = false
+                UIView.animate(withDuration: 0.5, delay: 0, options: [.transitionCrossDissolve, .curveEaseInOut]) {
+                    self.imageView.alpha = 0
                 }
                 
             case .ended:
-                
-                UIView.animate(withDuration: 0.5, delay: 0, options: .transitionCrossDissolve) {
-                    self.previousImageView.isHidden = true
-                } completion: { _ in
-                    self.imageView.isHidden = false
+                UIView.animate(withDuration: 0.5, delay: 0, options: [.transitionCrossDissolve, .curveEaseInOut]) {
+                    self.imageView.alpha = 1
                 }
                 
             default: break
         }
-
     }
 
     @IBAction func backButtonPressed(_ sender: Any) {

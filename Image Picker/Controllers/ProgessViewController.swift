@@ -14,14 +14,23 @@ class ProgessViewController: UIViewController {
     
     @IBOutlet private weak var canvasView: UIView!
     
+    
     @IBOutlet private weak var imageContainerView: UIView!
     @IBOutlet private weak var TransparentImageView: UIImageView!
     @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var previousImageView: UIImageView!
     
+    @IBOutlet private weak var canvasViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var canvasViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    
     @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
     
+    @IBOutlet private weak var previousImageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var progressConainerView: UIView!
     
@@ -46,6 +55,10 @@ class ProgessViewController: UIViewController {
 //    var keepOriginalSize = "True"
     
     var selectedAspectRatio: CGFloat!
+    var relativeScaleFactor: CGFloat!
+    
+    var isFromExapand: Bool = false
+    var isFromDownload: Bool = false
     
     private var isAdShown: Bool = false
     private var isAPICalled: Bool = false
@@ -59,23 +72,67 @@ class ProgessViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+//        setupUI()
         addActivityIndicatorView()
         activityIndicatorView.startAnimating()
         adNewLogic()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        setupUI()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if isFromExapand {
+            UIView.animate(withDuration: 2.0, delay: 1.0, options: .curveEaseInOut) {
+                self.canvasViewTopConstraint.constant = 10 + 44 // for nav visibility
+                self.canvasViewBottomConstraint.constant = 117
+                
+                self.previousImageViewLeadingConstraint.constant = self.leftRatio * self.imageView.frame.width * self.relativeScaleFactor
+                self.previousImageViewTrailingConstraint.constant = self.rightRatio * self.imageView.frame.width * self.relativeScaleFactor
+                self.previousImageViewTopConstraint.constant = self.topRatio * self.imageView.frame.height * self.relativeScaleFactor
+                self.previousImageViewBottomConstraint.constant = self.bottomRatio * self.imageView.frame.height * self.relativeScaleFactor
+            
+                
+                self.view.layoutIfNeeded()
+            }
+        }
     }
     
     private func setupUI() {
+        
+        if isFromExapand {
+            self.canvasViewTopConstraint.constant = 10
+            self.canvasViewBottomConstraint.constant = 249.2
+            self.view.layoutIfNeeded()
+        }
+        
+        if isFromDownload {
+            self.canvasViewTopConstraint.constant = 10 + 44 // for nav visibility
+            self.canvasViewBottomConstraint.constant = 117
+            self.view.layoutIfNeeded()
+        }
         
         imageView.image = pickedImage
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
         self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (selectedAspectRatio) )
         self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+        self.view.layoutIfNeeded()
+        
+        previousImageView.image = pickedImage
+        
+        previousImageViewLeadingConstraint.constant = leftRatio * imageView.frame.width * relativeScaleFactor
+        previousImageViewTrailingConstraint.constant = rightRatio * imageView.frame.width * relativeScaleFactor
+        previousImageViewTopConstraint.constant = topRatio * imageView.frame.height * relativeScaleFactor
+        previousImageViewBottomConstraint.constant = bottomRatio * imageView.frame.height * relativeScaleFactor
         self.view.layoutIfNeeded()
         
         purchaseContainerView.clipsToBounds = true

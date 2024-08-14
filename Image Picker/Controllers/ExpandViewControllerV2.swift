@@ -17,13 +17,14 @@ class ExpandViewControllerV2: UIViewController {
     @IBOutlet private weak var imageContainerView: UIView!
     @IBOutlet private weak var TransparentImageView: UIImageView!
     
-    
+
     @IBOutlet private weak var centerXAxisView: UIView!
     @IBOutlet private weak var centerYAxisView: UIView!
     
     
     @IBOutlet private weak var imageView: UIImageView!
     
+    @IBOutlet private weak var imageContainerViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var imageViewHeightConstraint: NSLayoutConstraint!
@@ -65,12 +66,8 @@ class ExpandViewControllerV2: UIViewController {
     var rightRatio: CGFloat!
     var keepOriginalSize = "False"
 
-    var relativeHeightFactor: CGFloat!
-    var relativeWidthFactor: CGFloat!
-    var relativeCenterXFactor: CGFloat!
-    var relativeCenterYFactor: CGFloat!
-    
     var selectedAspectRatio: CGFloat!
+    var relativeScaleFactor: CGFloat!
 
     private var selectedAppIndex: Int = 0
     private var selectedAspectIndex: Int = 0
@@ -100,9 +97,11 @@ class ExpandViewControllerV2: UIViewController {
         
         print("self.imageContainerView.frame.size.width ", self.imageContainerView.frame.size.width)
     }
-    
+        
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        appCollectionView.frame = appContainerView.bounds
+        aspectCollectionView.frame = aspectContainerView.bounds
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -120,17 +119,22 @@ class ExpandViewControllerV2: UIViewController {
         
         imageCropOverlayView.isUserInteractionEnabled = false
         
+        self.imageContainerViewWidthConstraint.constant = SCREEN_WIDTH
+        self.view.layoutIfNeeded()
 
+        let newContainerSize = CGSizeMake(self.imageContainerView.bounds.size.width, self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
+        var aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
+        aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
+        self.imageContainerViewWidthConstraint.constant = aspectrectContainer.size.width
         self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
-        
         self.view.layoutIfNeeded()
 
         self.imageViewWidthConstraint.constant = self.imageContainerView.frame.size.width
         self.imageViewHeightConstraint.constant = self.imageContainerView.frame.size.height
-        
         self.view.layoutIfNeeded()
                 
         OriginalSize = CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height)
+        OriginalSelectedSize = CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height)
     }
     
     private func bindData() {
@@ -141,7 +145,7 @@ class ExpandViewControllerV2: UIViewController {
         if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
             selectedUniqueAspectIdentifier = aspectData[selectedAspectIndex].selectedImage
         } else {
-            selectedUniqueAspectIdentifier = "Standard Original S" // used image to identify
+            selectedUniqueAspectIdentifier = "Original S" // used image to identify
         }
     }
     
@@ -263,34 +267,15 @@ class ExpandViewControllerV2: UIViewController {
             VC.rightRatio = rightRatio
             
             VC.selectedAspectRatio = selectedAspectRatio
+            VC.relativeScaleFactor = relativeScaleFactor
+            VC.isFromExapand = true
             
             VC.downloadCompletion = { picked, downloaded in
-//                self.pushDownloadViewController(pickedImage: picked, downloadedImage: downloaded)
                 self.pushDownloadViewControllerV2(pickedImage: picked, downloadedImage: downloaded)
             }
         }
         
         present(navVC, animated: false)
-    }
-    
-    private func pushDownloadViewController(pickedImage: UIImage, downloadedImage: UIImage) {
-        guard let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: DownloadViewController.identifier) as? DownloadViewController else { return }
-        
-        VC.pickedImage = pickedImage
-        VC.downloadedImage = downloadedImage
-        VC.imageData = imageData
-
-        VC.topRatio = topRatio
-        VC.bottomRatio = bottomRatio
-        VC.leftRatio = leftRatio
-        VC.rightRatio = rightRatio
-
-        VC.selectedAspectRatio = selectedAspectRatio
-        
-        VC.modalPresentationStyle = .fullScreen
-        VC.modalTransitionStyle = .crossDissolve
-        
-        self.navigationController?.pushViewController(VC, animated: false)
     }
     
     private func pushDownloadViewControllerV2(pickedImage: UIImage, downloadedImage: UIImage) {
@@ -305,14 +290,8 @@ class ExpandViewControllerV2: UIViewController {
         VC.leftRatio = leftRatio
         VC.rightRatio = rightRatio
         
-        VC.relativeWidthFactor = relativeWidthFactor
-        VC.relativeHeightFactor = relativeHeightFactor
-        VC.relativeCenterXFactor = relativeCenterXFactor
-        VC.relativeCenterYFactor = relativeCenterYFactor
-        
-//        VC.centerOffset = CGPoint(x: imageViewHorizontalConstraint.constant, y: imageViewVerticalConstraint.constant)3
-
         VC.selectedAspectRatio = selectedAspectRatio
+        VC.relativeScaleFactor = relativeScaleFactor
         
         VC.modalPresentationStyle = .fullScreen
         VC.modalTransitionStyle = .crossDissolve
@@ -367,53 +346,30 @@ class ExpandViewControllerV2: UIViewController {
         }
     }
     
+    private var OriginalSelectedSize : CGSize!
+    
     private func calculateRelativeParameters() {
-        let containerWidth = imageContainerView.bounds.width
-        let containerHeight = imageContainerView.bounds.height
-        print("containerWidth B ", containerWidth, " containerHeight B ", imageContainerView.frame.height)
-//        print("containerWidth F ",  imageContainerView.frame.width, " containerHeight F ", containerHeight)
-        let imageViewWidth = imageView.bounds.width
-        let imageViewHeight = imageView.bounds.height
-        
-        print("imageViewWidth B ", imageView.bounds.width, " imageViewHeight B ", imageView.bounds.height)
-//        print("imageViewWidth F ",  imageViewWidth, " imageViewHeight F ", imageViewHeight)
-        
-//        relativeWidthFactor = imageViewWidth / containerWidth
-//        relativeHeightFactor = imageViewHeight / containerHeight
-        
-        relativeWidthFactor = containerWidth / imageViewWidth
-        relativeHeightFactor = containerHeight / imageViewHeight
-        print("relativeWidthFactor ",  relativeWidthFactor, " relativeHeightFactor ", relativeHeightFactor)
         
         
+        let number: Double = 12.987
+        print(number.round(to: 0))
+        print(number.round(to: 1))
+        print(number.round(to: 2))
+        print(number.round(to: 3))
+        print(number.round(to: 4))
+        print(number.round(to: 5))
         
+        relativeScaleFactor = imageView.frame.size.width / OriginalSelectedSize.width
         
-        let imageViewCenterXF = imageView.frame.midX
-        let imageViewCenterYF = imageView.frame.midY
+        print("relativeScaleFactor ",  relativeScaleFactor)
         
-        
-        
-        let containerCenterXB = imageContainerView.bounds.midX
-        let containerCenterYB = imageContainerView.bounds.midY
-        
-//        relativeCenterXFactor = containerCenter.x / imageViewCenter.x
-//        relativeCenterYFactor = containerCenter.y / imageViewCenter.y
-        
-        relativeCenterXFactor = containerCenterXB / imageViewCenterXF
-        relativeCenterYFactor = containerCenterYB / imageViewCenterYF
-//        
-//        relativeCenterXFactor = imageViewCenterXF / imageContainerView.bounds.width
-//        relativeCenterYFactor = imageViewCenterYF / imageContainerView.bounds.height
-        
-        
-        print("relativeCenterXFBFactor ", relativeCenterXFactor , " relativeCenterBYFactor ", relativeCenterYFactor)
     }
     
     private func calculateRatioParameters() {
         let containerWidth = imageContainerView.bounds.width
         let containerHeight = imageContainerView.bounds.height
-        let imageViewWidth = imageView.frame.width
-        let imageViewHeight = imageView.frame.height
+        let imageViewWidth = imageView.frame.size.width
+        let imageViewHeight = imageView.frame.size.height
 
         // When imageView center is fixed
 //        let topConstraint = (containerHeight - imageViewHeight) / 2
@@ -429,12 +385,12 @@ class ExpandViewControllerV2: UIViewController {
         let leftConstraint = edgeDistance.leading
         let rightConstraint = edgeDistance.trailing
         
-        print("topConstraint: ", topConstraint)
-        print("bottomConstraint: ", bottomConstraint)
-        print("leftConstraint: ", leftConstraint)
-        print("rightConstraint: ", rightConstraint)
+        print("%%%%%%%%%%")
+        print("topDistance: ", topConstraint, " bottomDistance: ", bottomConstraint, " leftDistance: ", leftConstraint, " rightDistance: ", rightConstraint)
 
         // Convert to percentages
+        
+        // non neg
         topRatio = (topConstraint / imageViewHeight)
         bottomRatio = (bottomConstraint / imageViewHeight)
         leftRatio = (leftConstraint / imageViewWidth)
@@ -444,6 +400,7 @@ class ExpandViewControllerV2: UIViewController {
         print("Bottom Percentage: \(String(describing: bottomRatio)) %")
         print("Left Percentage: \(String(describing: leftRatio)) %")
         print("Right Percentage: \(String(describing: rightRatio)) %")
+        print("%%%%%%%%%%")
 
     }
     
@@ -853,24 +810,29 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
             
             
             UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
+                let newContainerSize = CGSizeMake(self.imageContainerView.bounds.size.width, self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
+                var aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
+                aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
+////                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
+                print("self.imageView.bounds.size  ", self.imageView.bounds.size)
+                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
+                self.imageContainerViewWidthConstraint.constant = aspectrectContainer.size.width
+                self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
+                self.view.layoutIfNeeded()
+                print("imageContainerView.frame  ", self.imageContainerView.frame)
+//                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: self.imageContainerView.bounds)
+                
+//                print("aspectrectContainer  ", aspectrectContainer)
+                print("imageaspectrectContainer  ", imageaspectrectContainer)
+                
+                self.imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
+                self.imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
                 self.imageViewHorizontalConstraint.constant = 0
                 self.imageViewVerticalConstraint.constant = 0
                 
                 self.view.layoutIfNeeded()
-            }
-            
-            UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
-                let newContainerSize = CGSize(width: self.imageContainerView.bounds.size.width, height: self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
-                let aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
-                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
-
-                self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
-                self.view.layoutIfNeeded()
                 
-                self.imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
-                self.imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
-                
-                self.view.layoutIfNeeded()
+                self.OriginalSelectedSize = CGSize(width: self.imageView.frame.size.width, height: self.imageView.frame.size.height)
             }
         }
     }
@@ -923,5 +885,23 @@ extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
 extension ExpandViewControllerV2: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
+    }
+}
+
+
+
+extension Double {
+    func round(to places: Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return Darwin.round(self * divisor) / divisor
+    }
+}
+
+
+extension Double {
+    /// - returns: Rounded value with specific round rule and precision
+    func roundToPlaces(_ rule: FloatingPointRoundingRule = .toNearestOrEven, precision: Int) -> Double {
+        let divisor = pow(10.0, Double(precision))
+        return (self * divisor).rounded(rule) / divisor
     }
 }

@@ -42,12 +42,12 @@ class DownloadCellV2: UICollectionViewCell {
     }
     
     private func setupUI() {
-        imageContainerView.layer.cornerRadius = 10
+        imageContainerView.layer.cornerRadius = 12
         imageContainerView.clipsToBounds = true
         
-        indicatorContainerView.layer.cornerRadius = 10
+        indicatorContainerView.layer.cornerRadius = 12
         
-        regenerateContainerView.layer.cornerRadius = 10
+        regenerateContainerView.layer.cornerRadius = 12
     }
     
     
