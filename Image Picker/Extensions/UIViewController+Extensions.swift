@@ -36,4 +36,17 @@ extension UIViewController {
             }
         }
     }
+    
+    public func showAlert(title: String, message: String, cancelButtonTitle: String, completion: @escaping () -> Void) {
+        var hasButtons = false
+        let alertMessagePopUpBox = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let actionButton = UIAlertAction(title: cancelButtonTitle, style: .cancel) { _ in
+            print("\(cancelButtonTitle) Pressed")
+            completion()
+        }
+        
+        alertMessagePopUpBox.addAction(actionButton)
+        self.present(alertMessagePopUpBox, animated: true) 
+    }
 }

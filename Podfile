@@ -8,5 +8,6 @@ target 'Image Picker' do
   # Pods for Image Picker
   pod 'Alamofire'
   pod 'APNGKit', '~> 2.0'
+  pod 'ReachabilitySwift'
 
 end

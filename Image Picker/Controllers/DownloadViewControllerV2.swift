@@ -7,6 +7,7 @@
 
 import UIKit
 import Photos
+import Reachability
 
 class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
     
@@ -15,23 +16,19 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     @IBOutlet private weak var canvasView: UIView!
     
     @IBOutlet private weak var imageContainerView: UIView!
+    
     @IBOutlet private weak var TransparentImageView: UIImageView!
     @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var previousImageView: UIImageView!
 
     @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+    
     @IBOutlet private weak var imageViewAspectRatioConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewLeadingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewTopConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var imageViewBottomConstraint: NSLayoutConstraint!
     
-    
-    @IBOutlet weak var previousImageView: UIImageView!
-    
-    @IBOutlet weak var previousImageViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var previousImageViewTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var previousImageViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var previousImageViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var previousImageViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var compareImage: UIImageView!
     
@@ -83,6 +80,9 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private var lastSavedAssetIdentifiers: [String] = []
     
     private var isSetupDone: Bool = false
+    
+    //declare this property where it won't go out of scope relative to your listener
+    let reachability = try! Reachability()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +111,17 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = false
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability.stopNotifier()
     }
     
     override func viewDidLayoutSubviews() {
@@ -129,7 +140,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut, .transitionCrossDissolve]) {
+        UIView.animate(withDuration: 0.35, delay: 0, options: [.transitionCrossDissolve]) {
             self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
             self.view.layoutIfNeeded()
             
@@ -185,12 +196,12 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func addGesture() {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageV3(_:)))
         longPressGesture.delegate = self
-        longPressGesture.minimumPressDuration = 0
+        longPressGesture.numberOfTouchesRequired = 1
         imageView.addGestureRecognizer(longPressGesture)
         
         let longPressGesture1 = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageV3(_:)))
         longPressGesture1.delegate = self
-        longPressGesture1.minimumPressDuration = 0
+        longPressGesture1.numberOfTouchesRequired = 1
         compareImage.addGestureRecognizer(longPressGesture1)
     }
     
@@ -237,7 +248,10 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             } else {
                 self.adPopupView.hide {
                                         
-                    self.previousImageView.alpha = 0
+                    self.previousImageView.alpha = 1
+                    self.testimageView.frame = self.previousImageView.bounds
+                    self.testimageView.isHidden = false
+                    self.imageView.isHidden = true
                     self.imageView.contentMode = .scaleAspectFill
                     self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (self.pickedImage.size.width/self.pickedImage.size.height) )
                     self.view.layoutIfNeeded()
@@ -488,7 +502,10 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private func regenerateImageV3() {
         if PurchaseManager.shared.isPremiumUser {
             
-            previousImageView.alpha = 0
+            previousImageView.alpha = 1
+            testimageView.frame = previousImageView.bounds
+            testimageView.isHidden = false
+            imageView.isHidden = true
             imageView.contentMode = .scaleAspectFill
             self.imageViewAspectRatioConstraint = self.imageViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
             self.view.layoutIfNeeded()
@@ -597,7 +614,11 @@ extension DownloadViewControllerV2: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         if indexPath.item == downloadedImageArray.count {
             // if last cell tapped
-            regenerateImageV3()
+            if self.reachability.connection == .unavailable {
+                self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
+            } else {
+                regenerateImageV3()
+            }
             return false
         } else {
             return true

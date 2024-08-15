@@ -40,6 +40,14 @@ class DataManager {
         guard let rootValue = self.datasource["Supported Apps V2"] as? [[String: Any]] else { return nil }
         return rootValue.count
     }
+    
+    func getSupportedAspectRootDataCount(of section: Int) -> Int? {
+//        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
+        guard let rootValue = self.datasource["Supported Apps V2"] as? [[String: Any]],
+              let sectionData = self.parseDictionary(dictionary: rootValue[section])
+        else { return nil }
+        return sectionData.items.count
+    }
 
     func getSupportedAppsData(of section: Int) -> SectionData? {
 //        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],
@@ -48,35 +56,6 @@ class DataManager {
         else { return nil }
         return sectionData
     }
-    
-//    func getSupportedAppsData(of type: AppType) -> SectionData? {
-//        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]]
-//        else { return nil }
-//                
-//        for data in rootValue {
-//            if let title = data["title"] as? String, 
-//                title == type.rawValue, 
-//                let appType = AppType(rawValue: title),
-//                let itemsArray = data["items"] as? [[String: Any]] {
-//                
-//                // Parse items
-//                var items: [Item] = []
-//                for itemDict in itemsArray {
-//                    if let text = itemDict["text"] as? String,
-//                       let image = itemDict["image"] as? String,
-//                       let ratio = itemDict["ratio"] as? String {
-//                        let item = Item(text: text, image: image, ratio: ratio, appType: appType)
-//                        items.append(item)
-//                    }
-//                }
-//
-//                let sectionData = SectionData(title: title, appType: appType, items: items)
-//                
-//                return sectionData
-//            }
-//        }
-//        return nil
-//    }
     
     func getSupportedAspectData(of section: Int) -> [Item]? {
 //        guard let rootValue = self.datasource["Supported Apps"] as? [[String: Any]],

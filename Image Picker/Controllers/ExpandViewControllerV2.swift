@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import Reachability
 
 class ExpandViewControllerV2: UIViewController {
     
@@ -15,28 +16,23 @@ class ExpandViewControllerV2: UIViewController {
     @IBOutlet private weak var canvasView: UIView!
     
     @IBOutlet private weak var imageContainerView: UIView!
-    @IBOutlet private weak var TransparentImageView: UIImageView!
     
-
+    @IBOutlet private weak var TransparentImageView: UIImageView!
     @IBOutlet private weak var centerXAxisView: UIView!
     @IBOutlet private weak var centerYAxisView: UIView!
-    
-    
     @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var imageCropOverlayView: CropOverlayView!
     
+    @IBOutlet private weak var imageContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageContainerViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
+//    @IBOutlet private weak var imageContainerViewAspectRatioConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var imageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageViewHorizontalConstraint: NSLayoutConstraint!
     @IBOutlet private weak var imageViewVerticalConstraint: NSLayoutConstraint!
-
-    @IBOutlet private weak var imageCropOverlayView: CropOverlayView!
-    
     
     @IBOutlet private weak var separatorView: UIView!
-    
     
     @IBOutlet private weak var editorView: UIView!
     
@@ -47,7 +43,6 @@ class ExpandViewControllerV2: UIViewController {
     private var aspectCollectionView: UICollectionView!
     
     @IBOutlet private weak var bgView: UIView!
-    
     
     @IBOutlet private weak var navContainerView: UIView!
     
@@ -77,9 +72,11 @@ class ExpandViewControllerV2: UIViewController {
     
     private var isSetupDone: Bool = false
     
+    //declare this property where it won't go out of scope relative to your listener
+    let reachability = try! Reachability()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
         bindData()
         addGestures()
         loadCollectionViews()
@@ -96,6 +93,17 @@ class ExpandViewControllerV2: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
         print("self.imageContainerView.frame.size.width ", self.imageContainerView.frame.size.width)
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability.stopNotifier()
     }
         
     override func viewDidLayoutSubviews() {
@@ -119,14 +127,18 @@ class ExpandViewControllerV2: UIViewController {
         
         imageCropOverlayView.isUserInteractionEnabled = false
         
-        self.imageContainerViewWidthConstraint.constant = SCREEN_WIDTH
+//        self.imageContainerViewWidthConstraint.constant = SCREEN_WIDTH
+        self.imageContainerViewWidthConstraint.constant = canvasView.bounds.size.width
+        self.imageContainerViewHeightConstraint.constant = canvasView.bounds.size.height
         self.view.layoutIfNeeded()
 
         let newContainerSize = CGSizeMake(self.imageContainerView.bounds.size.width, self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
         var aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
-        aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
+//        aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
+        
         self.imageContainerViewWidthConstraint.constant = aspectrectContainer.size.width
-        self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
+        self.imageContainerViewHeightConstraint.constant = aspectrectContainer.size.height
+//        self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (pickedImage.size.width/pickedImage.size.height) )
         self.view.layoutIfNeeded()
 
         self.imageViewWidthConstraint.constant = self.imageContainerView.frame.size.width
@@ -135,6 +147,29 @@ class ExpandViewControllerV2: UIViewController {
                 
         OriginalSize = CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height)
         OriginalSelectedSize = CGSize(width: imageView.frame.size.width, height: imageView.frame.size.height)
+    }
+    
+    private func updateUI() {
+        UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
+            let newContainerSize = CGSizeMake(self.imageContainerView.bounds.size.width, self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
+            var aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
+//            aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
+            let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
+            
+            self.imageContainerViewWidthConstraint.constant = aspectrectContainer.size.width
+            self.imageContainerViewHeightConstraint.constant = aspectrectContainer.size.height
+//                self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
+            self.view.layoutIfNeeded()
+            
+            self.imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
+            self.imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
+            self.imageViewHorizontalConstraint.constant = 0
+            self.imageViewVerticalConstraint.constant = 0
+            self.view.layoutIfNeeded()
+            
+        } completion: { _ in
+            self.OriginalSelectedSize = CGSize(width: self.imageView.frame.size.width, height: self.imageView.frame.size.height)
+        }
     }
     
     private func bindData() {
@@ -178,7 +213,7 @@ class ExpandViewControllerV2: UIViewController {
         
         let aspectLayout = UICollectionViewFlowLayout()
         aspectLayout.scrollDirection = .horizontal
-        aspectLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
+//        aspectLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize // Enable self-sizing cells
         
         aspectCollectionView = UICollectionView(frame: aspectContainerView.bounds, collectionViewLayout: aspectLayout)
         aspectCollectionView.register(UINib(nibName: "AspectCellV2", bundle: nil), forCellWithReuseIdentifier: AspectCellV2.identifier)
@@ -214,13 +249,17 @@ class ExpandViewControllerV2: UIViewController {
         
         adPopupView.adPressed = {
             print("adButtonPressed")
-            if ADManager.shared.isAdLimitReached {
-                self.adLimitView.show() {}
+            if self.reachability.connection == .unavailable {
+                self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
             } else {
-                self.adPopupView.hide {
-                    self.calculateRelativeParameters()
-                    self.calculateRatioParameters()
-                    self.presentProgressViewController()
+                if ADManager.shared.isAdLimitReached {
+                    self.adLimitView.show() {}
+                } else {
+                    self.adPopupView.hide {
+                        self.calculateRelativeParameters()
+                        self.calculateRatioParameters()
+                        self.presentProgressViewController()
+                    }
                 }
             }
         }
@@ -349,20 +388,8 @@ class ExpandViewControllerV2: UIViewController {
     private var OriginalSelectedSize : CGSize!
     
     private func calculateRelativeParameters() {
-        
-        
-        let number: Double = 12.987
-        print(number.round(to: 0))
-        print(number.round(to: 1))
-        print(number.round(to: 2))
-        print(number.round(to: 3))
-        print(number.round(to: 4))
-        print(number.round(to: 5))
-        
         relativeScaleFactor = imageView.frame.size.width / OriginalSelectedSize.width
-        
         print("relativeScaleFactor ",  relativeScaleFactor)
-        
     }
     
     private func calculateRatioParameters() {
@@ -516,7 +543,6 @@ class ExpandViewControllerV2: UIViewController {
         default:
             break
         }
-        
     }
 
     private var viewSize: CGSize!
@@ -697,12 +723,16 @@ class ExpandViewControllerV2: UIViewController {
     }
     
     @IBAction func apiButtonPressed(_ sender: Any) {
-        if PurchaseManager.shared.isPremiumUser { // premium
-            calculateRelativeParameters()
-            calculateRatioParameters()
-            presentProgressViewController()
-        } else { // free
-            adPopupView.show() {}
+        if reachability.connection == .unavailable {
+            self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
+        } else {
+            if PurchaseManager.shared.isPremiumUser { // premium
+                calculateRelativeParameters()
+                calculateRatioParameters()
+                presentProgressViewController()
+            } else { // free
+                adPopupView.show() {}
+            }
         }
     }
     
@@ -720,11 +750,11 @@ extension ExpandViewControllerV2: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == appCollectionView {
-            guard let appItems = DataManager.shared.getSupportedAppsRootDataCount() else { return 0 }
-            return appItems
+            guard let appItemsCount = DataManager.shared.getSupportedAppsRootDataCount() else { return 0 }
+            return appItemsCount
         } else {
-            guard let aspectItems = DataManager.shared.getSupportedAppsData(of: selectedAppIndex) else { return 0 } // selected index
-            return aspectItems.items.count
+            guard let aspectItemsCount = DataManager.shared.getSupportedAspectRootDataCount(of: selectedAppIndex) else { return 0 } // selected index
+            return aspectItemsCount
         }
     }
     
@@ -759,7 +789,6 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
             if selectedAppIndex != indexPath.item {
                 selectedAppIndex = indexPath.item
                 appCollectionView.scrollToItem(at: IndexPath(item: selectedAppIndex, section: 0), at: .centeredHorizontally, animated: true)
-//                aspectCollectionView.reloadSections([0])
                 
                 //selected
                 if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex), indexPath.item == selectedAppIndex, aspectData.count > selectedAspectIndex, selectedUniqueAspectIdentifier.lowercased() == aspectData[selectedAspectIndex].selectedImage.lowercased() {
@@ -803,36 +832,11 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
                 selectedUniqueAspectIdentifier = aspectData[indexPath.item].selectedImage
                 
                 aspectData[indexPath.item].text.lowercased() == "profile" ? addMaskToCanvas() : removeMaskFromCanvas()
-            }
-            
-            selectedAspectIndex = indexPath.item
-            aspectCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            
-            
-            UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut) {
-                let newContainerSize = CGSizeMake(self.imageContainerView.bounds.size.width, self.imageContainerView.bounds.size.width*(1/self.selectedAspectRatio))
-                var aspectrectContainer = AVMakeRect(aspectRatio: newContainerSize, insideRect: self.canvasView.bounds)
-                aspectrectContainer = CGRectMake(aspectrectContainer.origin.x, aspectrectContainer.origin.y, floor((aspectrectContainer.size.width)),floor((aspectrectContainer.size.height)))
-////                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
-                print("self.imageView.bounds.size  ", self.imageView.bounds.size)
-                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: aspectrectContainer)
-                self.imageContainerViewWidthConstraint.constant = aspectrectContainer.size.width
-                self.imageContainerViewAspectRatioConstraint = self.imageContainerViewAspectRatioConstraint.changeMultiplier(multiplier: (self.selectedAspectRatio))
-                self.view.layoutIfNeeded()
-                print("imageContainerView.frame  ", self.imageContainerView.frame)
-//                let imageaspectrectContainer = AVMakeRect(aspectRatio: self.imageView.bounds.size, insideRect: self.imageContainerView.bounds)
                 
-//                print("aspectrectContainer  ", aspectrectContainer)
-                print("imageaspectrectContainer  ", imageaspectrectContainer)
+                selectedAspectIndex = indexPath.item
+                aspectCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 
-                self.imageViewWidthConstraint.constant = imageaspectrectContainer.size.width
-                self.imageViewHeightConstraint.constant = imageaspectrectContainer.size.height
-                self.imageViewHorizontalConstraint.constant = 0
-                self.imageViewVerticalConstraint.constant = 0
-                
-                self.view.layoutIfNeeded()
-                
-                self.OriginalSelectedSize = CGSize(width: self.imageView.frame.size.width, height: self.imageView.frame.size.height)
+                updateUI()
             }
         }
     }
@@ -840,14 +844,67 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
 
 extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if collectionView == appCollectionView {
-            return UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
-        } else {
-            return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+    private func calculateAppInset() -> UIEdgeInsets {
+        var cellCount: Int = 1
+        var cellWidth: Double = 0.0
+        var sideInset: CGFloat = 0
+        
+        if let appItemscount = DataManager.shared.getSupportedAppsRootDataCount() {
+            cellCount = appItemscount
+            for index in 0..<cellCount {
+                if let appData = DataManager.shared.getSupportedAppsData(of: index) {
+                    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .medium)] // get cell label exact font
+                    let cellSize = (appData.title as NSString).size(withAttributes: attributes)
+                    cellWidth += cellSize.width + 32
+                }
+            }
+            
+            let emptySpace = SCREEN_WIDTH - cellWidth // no inter item spacing
+            sideInset = emptySpace / 2
         }
         
+        return UIEdgeInsets(top: 0, left: max(sideInset, 6), bottom: 0, right: max(sideInset, 6))
     }
+    
+    private func calculateAspectInset() -> UIEdgeInsets {
+        var cellCount: Int = 1
+        var cellWidth: Double = 0.0
+        var sideInset: CGFloat = 0
+        
+        if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
+            cellCount = aspectData.count
+            for index in aspectData.indices {
+                if let img = UIImage(named: aspectData[index].selectedImage) {
+                    let imgAspect = (img.size.width/img.size.height)
+                    cellWidth += aspectContainerView.bounds.size.height * imgAspect
+                }
+            }
+            
+            let itemInterSpacing = 12.0 * (Double(cellCount) - 1)
+            let allCellWidth = cellWidth + itemInterSpacing
+            let emptySpace = SCREEN_WIDTH - allCellWidth
+            sideInset = emptySpace / 2
+        }
+        
+        return UIEdgeInsets(top: 0, left: max(sideInset, 22), bottom: 0, right: max(sideInset, 22))
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == appCollectionView {
+            return self.calculateAppInset()
+        } else {
+            return self.calculateAspectInset()
+        }
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        if collectionView == appCollectionView {
+//            return UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
+//        } else {
+//            return UIEdgeInsets(top: 0, left: 22, bottom: 0, right: 22)
+//        }
+//        
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == appCollectionView /*,let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppCell.identifier, for: indexPath) as? AppCell*/ {
@@ -860,10 +917,19 @@ extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
                 return CGSize(width: 30, height: 30)
             }
         } else {
-            return CGSize(width: 30, height: 30)
+            if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
+                if let img = UIImage(named: aspectData[indexPath.item].selectedImage) {
+                    let imgAspect = (img.size.width/img.size.height)
+                    let cellSize = CGSize(width: aspectContainerView.bounds.size.height * imgAspect, height: collectionView.bounds.size.height)
+                    return cellSize
+                } else {
+                    return CGSize(width: 30, height: 30)
+                }
+            } else {
+                return CGSize(width: 30, height: 30)
+            }
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == appCollectionView {
             return 0.0
@@ -885,23 +951,5 @@ extension ExpandViewControllerV2: UICollectionViewDelegateFlowLayout {
 extension ExpandViewControllerV2: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
-    }
-}
-
-
-
-extension Double {
-    func round(to places: Int) -> Double {
-        let divisor = pow(10.0, Double(places))
-        return Darwin.round(self * divisor) / divisor
-    }
-}
-
-
-extension Double {
-    /// - returns: Rounded value with specific round rule and precision
-    func roundToPlaces(_ rule: FloatingPointRoundingRule = .toNearestOrEven, precision: Int) -> Double {
-        let divisor = pow(10.0, Double(precision))
-        return (self * divisor).rounded(rule) / divisor
     }
 }

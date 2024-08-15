@@ -7,6 +7,7 @@
 
 import UIKit
 import APNGKit
+import Reachability
 
 class ProgessViewController: UIViewController {
     
@@ -14,8 +15,9 @@ class ProgessViewController: UIViewController {
     
     @IBOutlet private weak var canvasView: UIView!
     
-    
     @IBOutlet private weak var imageContainerView: UIView!
+    @IBOutlet private weak var shadowView: UIView!
+    
     @IBOutlet private weak var TransparentImageView: UIImageView!
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var previousImageView: UIImageView!
@@ -65,10 +67,14 @@ class ProgessViewController: UIViewController {
     private var isPurchasePressed: Bool = false
     private var isDownloaded: Bool = false
     private var isAdFinished: Bool = false
+    private var isSetupDone: Bool = false
     
     private var timer: Timer!
     
     var downloadCompletion: (( _ pickedImage: UIImage, _ downloadedImage: UIImage ) -> Void)? = nil
+    
+    //declare this property where it won't go out of scope relative to your listener
+    let reachability = try! Reachability()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,11 +86,25 @@ class ProgessViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability.stopNotifier()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
-        setupUI()
+        if !isSetupDone {
+            setupUI() // bool check for the first timer
+            isSetupDone = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -94,13 +114,12 @@ class ProgessViewController: UIViewController {
             UIView.animate(withDuration: 2.0, delay: 1.0, options: .curveEaseInOut) {
                 self.canvasViewTopConstraint.constant = 10 + 44 // for nav visibility
                 self.canvasViewBottomConstraint.constant = 117
+                self.view.layoutIfNeeded()
                 
                 self.previousImageViewLeadingConstraint.constant = self.leftRatio * self.imageView.frame.width * self.relativeScaleFactor
                 self.previousImageViewTrailingConstraint.constant = self.rightRatio * self.imageView.frame.width * self.relativeScaleFactor
                 self.previousImageViewTopConstraint.constant = self.topRatio * self.imageView.frame.height * self.relativeScaleFactor
                 self.previousImageViewBottomConstraint.constant = self.bottomRatio * self.imageView.frame.height * self.relativeScaleFactor
-            
-                
                 self.view.layoutIfNeeded()
             }
         }
@@ -210,6 +229,10 @@ class ProgessViewController: UIViewController {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                         self.dismiss(animated: true)
                                     }
+                                } else {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.dismiss(animated: true)
+                                    }
                                 }
                             }
                         }
@@ -221,6 +244,10 @@ class ProgessViewController: UIViewController {
                                 // send to previous nav stack
                                 self.downloadCompletion?(self.pickedImage, self.downloadedImage)
 
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.dismiss(animated: true)
+                                }
+                            } else {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     self.dismiss(animated: true)
                                 }
@@ -251,10 +278,21 @@ class ProgessViewController: UIViewController {
                     
                 } else {
                     print("Failed to convert data to image")
-                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later")
+                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
+                        self.dismiss(animated: true)
+                    }
                 }
             case .failure(let error):
                 print("Error: \(error)")
+                if self.reachability.connection == .unavailable {
+                    self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok") {
+                        self.dismiss(animated: true)
+                    }
+                } else {
+                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
+                        self.dismiss(animated: true)
+                    }
+                }
             }
         }
     }

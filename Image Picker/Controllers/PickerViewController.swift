@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Reachability
 
 class PickerViewController: UIViewController, UINavigationControllerDelegate {
 
@@ -17,9 +18,27 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
     var pickedImage: UIImage? = nil
     var imageData: Data!
     
+    //declare this property where it won't go out of scope relative to your listener
+    let reachability = try! Reachability()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //declare this inside of viewWillAppear
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        reachability.stopNotifier()
     }
     
     private func setupUI() {
@@ -62,7 +81,12 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         imagePicker.sourceType = .photoLibrary
         //        imagePicker.sourceType = .camera
         imagePicker.allowsEditing = false
-        present(imagePicker, animated: true, completion: nil)
+        
+//        if reachability.connection == .unavailable {
+//            self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
+//        } else {
+            present(imagePicker, animated: true, completion: nil)
+//        }
     }
 
     @IBAction func resetADButtonPressed(_ sender: Any) {
@@ -97,12 +121,10 @@ extension PickerViewController: UIImagePickerControllerDelegate {
 
 //            presentImageViewController(pickedImage: pickedImage, imageData: imageData)
 //            presentExpandViewController(pickedImage: pickedImage, imageData: imageData)
-            presentExpandViewControllerV2(pickedImage: pickedImage, imageData: imageData)
-            
-        }
-        
-        picker.dismiss(animated: true) {
-            self.pickedImage = nil
+            picker.dismiss(animated: true) {
+                self.presentExpandViewControllerV2(pickedImage: pickedImage, imageData: imageData)
+                self.pickedImage = nil
+            }
         }
     }
         

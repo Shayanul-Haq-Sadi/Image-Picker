@@ -23,7 +23,8 @@ extension UIView {
         let leadingDistance = round(self.frame.origin.x)
         let trailingDistance = round(superview.frame.width - (self.frame.origin.x + self.frame.width))
         
-        return (top: topDistance, bottom: bottomDistance, leading: leadingDistance, trailing: trailingDistance)
+//        return (top: topDistance, bottom: bottomDistance, leading: leadingDistance, trailing: trailingDistance)
+        return (top: max(topDistance, 0), bottom: max(bottomDistance, 0), leading: max(leadingDistance, 0), trailing: max(trailingDistance, 0)) // limit negetive value
     }
     
     func addToWindow() {

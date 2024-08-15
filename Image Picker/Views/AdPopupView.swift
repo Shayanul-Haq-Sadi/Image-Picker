@@ -9,7 +9,7 @@ import UIKit
 
 class AdPopupView: UIView {
     
-    @IBOutlet private weak var popupViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var popupViewBottomConstraint: NSLayoutConstraint!
     
     @IBOutlet private weak var popupView: UIView!
     @IBOutlet private weak var closeButton: UIButton!
@@ -32,13 +32,13 @@ class AdPopupView: UIView {
         popupView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         self.isHidden = true
-        popupViewHeightConstraint.constant = 0
+        popupViewBottomConstraint.constant = -334
     }
     
     func show(delay: Double = 0.0, completion: @escaping () -> Void?) {
         self.isHidden = false
         UIView.animate(withDuration: 0.35, delay: delay, options: .curveEaseInOut) {
-            self.popupViewHeightConstraint.constant = 334
+            self.popupViewBottomConstraint.constant = 0
             self.layoutIfNeeded()
         } completion: { _ in
             completion()
@@ -47,7 +47,7 @@ class AdPopupView: UIView {
     
     func hide(delay: Double = 0.0, completion: @escaping () -> Void?) {
         UIView.animate(withDuration: 0.35, delay: delay, options: .curveEaseInOut) {
-            self.popupViewHeightConstraint.constant = 0
+            self.popupViewBottomConstraint.constant = -334
             self.layoutIfNeeded()
         } completion: { _ in
             self.isHidden = true
