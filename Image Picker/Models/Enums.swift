@@ -16,7 +16,7 @@ enum AppType: String {
     case pinterest = "pinterest"
     case linkedin = "linkedin"
     case youtube = "youtube"
-    case twitter = "x"
+    case twitter = "twitter"
 }
 
 enum DynamicCellState: Int {

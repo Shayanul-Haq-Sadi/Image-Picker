@@ -69,6 +69,8 @@ class ProgessViewController: UIViewController {
     private var isAdFinished: Bool = false
     private var isSetupDone: Bool = false
     
+    var isProfileType: Bool = false
+        
     private var timer: Timer!
     
     var downloadCompletion: (( _ pickedImage: UIImage, _ downloadedImage: UIImage ) -> Void)? = nil
@@ -122,6 +124,12 @@ class ProgessViewController: UIViewController {
                 self.previousImageViewBottomConstraint.constant = self.bottomRatio * self.imageView.frame.height * self.relativeScaleFactor
                 self.view.layoutIfNeeded()
             }
+        }
+        
+        if self.isProfileType {
+            self.addMaskToCanvas(animated: true)
+        } else {
+            self.removeMaskFromCanvas(animated: true)
         }
     }
     
@@ -181,6 +189,31 @@ class ProgessViewController: UIViewController {
 //            print("Played: \(count)")
 //        }
     }
+
+    private func addMaskToCanvas(animated: Bool = false) {
+        let maskPath = UIBezierPath(ovalIn: CGRect(x: 0, y: (canvasView.bounds.height - canvasView.bounds.width)/2 , width: canvasView.bounds.width, height: canvasView.bounds.width))
+        let maskLayer = CAShapeLayer()
+        maskLayer.fillRule = .evenOdd
+        maskLayer.path = maskPath.cgPath
+        
+        if animated {
+            UIView.animate(withDuration: 0.2, delay: 1, options: .curveEaseInOut) {
+                self.canvasView.layer.mask = maskLayer
+            }
+        } else {
+            self.canvasView.layer.mask = maskLayer
+        }
+    }
+    
+    private func removeMaskFromCanvas(animated: Bool = false) {
+        if animated {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+                self.canvasView.layer.mask = nil
+            }
+        } else {
+            self.canvasView.layer.mask = nil
+        }
+    }
     
     private func adNewLogic() {
         if PurchaseManager.shared.isPremiumUser { // no ad direct flow
@@ -188,13 +221,26 @@ class ProgessViewController: UIViewController {
             purchaseContainerView.isHidden = true
             
             // api call
-            self.uploadImage { [weak self] picked, downloaded in
+            self.uploadImage { [weak self] picked, downloaded, error in
                 
-                // send to previous nav stack
-                self?.downloadCompletion?(picked, downloaded)
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self?.dismiss(animated: true)
+                if let picked, let downloaded {
+                    // send to previous nav stack
+                    self?.downloadCompletion?(picked, downloaded)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self?.dismiss(animated: true)
+                    }
+                } else if error != nil {
+                    // error handle
+                    if self?.reachability.connection == .unavailable {
+                        self?.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok") {
+                            self?.dismiss(animated: true)
+                        }
+                    } else {
+                        self?.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
+                            self?.dismiss(animated: true)
+                        }
+                    }
                 }
             }
         }
@@ -202,14 +248,47 @@ class ProgessViewController: UIViewController {
             if !self.isAdShown { //ad not shown so show add
                 
                 if !isAPICalled {
-                    self.uploadImage { picked, downloaded in
+                    self.uploadImage { picked, downloaded, error in
                         
-                        if self.isAdFinished && self.isDownloaded {
-                            // send to previous nav stack
-                            self.downloadCompletion?(picked, downloaded)
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                self.dismiss(animated: true)
+                        if let picked, let downloaded {
+                            if self.isAdFinished && self.isDownloaded {
+                                // send to previous nav stack
+                                self.downloadCompletion?(picked, downloaded)
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.dismiss(animated: true)
+                                }
+                            }
+                        } else if let error {
+                            // error handle
+                            // maybe ad visible so it will be under
+                            // maybe purchase visible so it will be under
+                            if self.isAdShown { // ad visible case
+                                // dismiss ad first then show error on progress vc
+                                self.dismiss(animated: true) {
+                                    if self.reachability.connection == .unavailable {
+                                        self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok") {
+                                            self.dismiss(animated: true)
+                                        }
+                                    } else {
+                                        self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
+                                            self.dismiss(animated: true)
+                                        }
+                                    }
+                                }
+                            } else if self.isPurchasePressed { // purchase visible case
+
+                            } else { // ad and purchase not visible case
+                                // directly show error on progress vc
+                                if self.reachability.connection == .unavailable {
+                                    self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok") {
+                                        self.dismiss(animated: true)
+                                    }
+                                } else {
+                                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
+                                        self.dismiss(animated: true)
+                                    }
+                                }
                             }
                         }
                     }
@@ -229,10 +308,6 @@ class ProgessViewController: UIViewController {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                         self.dismiss(animated: true)
                                     }
-                                } else {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                        self.dismiss(animated: true)
-                                    }
                                 }
                             }
                         }
@@ -244,10 +319,6 @@ class ProgessViewController: UIViewController {
                                 // send to previous nav stack
                                 self.downloadCompletion?(self.pickedImage, self.downloadedImage)
 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                    self.dismiss(animated: true)
-                                }
-                            } else {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                     self.dismiss(animated: true)
                                 }
@@ -263,7 +334,7 @@ class ProgessViewController: UIViewController {
         }
     }
     
-    private func uploadImage(completion: @escaping ( _ pickedImage: UIImage, _ downloadedImage: UIImage) -> Void) {
+    private func uploadImage(completion: @escaping (_ pickedImage: UIImage?, _ downloadedImage: UIImage?, _ error: Error?) -> Void) {
         print("uploadImage API CALLED")
         isAPICalled = true
         APIManager.shared.uploadImage(imageData: imageData, leftPercentage: leftRatio, rightPercentage: rightRatio, topPercentage: topRatio, bottomPercentage: bottomRatio, keepOriginalSize: keepOriginalSize){ response in
@@ -274,7 +345,7 @@ class ProgessViewController: UIViewController {
                     
                     self.downloadedImage = image
                     self.isDownloaded = true
-                    completion(self.pickedImage, self.downloadedImage)
+                    completion(self.pickedImage, self.downloadedImage, nil)
                     
                 } else {
                     print("Failed to convert data to image")
@@ -284,15 +355,7 @@ class ProgessViewController: UIViewController {
                 }
             case .failure(let error):
                 print("Error: \(error)")
-                if self.reachability.connection == .unavailable {
-                    self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok") {
-                        self.dismiss(animated: true)
-                    }
-                } else {
-                    self.showAlert(title: "Oops!", message: "Something went wrong! Please try again later", cancelButtonTitle: "Ok") {
-                        self.dismiss(animated: true)
-                    }
-                }
+                completion(nil, nil, error)
             }
         }
     }

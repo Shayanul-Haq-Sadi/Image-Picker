@@ -81,6 +81,8 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     
     private var isSetupDone: Bool = false
     
+    var isProfileType: Bool = false
+    
     //declare this property where it won't go out of scope relative to your listener
     let reachability = try! Reachability()
 
@@ -106,6 +108,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
 //        writeTempData(downloadedImage, name: 22)
 //        var img = readTempData(withName: 1)
 //        removeTempData()
+//        need to remove temp on vc close
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,7 +152,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             
         } completion: { _ in
             self.imageView.contentMode = .scaleAspectFit
-            self.previousImageView.alpha = 1
+            self.previousImageView.alpha = 0
             
             self.testimageView.isHidden = true
             self.imageView.isHidden = false
@@ -190,6 +193,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         previousImageViewBottomConstraint.constant = bottomRatio * imageView.frame.height * relativeScaleFactor
         self.view.layoutIfNeeded()
         
+        imageView.layer.cornerRadius = isProfileType ? (canvasView.frame.width/2) : 0
         testimageView.frame = previousImageView.bounds
     }
     
@@ -197,11 +201,13 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageV3(_:)))
         longPressGesture.delegate = self
         longPressGesture.numberOfTouchesRequired = 1
+        longPressGesture.minimumPressDuration = 0.0
         imageView.addGestureRecognizer(longPressGesture)
         
         let longPressGesture1 = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageV3(_:)))
         longPressGesture1.delegate = self
         longPressGesture1.numberOfTouchesRequired = 1
+        longPressGesture1.minimumPressDuration = 0.0
         compareImage.addGestureRecognizer(longPressGesture1)
     }
     
@@ -346,21 +352,60 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     private func renderImageV2(image: UIImage) -> UIImage? {
-        let expectedWidth = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))
-        let expectedHeight = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))
+        var expectedWidth: CGFloat
+        var expectedHeight: CGFloat
         
-        if let renderedImage = image.upscaleImage(width: expectedWidth, height: expectedHeight) {
-            
-            print("++pickedImage.size.width ", pickedImage.size.width)
-            print("++pickedImage.size.height ", pickedImage.size.height)
-            print("++renderedImage.size.width ", renderedImage.size.width)
-            print("++renderedImage.size.height ", renderedImage.size.height)
-            print("++downloadedImage.size.width ", downloadedImage.size.width)
-            print("++downloadedImage.size.height ", downloadedImage.size.height)
-            
-            return renderedImage
+        let calculatedWidth = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))
+        let calculatedHeight = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))
+        
+        // only the minimum goes ahead
+        if calculatedWidth < calculatedHeight {
+            // width small
+            expectedWidth = calculatedWidth
+            expectedHeight = expectedWidth * (1 / selectedAspectRatio)
+        } else if calculatedWidth > calculatedHeight {
+            // height small
+            expectedHeight = calculatedHeight
+            expectedWidth = expectedHeight * selectedAspectRatio
         } else {
-            return nil
+            // equal
+            expectedWidth = calculatedWidth
+            expectedHeight = calculatedHeight
+        }
+        
+        if isProfileType {
+            let profileParentLayer = CALayer()
+            profileParentLayer.frame = CGRect(x: 0, y: 0, width: expectedWidth, height: expectedHeight)
+            profileParentLayer.backgroundColor = UIColor.black.cgColor
+            
+            let profileLayer = CALayer()
+            profileLayer.frame = CGRect(x: 0, y: 0, width: expectedWidth, height: expectedHeight)
+            profileLayer.position = CGPoint(x: expectedWidth/2, y: expectedHeight/2)
+            profileLayer.contents = image.cgImage
+            profileLayer.cornerRadius = expectedWidth/2
+            profileLayer.masksToBounds  = true
+            profileParentLayer.addSublayer(profileLayer)
+            
+            if let renderedImage = image.renderImageFromLayer(profileParentLayer) {
+                return renderedImage
+            } else {
+                return nil
+            }
+        }
+        else {
+            if let renderedImage = image.upscaleImage(width: expectedWidth, height: expectedHeight) {
+                
+                print("++pickedImage.size.width ", pickedImage.size.width)
+                print("++pickedImage.size.height ", pickedImage.size.height)
+                print("++renderedImage.size.width ", renderedImage.size.width)
+                print("++renderedImage.size.height ", renderedImage.size.height)
+                print("++downloadedImage.size.width ", downloadedImage.size.width)
+                print("++downloadedImage.size.height ", downloadedImage.size.height)
+                
+                return renderedImage
+            } else {
+                return nil
+            }
         }
     }
     
@@ -425,6 +470,8 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             VC.selectedAspectRatio = selectedAspectRatio
             VC.relativeScaleFactor = relativeScaleFactor
             VC.isFromDownload = true
+            
+            VC.isProfileType = isProfileType
             
             VC.downloadCompletion = { picked, downloaded in
                 self.downloadedImage = downloaded
@@ -519,14 +566,12 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     @objc private func longPressImageV3(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
             case .began:
-                UIView.animate(withDuration: 0.5, delay: 0, options: [.transitionCrossDissolve, .curveEaseInOut]) {
-                    self.imageView.alpha = 0
-                }
+                self.previousImageView.alpha = 1
+                self.imageView.alpha = 0
                 
             case .ended:
-                UIView.animate(withDuration: 0.5, delay: 0, options: [.transitionCrossDissolve, .curveEaseInOut]) {
-                    self.imageView.alpha = 1
-                }
+                self.imageView.alpha = 1
+                self.previousImageView.alpha = 0
                 
             default: break
         }

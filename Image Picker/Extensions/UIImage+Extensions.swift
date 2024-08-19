@@ -81,7 +81,7 @@ extension UIImage {
         return upscaledImage
     }
     
-    func renderImageFromLayer(_ layerToRender: CALayer) -> UIImage {
+    func renderImageFromLayer(_ layerToRender: CALayer) -> UIImage? {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1.0
         let renderer = UIGraphicsImageRenderer(size: layerToRender.frame.size, format: format)

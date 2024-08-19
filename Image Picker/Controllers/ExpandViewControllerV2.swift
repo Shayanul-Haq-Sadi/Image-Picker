@@ -71,6 +71,7 @@ class ExpandViewControllerV2: UIViewController {
     private var generator : UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .light)
     
     private var isSetupDone: Bool = false
+    var isProfileType: Bool = false
     
     //declare this property where it won't go out of scope relative to your listener
     let reachability = try! Reachability()
@@ -309,6 +310,8 @@ class ExpandViewControllerV2: UIViewController {
             VC.relativeScaleFactor = relativeScaleFactor
             VC.isFromExapand = true
             
+            VC.isProfileType = isProfileType
+            
             VC.downloadCompletion = { picked, downloaded in
                 self.pushDownloadViewControllerV2(pickedImage: picked, downloadedImage: downloaded)
             }
@@ -331,6 +334,8 @@ class ExpandViewControllerV2: UIViewController {
         
         VC.selectedAspectRatio = selectedAspectRatio
         VC.relativeScaleFactor = relativeScaleFactor
+        
+        VC.isProfileType = isProfileType
         
         VC.modalPresentationStyle = .fullScreen
         VC.modalTransitionStyle = .crossDissolve
@@ -831,6 +836,7 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
                 
                 selectedUniqueAspectIdentifier = aspectData[indexPath.item].selectedImage
                 
+                isProfileType = aspectData[indexPath.item].text.lowercased() == "profile"
                 aspectData[indexPath.item].text.lowercased() == "profile" ? addMaskToCanvas() : removeMaskFromCanvas()
                 
                 selectedAspectIndex = indexPath.item
