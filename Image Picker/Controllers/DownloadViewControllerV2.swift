@@ -418,6 +418,15 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
         PHPhotoLibrary.requestAuthorization { status in
             if status != .authorized {
                 print("Photo library access not authorized")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Warning!", message: "NoCrop wants to accesss your Photos permission to save edited Photo", defaultButtonTitle: "Go to Settings", cancelButtonTitle: "Cancel") { style in
+                        if style == .default {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        } else if style == .cancel {
+                            // dismiss
+                        }
+                    }
+                }
                 return
             }
             else if status == .authorized {
