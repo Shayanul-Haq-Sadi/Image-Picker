@@ -14,6 +14,7 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet private weak var resetADButton: UIButton!
     @IBOutlet private weak var premiumButton: UIButton!
     @IBOutlet private weak var freeButton: UIButton!
+    @IBOutlet private weak var fixedResolutionFlowSwitch: UISwitch!
     
     var pickedImage: UIImage? = nil
     var imageData: Data!
@@ -104,6 +105,15 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         self.showAlert(title: "Free User!", message: "Buy now to get all features")
     }
     
+    @IBAction func switchValueDidChange(_ sender: UISwitch) {
+        if (sender.isOn){
+            AppManager.shared.enable()
+            self.showAlert(title: "Enabled!", message: "Resolutions are fixed to app preference")
+        } else {
+            AppManager.shared.disable()
+            self.showAlert(title: "Disabled!", message: "Resolutions are based on user preference")
+        }
+    }
 }
 
 

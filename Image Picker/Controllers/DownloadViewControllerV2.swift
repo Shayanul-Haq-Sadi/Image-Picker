@@ -73,6 +73,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     var keepOriginalSize = "False"
     
     var selectedAspectRatio: CGFloat! = 1.0
+    var selectedFixedResolution: CGSize!
     var relativeScaleFactor: CGFloat!
     
     private var selectedIndex: Int = 0
@@ -80,6 +81,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     private var lastSavedAssetIdentifiers: [String] = []
     
     private var isSetupDone: Bool = false
+    private var isNewImagePicked: Bool = false
     
     var isProfileType: Bool = false
     
@@ -373,7 +375,7 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             expectedHeight = calculatedHeight
         }
         
-        if isProfileType {
+        if isProfileType { //circle cutout render for profiletype
             let profileParentLayer = CALayer()
             profileParentLayer.frame = CGRect(x: 0, y: 0, width: expectedWidth, height: expectedHeight)
             profileParentLayer.backgroundColor = UIColor.black.cgColor
@@ -386,25 +388,91 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
             profileLayer.masksToBounds  = true
             profileParentLayer.addSublayer(profileLayer)
             
-            if let renderedImage = image.renderImageFromLayer(profileParentLayer) {
-                return renderedImage
-            } else {
-                return nil
-            }
+            guard let renderedImage = image.renderImageFromLayer(profileParentLayer) else { return nil }
+            print("++pickedImage.size.width ", pickedImage.size.width)
+            print("++pickedImage.size.height ", pickedImage.size.height)
+            print("++renderedImage.size.width ", renderedImage.size.width)
+            print("++renderedImage.size.height ", renderedImage.size.height)
+            print("++downloadedImage.size.width ", downloadedImage.size.width)
+            print("++downloadedImage.size.height ", downloadedImage.size.height)
+            return renderedImage
         }
-        else {
-            if let renderedImage = image.upscaleImage(width: expectedWidth, height: expectedHeight) {
+        else { //upscale render for non profiletypes
+            guard let renderedImage = image.upscaleImage(width: expectedWidth, height: expectedHeight) else { return nil }
+            print("++pickedImage.size.width ", pickedImage.size.width)
+            print("++pickedImage.size.height ", pickedImage.size.height)
+            print("++renderedImage.size.width ", renderedImage.size.width)
+            print("++renderedImage.size.height ", renderedImage.size.height)
+            print("++downloadedImage.size.width ", downloadedImage.size.width)
+            print("++downloadedImage.size.height ", downloadedImage.size.height)
+            return renderedImage
+        }
+    }
+    
+    private func renderImageV3(image: UIImage) -> UIImage? {
+        if selectedFixedResolution != .zero { //fixed resolution for differnt apptypes when res available
+            guard let renderedImage = image.upscaleImage(width: selectedFixedResolution.width, height: selectedFixedResolution.height) else { return nil }
+            print("++pickedImage.size.width ", pickedImage.size.width)
+            print("++pickedImage.size.height ", pickedImage.size.height)
+            print("++renderedImage.size.width ", renderedImage.size.width)
+            print("++renderedImage.size.height ", renderedImage.size.height)
+            print("++downloadedImage.size.width ", downloadedImage.size.width)
+            print("++downloadedImage.size.height ", downloadedImage.size.height)
+            return renderedImage
+        }
+        else { //calculated resolution for differnt apptypes when res not available
+            var expectedWidth: CGFloat
+            var expectedHeight: CGFloat
+            
+            let calculatedWidth = (pickedImage.size.width + (pickedImage.size.width * (leftRatio + rightRatio)))
+            let calculatedHeight = (pickedImage.size.height + (pickedImage.size.height * (topRatio + bottomRatio)))
+            
+            // only the minimum goes ahead
+            if calculatedWidth < calculatedHeight {
+                // width small
+                expectedWidth = calculatedWidth
+                expectedHeight = expectedWidth * (1 / selectedAspectRatio)
+            } else if calculatedWidth > calculatedHeight {
+                // height small
+                expectedHeight = calculatedHeight
+                expectedWidth = expectedHeight * selectedAspectRatio
+            } else {
+                // equal
+                expectedWidth = calculatedWidth
+                expectedHeight = calculatedHeight
+            }
+            
+            if isProfileType { //circle cutout render for profiletype
+                let profileParentLayer = CALayer()
+                profileParentLayer.frame = CGRect(x: 0, y: 0, width: expectedWidth, height: expectedHeight)
+                profileParentLayer.backgroundColor = UIColor.black.cgColor
                 
+                let profileLayer = CALayer()
+                profileLayer.frame = CGRect(x: 0, y: 0, width: expectedWidth, height: expectedHeight)
+                profileLayer.position = CGPoint(x: expectedWidth/2, y: expectedHeight/2)
+                profileLayer.contents = image.cgImage
+                profileLayer.cornerRadius = expectedWidth/2
+                profileLayer.masksToBounds  = true
+                profileParentLayer.addSublayer(profileLayer)
+                
+                guard let renderedImage = image.renderImageFromLayer(profileParentLayer) else { return nil }
                 print("++pickedImage.size.width ", pickedImage.size.width)
                 print("++pickedImage.size.height ", pickedImage.size.height)
                 print("++renderedImage.size.width ", renderedImage.size.width)
                 print("++renderedImage.size.height ", renderedImage.size.height)
                 print("++downloadedImage.size.width ", downloadedImage.size.width)
                 print("++downloadedImage.size.height ", downloadedImage.size.height)
-                
                 return renderedImage
-            } else {
-                return nil
+            }
+            else { //upscale render for non profiletypes
+                guard let renderedImage = image.upscaleImage(width: expectedWidth, height: expectedHeight) else { return nil }
+                print("++pickedImage.size.width ", pickedImage.size.width)
+                print("++pickedImage.size.height ", pickedImage.size.height)
+                print("++renderedImage.size.width ", renderedImage.size.width)
+                print("++renderedImage.size.height ", renderedImage.size.height)
+                print("++downloadedImage.size.width ", downloadedImage.size.width)
+                print("++downloadedImage.size.height ", downloadedImage.size.height)
+                return renderedImage
             }
         }
     }
@@ -575,10 +643,12 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     @objc private func longPressImageV3(_ sender: UILongPressGestureRecognizer) {
         switch sender.state {
             case .began:
+            self.compareImage.isHighlighted = true
                 self.previousImageView.alpha = 1
                 self.imageView.alpha = 0
                 
             case .ended:
+            self.compareImage.isHighlighted = false
                 self.imageView.alpha = 1
                 self.previousImageView.alpha = 0
                 
@@ -600,8 +670,13 @@ class DownloadViewControllerV2: UIViewController, UIGestureRecognizerDelegate, U
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        guard let url = self.downloadedImageArray[selectedIndex], let img = readTempData(fileURL: url), let renderImg = renderImageV2(image: img) else { return }
-        self.renderedImage = renderImg
+        if AppManager.shared.fixedResolutionFlow {
+            guard let url = self.downloadedImageArray[selectedIndex], let img = readTempData(fileURL: url), let renderImg = renderImageV3(image: img) else { return }
+            self.renderedImage = renderImg
+        } else {
+            guard let url = self.downloadedImageArray[selectedIndex], let img = readTempData(fileURL: url), let renderImg = renderImageV2(image: img) else { return }
+            self.renderedImage = renderImg
+        }
         saveUniqueImageToPhotos(image: renderedImage)
     }
     
@@ -684,8 +759,9 @@ extension DownloadViewControllerV2: UICollectionViewDelegate {
 extension DownloadViewControllerV2: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if !self.isNewImagePicked, let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.pickedImage = pickedImage
+            self.isNewImagePicked = true
             print("pickedImage Width: \(self.pickedImage.size.width), pickedImage Height: \(self.pickedImage.size.height)")
             
             guard let fixedOrientationImage = pickedImage.fixedOrientation(), let imageData = fixedOrientationImage.jpegData(compressionQuality: 1.0) else {
@@ -693,18 +769,22 @@ extension DownloadViewControllerV2: UIImagePickerControllerDelegate {
                 return
             }
 
-            presentExpandViewControllerV2(pickedImage: pickedImage, imageData: imageData)
+            picker.dismiss(animated: true) {
+                self.presentExpandViewControllerV2(pickedImage: pickedImage, imageData: imageData)
+                self.isNewImagePicked = false
+                
+                //  only the first and last in navstack
+                guard let navigationController = self.navigationController else { return }
+                let navigationArray = navigationController.viewControllers
+                self.navigationController?.viewControllers = [navigationArray.first!, navigationArray.last!]
+            }
         }
-        dismiss(animated: true, completion: nil)
-        
-        //  only the first and last in navstack
-        guard let navigationController = self.navigationController else { return }
-        let navigationArray = navigationController.viewControllers
-        self.navigationController?.viewControllers = [navigationArray.first!, navigationArray.last!]
     }
         
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true) {
+            self.isNewImagePicked = false
+        }
     }
 }
 

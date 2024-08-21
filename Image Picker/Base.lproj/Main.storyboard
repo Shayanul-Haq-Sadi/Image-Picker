@@ -84,16 +84,36 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="Ndo-HN-cYR">
+                                <rect key="frame" x="82.333333333333329" y="638.66666666666663" width="249.66666666666669" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fixed Resolution Flow" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ovv-P0-BsT">
+                                        <rect key="frame" x="0.0" y="0.0" width="168.66666666666666" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                        <color key="textColor" systemColor="systemGrayColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" preferredStyle="sliding" translatesAutoresizingMaskIntoConstraints="NO" id="PPU-cS-pSi">
+                                        <rect key="frame" x="200.66666666666669" y="0.0" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="switchValueDidChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="FG7-OK-CSk"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="rsz-q5-F5a" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Eul-CK-3CY"/>
+                            <constraint firstItem="Ndo-HN-cYR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OQJ-EP-gwa"/>
                             <constraint firstItem="rsz-q5-F5a" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XlX-Ul-Fc6"/>
+                            <constraint firstItem="Ndo-HN-cYR" firstAttribute="top" secondItem="rsz-q5-F5a" secondAttribute="bottom" constant="44" id="gvX-eV-Mgl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Picker" id="Kf1-z7-ylQ"/>
                     <connections>
+                        <outlet property="fixedResolutionFlowSwitch" destination="PPU-cS-pSi" id="5wv-mB-FPN"/>
                         <outlet property="freeButton" destination="yGx-Um-QMN" id="2ND-VC-TYW"/>
                         <outlet property="pickerButton" destination="Mdl-rJ-gMG" id="bGu-HY-dbO"/>
                         <outlet property="premiumButton" destination="4JL-eC-kzv" id="IH9-Eq-Spq"/>
@@ -1193,7 +1213,7 @@ Unlock all effects.</string>
                                     <constraint firstItem="Qch-E0-Lac" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pxM-FK-5xg" secondAttribute="leading" id="g93-BM-TJg"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Compare" translatesAutoresizingMaskIntoConstraints="NO" id="5Ty-Ge-qdT">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Compare N" highlightedImage="Compare H" translatesAutoresizingMaskIntoConstraints="NO" id="5Ty-Ge-qdT">
                                 <rect key="frame" x="362" y="693" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="9f3-4h-o5H"/>
@@ -1233,10 +1253,11 @@ Unlock all effects.</string>
                     <navigationItem key="navigationItem" id="IX9-kx-5JX">
                         <nil key="title"/>
                         <leftBarButtonItems>
-                            <barButtonItem style="plain" id="c8t-C0-yk0">
+                            <barButtonItem width="44" style="plain" id="c8t-C0-yk0">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JvL-St-YLu">
                                     <rect key="frame" x="20" y="2" width="40" height="40"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <inset key="contentEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" image="Back"/>
                                     <connections>
@@ -1784,6 +1805,8 @@ Unlock all effects.</string>
         <image name="Back" width="9.6666669845581055" height="17.333333969116211"/>
         <image name="Button BG" width="265.33334350585938" height="58"/>
         <image name="Compare" width="36" height="36"/>
+        <image name="Compare H" width="36" height="36"/>
+        <image name="Compare N" width="36" height="36"/>
         <image name="Cross" width="45" height="44"/>
         <image name="Done" width="58" height="28"/>
         <image name="Edit" width="74" height="32"/>
@@ -1807,13 +1830,16 @@ Unlock all effects.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

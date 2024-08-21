@@ -62,6 +62,7 @@ class ExpandViewControllerV2: UIViewController {
     var keepOriginalSize = "False"
 
     var selectedAspectRatio: CGFloat!
+    var selectedFixedResolution: CGSize!
     var relativeScaleFactor: CGFloat!
 
     private var selectedAppIndex: Int = 0
@@ -333,6 +334,7 @@ class ExpandViewControllerV2: UIViewController {
         VC.rightRatio = rightRatio
         
         VC.selectedAspectRatio = selectedAspectRatio
+        VC.selectedFixedResolution = selectedFixedResolution
         VC.relativeScaleFactor = relativeScaleFactor
         
         VC.isProfileType = isProfileType
@@ -455,12 +457,7 @@ class ExpandViewControllerV2: UIViewController {
         return CGFloat(widthRatio / heightRatio)
     }
     
-    private func convertResolution(resolution: String) -> (width: CGFloat, height: CGFloat) {
-        // Handle the special case of "Original"
-        if resolution.lowercased() == "original" {
-            return (width: pickedImage.size.width, height: pickedImage.size.height)
-        }
-        
+    private func convertResolution(resolution: String) -> CGSize {
         // Split the string by the colon character
         let components = resolution.split(separator: "x")
         
@@ -468,9 +465,9 @@ class ExpandViewControllerV2: UIViewController {
         guard components.count == 2,
               let widthVal = Float(components[0]),
               let heightVal = Float(components[1])
-        else { return (width: pickedImage.size.width, height: pickedImage.size.height) }
+        else { return .zero }
         
-        return (width: CGFloat(widthVal), height: CGFloat(heightVal))
+        return CGSize(width: CGFloat(widthVal), height: CGFloat(heightVal))
     }
     
     let minimumDistance = 50.0
@@ -833,6 +830,8 @@ extension ExpandViewControllerV2: UICollectionViewDelegate {
             if let aspectData = DataManager.shared.getSupportedAspectData(of: selectedAppIndex) {
                 selectedAspectRatio = convertRatio(ratio: aspectData[indexPath.item].ratio)
                 print("selectedAspectRatio ", selectedAspectRatio ?? -1.0)
+                selectedFixedResolution = convertResolution(resolution: aspectData[indexPath.item].resolution)
+                print("selectedFixedResolution ", selectedFixedResolution ?? -1.0)
                 
                 selectedUniqueAspectIdentifier = aspectData[indexPath.item].selectedImage
                 

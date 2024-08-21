@@ -438,7 +438,7 @@
 					<key>ratio</key>
 					<string>820:360</string>
 					<key>resolution</key>
-					<string>820:360</string>
+					<string>820x360</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -450,7 +450,7 @@
 					<key>ratio</key>
 					<string>1920:1005</string>
 					<key>resolution</key>
-					<string>1920:1005</string>
+					<string>1920x1005</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -541,7 +541,7 @@
 					<key>ratio</key>
 					<string>4:5</string>
 					<key>resolution</key>
-					<string>1080:1350</string>
+					<string>1080x1350</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -553,7 +553,7 @@
 					<key>ratio</key>
 					<string>9:16</string>
 					<key>resolution</key>
-					<string>1080:1920</string>
+					<string>1080x1920</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -565,7 +565,7 @@
 					<key>ratio</key>
 					<string>16:9</string>
 					<key>resolution</key>
-					<string>1080:566</string>
+					<string>1080x566</string>
 				</dict>
 			</array>
 		</dict>
@@ -725,7 +725,7 @@
 					<key>ratio</key>
 					<string>1200:628</string>
 					<key>resolution</key>
-					<string>1200:628</string>
+					<string>1200x628</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -816,7 +816,7 @@
 					<key>ratio</key>
 					<string>1200:644</string>
 					<key>resolution</key>
-					<string>1200:644</string>
+					<string>1200x644</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -828,7 +828,7 @@
 					<key>ratio</key>
 					<string>1200:627</string>
 					<key>resolution</key>
-					<string>1200:627</string>
+					<string>1200x627</string>
 				</dict>
 				<dict>
 					<key>text</key>
@@ -852,7 +852,7 @@
 					<key>ratio</key>
 					<string>1128:191</string>
 					<key>resolution</key>
-					<string>1128:191</string>
+					<string>1128x191</string>
 				</dict>
 			</array>
 		</dict>
