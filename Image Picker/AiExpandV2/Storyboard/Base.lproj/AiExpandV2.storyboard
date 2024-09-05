@@ -206,8 +206,8 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="F2e-ao-xJh">
                                                 <rect key="frame" x="10.666666666666671" y="76" width="237.66666666666663" height="61"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgb-UK-0ni">
-                                                        <rect key="frame" x="64" y="0.0" width="109.66666666666669" height="21.666666666666668"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mgb-UK-0ni">
+                                                        <rect key="frame" x="72.000000000000028" y="0.0" width="93.333333333333343" height="21.666666666666668"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -303,11 +303,19 @@ Unlock all effects.</string>
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCH-pX-0Is">
+                                        <rect key="frame" x="253.66666666666666" y="253.33333333333329" width="16.333333333333343" height="21.666666666666657"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="8YU-nt-hoX" secondAttribute="bottom" constant="6" id="IH4-Xu-TCJ"/>
+                                    <constraint firstItem="QCH-pX-0Is" firstAttribute="centerY" secondItem="Mgb-UK-0ni" secondAttribute="centerY" id="OEn-2t-wcp"/>
                                     <constraint firstItem="0T5-MM-j6h" firstAttribute="centerX" secondItem="khd-FG-XlO" secondAttribute="centerX" id="ToW-Sf-JXJ"/>
+                                    <constraint firstItem="QCH-pX-0Is" firstAttribute="leading" secondItem="Mgb-UK-0ni" secondAttribute="trailing" id="WHm-XQ-7xN"/>
                                     <constraint firstItem="8YU-nt-hoX" firstAttribute="top" secondItem="UiP-CT-nkE" secondAttribute="bottom" constant="43" id="ehY-lH-VFk"/>
                                     <constraint firstItem="UiP-CT-nkE" firstAttribute="centerX" secondItem="khd-FG-XlO" secondAttribute="centerX" id="fHn-Vl-usv"/>
                                     <constraint firstItem="QO3-Pz-et5" firstAttribute="centerX" secondItem="khd-FG-XlO" secondAttribute="centerX" id="iU6-bE-vqT"/>
@@ -347,6 +355,7 @@ Unlock all effects.</string>
                         <outlet property="previousImageViewLeadingConstraint" destination="9UP-bV-Eg2" id="GTG-we-shV"/>
                         <outlet property="previousImageViewTopConstraint" destination="IE4-V2-LVE" id="LkV-6E-eoJ"/>
                         <outlet property="previousImageViewTrailingConstraint" destination="spH-eD-vbi" id="zq1-Xd-FuT"/>
+                        <outlet property="processingDotLabel" destination="QCH-pX-0Is" id="GJ5-E0-OQC"/>
                         <outlet property="progressConainerView" destination="khd-FG-XlO" id="nIw-32-kWv"/>
                         <outlet property="purchaseBGView" destination="YwI-aE-ojE" id="FLz-PR-hdd"/>
                         <outlet property="purchaseButton" destination="GcC-8L-Cc7" id="3iH-ol-QMw"/>
@@ -356,7 +365,7 @@ Unlock all effects.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LEE-sZ-GCe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3628" y="1"/>
+            <point key="canvasLocation" x="3627.5362318840585" y="0.6696428571428571"/>
         </scene>
         <!--AD LIMIT-->
         <scene sceneID="1nA-jf-ofe">
@@ -706,28 +715,17 @@ Unlock all effects.</string>
                     <navigationItem key="navigationItem" id="IX9-kx-5JX">
                         <nil key="title"/>
                         <leftBarButtonItems>
-                            <barButtonItem width="44" style="plain" id="c8t-C0-yk0">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JvL-St-YLu">
-                                    <rect key="frame" x="20" y="2" width="40" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <inset key="contentEdgeInsets" minX="-16" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" image="Back"/>
-                                    <connections>
-                                        <action selector="backButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="fjq-NY-cN3"/>
-                                    </connections>
-                                </button>
+                            <barButtonItem image="Back" id="myl-Gu-rmX">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="aXd-Fy-aQ6" id="poe-2R-Y3H"/>
+                                </connections>
                             </barButtonItem>
-                            <barButtonItem width="120" style="plain" id="WC7-37-JUP">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kwy-Ed-dgr">
-                                    <rect key="frame" x="68" y="2" width="40" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" image="Gallery-Add_Icon"/>
-                                    <connections>
-                                        <action selector="galleryButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="vCH-E9-HzP"/>
-                                    </connections>
-                                </button>
+                            <barButtonItem image="Gallery-Add_Icon" id="7kT-ba-Wg4">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="galleryButtonPressed:" destination="aXd-Fy-aQ6" id="mat-Xx-8lR"/>
+                                </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
@@ -738,7 +736,7 @@ Unlock all effects.</string>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" image="Edit"/>
                                     <connections>
-                                        <action selector="editorButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="BCi-vz-0Tt"/>
+                                        <action selector="editorButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="sMl-Fe-xsD"/>
                                     </connections>
                                 </button>
                             </barButtonItem>
@@ -749,7 +747,7 @@ Unlock all effects.</string>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" image="Save"/>
                                     <connections>
-                                        <action selector="saveButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="CXx-Wy-tpg"/>
+                                        <action selector="saveButtonPressed:" destination="aXd-Fy-aQ6" eventType="touchUpInside" id="02L-oD-IwV"/>
                                     </connections>
                                 </button>
                             </barButtonItem>
@@ -772,6 +770,11 @@ Unlock all effects.</string>
                         <outlet property="previousImageViewTrailingConstraint" destination="oFG-ru-w2L" id="IbZ-2G-yT6"/>
                     </connections>
                 </viewController>
+                <barButtonItem image="Back" id="jNG-rn-UsS">
+                    <connections>
+                        <action selector="backButtonPressed:" destination="aXd-Fy-aQ6" id="nqh-2K-gth"/>
+                    </connections>
+                </barButtonItem>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t59-vg-n6D" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4732" y="3"/>
@@ -1223,10 +1226,10 @@ Unlock all effects.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -38,6 +38,7 @@ class ProgessViewController: UIViewController {
     
     @IBOutlet private weak var activityIndicatorView: APNGImageView!
     private var activityIndicatorImage: APNGImage!
+    @IBOutlet private weak var processingDotLabel: UILabel!
     
     @IBOutlet private weak var purchaseContainerView: UIView!
     @IBOutlet private weak var purchaseBGView: UIImageView!
@@ -69,6 +70,9 @@ class ProgessViewController: UIViewController {
     private var isAdFinished: Bool = false
     private var isSetupDone: Bool = false
     
+    private var processingTimer: Timer?
+    private var dotCount = 0
+    
     var isProfileType: Bool = false
         
     private var timer: Timer!
@@ -80,9 +84,7 @@ class ProgessViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
         addActivityIndicatorView()
-        activityIndicatorView.startAnimating()
         adNewLogic()
     }
     
@@ -94,11 +96,15 @@ class ProgessViewController: UIViewController {
         } catch {
             print("could not start reachability notifier")
         }
+        activityIndicatorView.startAnimating()
+        startProcessingAnimation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         reachability.stopNotifier()
+        activityIndicatorView.stopAnimating()
+        stopProcessingAnimation()
     }
     
     override func viewIsAppearing(_ animated: Bool) {
@@ -188,6 +194,29 @@ class ProgessViewController: UIViewController {
 //        activityIndicatorView.onOnePlayDone.delegate(on: self) { (self, count) in
 //            print("Played: \(count)")
 //        }
+    }
+    
+    private func startProcessingAnimation() {
+        processingTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(updateprocessingDotLabel), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateprocessingDotLabel() {
+        dotCount = (dotCount + 1) % 4
+        switch dotCount {
+        case 0:
+            processingDotLabel.text = "."
+        case 1:
+            processingDotLabel.text = ".."
+        case 2:
+            processingDotLabel.text = "..."
+        default:
+            processingDotLabel.text = ""
+        }
+    }
+    
+    func stopProcessingAnimation() {
+        processingTimer?.invalidate()
+        processingTimer = nil
     }
 
     private func addMaskToCanvas(animated: Bool = false) {
