@@ -60,6 +60,11 @@
 		876FE30F2BFB5017006AFFC7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE30E2BFB5017006AFFC7 /* DataManager.swift */; };
 		876FE3112BFB515E006AFFC7 /* AiExpandV2Datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 876FE3102BFB515E006AFFC7 /* AiExpandV2Datasource.plist */; };
 		876FE3202BFB7930006AFFC7 /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876FE31F2BFB7930006AFFC7 /* DataModels.swift */; };
+		877315392C89850100A6F7A7 /* AiExpandPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 877315382C89850100A6F7A7 /* AiExpandPopupView.xib */; };
+		8773153B2C89852500A6F7A7 /* AiExpandPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8773153A2C89852500A6F7A7 /* AiExpandPopupView.swift */; };
+		8773153D2C898C6600A6F7A7 /* AI Expand.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 8773153C2C898C6600A6F7A7 /* AI Expand.mp4 */; };
+		877315422C898FA500A6F7A7 /* BCPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 877315412C898FA400A6F7A7 /* BCPlayerView.m */; };
+		877315462C89B84A00A6F7A7 /* PlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 877315442C89B84A00A6F7A7 /* PlaybackView.m */; };
 		877934552C084EB800FE0073 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877934542C084EB800FE0073 /* Enums.swift */; };
 		877934572C08806800FE0073 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877934562C08806800FE0073 /* EditViewController.swift */; };
 		877934592C08885100FE0073 /* ADViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877934582C08885100FE0073 /* ADViewController.swift */; };
@@ -128,6 +133,14 @@
 		876FE30E2BFB5017006AFFC7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		876FE3102BFB515E006AFFC7 /* AiExpandV2Datasource.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AiExpandV2Datasource.plist; sourceTree = "<group>"; };
 		876FE31F2BFB7930006AFFC7 /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
+		877315382C89850100A6F7A7 /* AiExpandPopupView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AiExpandPopupView.xib; sourceTree = "<group>"; };
+		8773153A2C89852500A6F7A7 /* AiExpandPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiExpandPopupView.swift; sourceTree = "<group>"; };
+		8773153C2C898C6600A6F7A7 /* AI Expand.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AI Expand.mp4"; sourceTree = "<group>"; };
+		8773153F2C898FA400A6F7A7 /* Image Picker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Image Picker-Bridging-Header.h"; sourceTree = "<group>"; };
+		877315402C898FA400A6F7A7 /* BCPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BCPlayerView.h; sourceTree = "<group>"; };
+		877315412C898FA400A6F7A7 /* BCPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BCPlayerView.m; sourceTree = "<group>"; };
+		877315442C89B84A00A6F7A7 /* PlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackView.m; sourceTree = "<group>"; };
+		877315452C89B84A00A6F7A7 /* PlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackView.h; sourceTree = "<group>"; };
 		877934542C084EB800FE0073 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		877934562C08806800FE0073 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		877934582C08885100FE0073 /* ADViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ADViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +227,8 @@
 		876FE2E72BF9FC5C006AFFC7 /* Image Picker */ = {
 			isa = PBXGroup;
 			children = (
+				877315432C89B83400A6F7A7 /* PLayBackView */,
+				8773153E2C898F4700A6F7A7 /* BCPlayerView */,
 				877658BC2C8430AF0013C16B /* AiExpandV2 */,
 				876FE2E82BF9FC5C006AFFC7 /* AppDelegate.swift */,
 				876FE2EA2BF9FC5C006AFFC7 /* SceneDelegate.swift */,
@@ -283,6 +298,8 @@
 				8769E0AB2C44C1C300F3FE9E /* AdPopupView.swift */,
 				875349662C561B91009E6E65 /* AdLimitView.xib */,
 				875349682C561BA1009E6E65 /* AdLimitView.swift */,
+				877315382C89850100A6F7A7 /* AiExpandPopupView.xib */,
+				8773153A2C89852500A6F7A7 /* AiExpandPopupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,6 +325,25 @@
 				876548042C0DA047007676BB /* Constants.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8773153E2C898F4700A6F7A7 /* BCPlayerView */ = {
+			isa = PBXGroup;
+			children = (
+				877315402C898FA400A6F7A7 /* BCPlayerView.h */,
+				877315412C898FA400A6F7A7 /* BCPlayerView.m */,
+				8773153F2C898FA400A6F7A7 /* Image Picker-Bridging-Header.h */,
+			);
+			path = BCPlayerView;
+			sourceTree = "<group>";
+		};
+		877315432C89B83400A6F7A7 /* PLayBackView */ = {
+			isa = PBXGroup;
+			children = (
+				877315452C89B84A00A6F7A7 /* PlaybackView.h */,
+				877315442C89B84A00A6F7A7 /* PlaybackView.m */,
+			);
+			path = PLayBackView;
 			sourceTree = "<group>";
 		};
 		877658BC2C8430AF0013C16B /* AiExpandV2 */ = {
@@ -336,6 +372,7 @@
 		877658BE2C8433530013C16B /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8773153C2C898C6600A6F7A7 /* AI Expand.mp4 */,
 				876FE2F12BF9FC5D006AFFC7 /* Assets.xcassets */,
 			);
 			path = Assets;
@@ -391,6 +428,7 @@
 				TargetAttributes = {
 					876FE2E42BF9FC5C006AFFC7 = {
 						CreatedOnToolsVersion = 15.3;
+						LastSwiftMigration = 1540;
 					};
 				};
 			};
@@ -429,6 +467,7 @@
 				871931FE2C157E1200E2086F /* SF-Pro-Display-Regular.otf in Resources */,
 				876FE2F22BF9FC5D006AFFC7 /* Assets.xcassets in Resources */,
 				871932032C157E1200E2086F /* SF-Pro-Display-ThinItalic.otf in Resources */,
+				877315392C89850100A6F7A7 /* AiExpandPopupView.xib in Resources */,
 				871931FA2C157E1200E2086F /* SF-Pro-Display-Light.otf in Resources */,
 				876FE2F52BF9FC5D006AFFC7 /* Base in Resources */,
 				87550CB12C464C0D002C2F74 /* Loading 2.png in Resources */,
@@ -438,6 +477,7 @@
 				876FE3112BFB515E006AFFC7 /* AiExpandV2Datasource.plist in Resources */,
 				871931F62C157E1200E2086F /* SF-Pro-Display-Bold.otf in Resources */,
 				876FE2F02BF9FC5C006AFFC7 /* Base in Resources */,
+				8773153D2C898C6600A6F7A7 /* AI Expand.mp4 in Resources */,
 				87F839B32C11E2690067F9DA /* purchaseVideo.mp4 in Resources */,
 				874BC57C2C3A632F00AC8192 /* AspectCellV2.xib in Resources */,
 				871931F52C157E1200E2086F /* SF-Pro-Display-BlackItalic.otf in Resources */,
@@ -499,6 +539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				877315462C89B84A00A6F7A7 /* PlaybackView.m in Sources */,
 				8769E0AC2C44C1C300F3FE9E /* AdPopupView.swift in Sources */,
 				876C91FB2C35111A003A360C /* ExpandViewControllerV2.swift in Sources */,
 				876FE2ED2BF9FC5C006AFFC7 /* PickerViewController.swift in Sources */,
@@ -509,6 +550,7 @@
 				876548092C0DE89D007676BB /* ADLimitViewController.swift in Sources */,
 				875349692C561BA1009E6E65 /* AdLimitView.swift in Sources */,
 				877934572C08806800FE0073 /* EditViewController.swift in Sources */,
+				8773153B2C89852500A6F7A7 /* AiExpandPopupView.swift in Sources */,
 				876FE30B2BFB2B42006AFFC7 /* UIViewController+Extensions.swift in Sources */,
 				876B90662BFCA6C5000679BF /* ProgessViewController.swift in Sources */,
 				87597C582C3D0F1400ADB059 /* UIView+Extensions.swift in Sources */,
@@ -520,6 +562,7 @@
 				876FE3072BFB2A83006AFFC7 /* UIImage+Extensions.swift in Sources */,
 				876C92012C351D4B003A360C /* DownloadCellV2.swift in Sources */,
 				876FE3202BFB7930006AFFC7 /* DataModels.swift in Sources */,
+				877315422C898FA500A6F7A7 /* BCPlayerView.m in Sources */,
 				876548052C0DA047007676BB /* Constants.swift in Sources */,
 				8744EE6E2C3E507B00D5B1C7 /* CropOverlayView.swift in Sources */,
 				877934592C08885100FE0073 /* ADViewController.swift in Sources */,
@@ -679,6 +722,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = U8DK4S4CV4;
@@ -701,6 +745,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braincraft.Image-Picker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Image Picker/BCPlayerView/Image Picker-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -712,6 +758,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = U8DK4S4CV4;
@@ -734,6 +781,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.braincraft.Image-Picker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Image Picker/BCPlayerView/Image Picker-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

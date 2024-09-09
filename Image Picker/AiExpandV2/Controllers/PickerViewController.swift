@@ -16,15 +16,23 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet private weak var freeButton: UIButton!
     @IBOutlet private weak var fixedResolutionFlowSwitch: UISwitch!
     
+    private var aiExpandPopupView: AiExpandPopupView! // = UIView.fromNib()
+    
     var pickedImage: UIImage? = nil
     var imageData: Data!
     
     //declare this property where it won't go out of scope relative to your listener
     let reachability = try! Reachability()
+    
+//    deinit {
+//        print("\(String(describing: self)) deinit called.")
+//        removeObservers()
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+//        registerNotifications()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +54,50 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
         
     }
     
+//    private func registerNotifications() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForground(notification:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+//    }
+//    
+//    private func removeObservers() {
+//        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+//    }
+//    
+//    @objc func applicationWillEnterForground(notification: Notification) {
+//        if !aiExpandPopupView.isHidden {
+////            self.aiExpandPopupView.videoPlayerView.seekToTime(inSeconds: 0)
+////            self.aiExpandPopupView.videoPlayerView.playPlayer()
+//            
+//            self.aiExpandPopupView.videoPlayerView.player.play()
+//        }
+//    }
+//    
+    private func configAdPopup() {
+        aiExpandPopupView = UIView.fromNib()
+        
+        aiExpandPopupView.frame = (self.navigationController?.view.bounds)!
+        self.navigationController?.view.addSubview(aiExpandPopupView)
+        
+        aiExpandPopupView.show() {}
+
+        aiExpandPopupView.closePressed = { [weak self] in
+            print("closeButtonPressed")
+            self?.aiExpandPopupView.hide() { [weak self] in
+                self?.aiExpandPopupView.removeFromSuperview()
+            }
+        }
+        
+        aiExpandPopupView.continuePressed = { [weak self] in
+            self?.aiExpandPopupView.hide() { [weak self] in
+                print("continueButtonPressed")
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .photoLibrary
+                imagePicker.allowsEditing = false
+                self?.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+    
     private func presentExpandViewControllerV2(pickedImage: UIImage, imageData: Data/*, completion: @escaping () -> Void*/) {
         guard let VC = UIStoryboard(name: "AiExpandV2", bundle: nil).instantiateViewController(withIdentifier: ExpandViewControllerV2.identifier) as? ExpandViewControllerV2 else { return }
 
@@ -55,17 +107,21 @@ class PickerViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     @IBAction func pickerButtonPressed(_ sender: Any) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        //        imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = false
         
-//        if reachability.connection == .unavailable {
-//            self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
-//        } else {
-            present(imagePicker, animated: true, completion: nil)
-//        }
+        configAdPopup()
+        
+        
+//        let imagePicker = UIImagePickerController()
+//        imagePicker.delegate = self
+//        imagePicker.sourceType = .photoLibrary
+//        //        imagePicker.sourceType = .camera
+//        imagePicker.allowsEditing = false
+//        
+////        if reachability.connection == .unavailable {
+////            self.showAlert(title: "No Internet!", message: "Please connect and try again later", cancelButtonTitle: "Ok")
+////        } else {
+//            present(imagePicker, animated: true, completion: nil)
+////        }
     }
 
     @IBAction func resetADButtonPressed(_ sender: Any) {
